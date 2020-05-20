@@ -3,9 +3,9 @@ The classic Minecraft Wasteland mod for 1.7.10
 
 ---
 
-This is a repository of original wasteland 1.4.4 by **GiMoe**
+This is a forked repository of original wasteland 1.4.4 by **GiMoe**
 
-This mod is an updated version of the original mod created by The_Holy_Frog and updated by Mr.Spring. Some new building designs were taken and modified from the [Huge Abandoned City map](http://www.planetminecraft.com/project/minecraft-cinematic---huge-abandoned-city/)
+This mod is an updated version and maintained! Some new building designs were taken and modified from the [Huge Abandoned City map](http://www.planetminecraft.com/project/minecraft-cinematic---huge-abandoned-city/)
 
 **Important:** If you are upgrading the mod in your current play-through, make sure to delete the old config files then disable the spawn bunker. This mod required to have JNBT Library. It's already in repository.
 
