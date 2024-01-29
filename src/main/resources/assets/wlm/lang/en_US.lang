@@ -1,0 +1,24 @@
+createworld.customize.wasteland.title=Wasteland Customization
+createworld.customize.wasteland.ruin=Ruin
+createworld.customize.wasteland.rarity=Rarity
+createworld.customize.wasteland.rarity.increase=Increase
+createworld.customize.wasteland.rarity.decrease=Decrease
+createworld.customize.wasteland.disabled=Disabled
+createworld.customize.wasteland.default=Reset to Default
+
+generator.wasteland=Wasteland
+
+ruin.lightposts.name=Light post
+ruin.ruined_civ_1.name=Civilian Residence
+ruin.ruined_civ_2.name=Library
+ruin.tent.name=Survivor Tent
+ruin.barn_house.name=Farm House
+ruin.tree_house.name=Tree House
+ruin.ruined.name=Abandoned Temple
+ruin.spawner.name=Spawner
+
+fluid.toxicWasteFluid.name=Toxic Waste
+tile.toxicWasteBlock.name=Toxic Waste
+item.toxicWasteBucket.name=Toxic Waste Bucket
+
+entity.Day Zombie.name=Day Zombie

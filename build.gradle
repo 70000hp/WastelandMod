@@ -1,17 +1,11 @@
 buildscript {
     repositories {
-        maven { url = "https://repo1.maven.org/maven2/" }
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+        maven { url = 'https://maven.minecraftforge.net/' }
+        maven { url = 'https://plugins.gradle.org/m2' }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {changing = true}
     }
 }
 
@@ -26,6 +20,16 @@ minecraft {
     runDir = "eclipse"
 }
 
+repositories {
+    maven {
+        name = 'ModMaven'
+        url = 'https://modmaven.dev'
+    }
+    //maven {
+    //	name = "CurseForge"
+    //	url = "https://minecraft.curseforge.com/api/maven/"
+    //}
+}
 dependencies {
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..

@@ -1,0 +1,152 @@
+
+
+package myid.chiqors.wasteland.ruin;
+
+import cpw.mods.fml.common.IWorldGenerator;
+import myid.chiqors.wasteland.config.ModConfig;
+import myid.chiqors.wasteland.items.LootStack;
+import myid.chiqors.wasteland.utils.CustomItemStack;
+import myid.chiqors.wasteland.utils.Rectangle;
+import myid.chiqors.wasteland.utils.Vector;
+import java.util.Random;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.world.World;
+
+public class RuinSurvivorTent extends Ruin implements IWorldGenerator {
+  private RuinGenHelper genHelper = new RuinGenHelper();
+  
+  public RuinSurvivorTent(String par1Name) {
+    super(par1Name);
+  }
+  
+  public boolean generate(World world, Random random, int x, int y, int z) {
+    RuinGenHelper.setWorld(world);
+    Rectangle pos = new Rectangle(new Vector(x - 2, y, z - 3), 5, 6);
+    Block biomeBlock = ModConfig.getSurfaceBlock();
+    int[] levels = Layout.getLevels(world, pos);
+    if (Layout.checkLevel(levels, 0)) {
+      int xCoord = x;
+      int yCoord = Layout.getAverageLevel(levels) - 1;
+      int zCoord = z;
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord - 3, biomeBlock);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord - 2, biomeBlock);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord - 1, biomeBlock);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord + 0, biomeBlock);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord + 1, biomeBlock);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord + 2, biomeBlock);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord - 3, biomeBlock);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord - 2, biomeBlock);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord - 1, biomeBlock);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord + 0, (Block)Blocks.chest);
+      TileEntityChest chest = (TileEntityChest)world.getTileEntity(xCoord - 1, yCoord, zCoord);
+      LootStack loot = setItems(random);
+      CustomItemStack.placeLoot(random, chest, CustomItemStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord + 1, biomeBlock);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord + 2, biomeBlock);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord - 3, biomeBlock);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord - 2, biomeBlock);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord - 1, Blocks.planks);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord + 0, Blocks.planks);
+      RuinGenHelper.setBlock(xCoord, yCoord - 1, zCoord + 0, Blocks.tnt);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord + 1, Blocks.planks);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord + 2, biomeBlock);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord - 3, biomeBlock);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord - 2, biomeBlock);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord - 1, biomeBlock);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 0, biomeBlock);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 1, biomeBlock);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 2, biomeBlock);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord - 3, biomeBlock);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord - 2, biomeBlock);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord - 1, biomeBlock);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord + 0, biomeBlock);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord + 1, biomeBlock);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord + 2, biomeBlock);
+      yCoord++;
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord - 3, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord - 2, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord - 1, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord + 0, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord + 1, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord + 2, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord - 3, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord - 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord - 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord + 0, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord + 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord + 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord - 3, Blocks.air);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord - 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord - 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord + 0, Blocks.wooden_pressure_plate);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord + 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord + 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord - 3, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord - 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord - 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 0, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord - 3, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord - 2, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord - 1, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord + 0, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord + 1, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord + 2, Blocks.wool);
+      yCoord++;
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord - 3, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord - 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord - 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord + 0, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord + 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 2, yCoord, zCoord + 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord - 3, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord - 2, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord - 1, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord + 0, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord + 1, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord + 2, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord - 3, Blocks.air);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord - 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord - 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord + 0, Blocks.air);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord + 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord + 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord - 3, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord - 2, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord - 1, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 0, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 1, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 2, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord - 3, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord - 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord - 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord + 0, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord + 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord + 2, Blocks.air);
+      yCoord++;
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord - 3, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord - 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord - 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord + 0, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord + 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord - 1, yCoord, zCoord + 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord - 3, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord - 2, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord - 1, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord + 0, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord + 1, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord, yCoord, zCoord + 2, Blocks.wool);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord - 3, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord - 2, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord - 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 0, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 1, Blocks.air);
+      RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 2, Blocks.air);
+      return true;
+    } 
+    return false;
+  }
+}
