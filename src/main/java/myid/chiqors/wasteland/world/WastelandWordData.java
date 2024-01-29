@@ -87,7 +87,7 @@ public class WastelandWordData {
       tagName.add(String.valueOf(villageID));
       tagList.add(new IntTag("Total", villageID));
       parentList.add("Villages");
-      tagName.add(String.valueOf("Total"));
+      tagName.add("Total");
       CompoundTag newGlobalTag = addTags(oldGlobalTag, parentList, tagList, tagName);
       FileOutputStream fos = new FileOutputStream(this.file);
       NBTOutputStream nos = new NBTOutputStream(fos);
@@ -150,7 +150,6 @@ public class WastelandWordData {
   }
   
   private Tag getChildTag(Map<String, Tag> items, String key, Class<? extends Tag> expected) {
-    Tag tag = items.get(key);
-    return tag;
+      return items.get(key);
   }
 }

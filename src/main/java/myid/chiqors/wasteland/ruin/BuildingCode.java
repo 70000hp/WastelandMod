@@ -3,7 +3,6 @@ package myid.chiqors.wasteland.ruin;
 import net.minecraft.entity.Entity;
 
 public class BuildingCode {
-  public static class BuildingCode {}
   
   public static class Diner {
     public static final int HEIGHT = 11;

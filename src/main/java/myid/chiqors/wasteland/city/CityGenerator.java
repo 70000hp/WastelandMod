@@ -36,8 +36,7 @@ public class CityGenerator implements IWorldGenerator {
   }
   
   public IWorldGenerator toIWorldGenerator() {
-    IWorldGenerator generator = this;
-    return generator;
+    return this;
   }
   
   public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
@@ -48,8 +47,7 @@ public class CityGenerator implements IWorldGenerator {
   public void generateCity(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
     MultiVector currentLoc = new MultiVector(chunkX * 16, Layout.getWorldHeight(world, chunkX * 16, chunkZ * 16), chunkZ * 16);
     if (checkDist(currentLoc, (ModConfig.minCityDistance * 16))) {
-      this;
-      if (!generating && !world.isClient) {
+      if (!generating && !world.isRemote) {
         Wasteland.NETWORK.sendToAll((IMessage)Message.createChatMessage("Generating world structures (please wait)..."));
         Wasteland.NETWORK.sendToAll((IMessage)Message.createProgressMessage(0, 1));
         generating = true;
@@ -59,7 +57,7 @@ public class CityGenerator implements IWorldGenerator {
         MultiVector center = getCenterChunk(chunks, world);
         limitCitySize(chunks, center, ModConfig.maxCitySize * 16);
         if (chunks.size() > 0) {
-          System.out.println("Generating City at X:" + String.valueOf(center.X) + " Z:" + String.valueOf(center.Z) + " Size: " + String.valueOf(chunks.size()));
+          System.out.println("Generating City at X:" + center.X + " Z:" + center.Z + " Size: " + chunks.size());
           List<SchematicBuilding> buildingSchematics = SchematicBuilding.loadAllBuildings();
           LootStack[] loot = LootStack.loadCityLoot();
           RuinedCity city = new RuinedCity(world, center, chunks, random);
@@ -70,7 +68,6 @@ public class CityGenerator implements IWorldGenerator {
         } 
         Wasteland.NETWORK.sendToAll((IMessage)Message.createProgressMessage(1, 1));
         Wasteland.NETWORK.sendToAll((IMessage)Message.createChatMessage("...done"));
-        this;
         generating = false;
       } 
     } 
@@ -96,10 +93,9 @@ public class CityGenerator implements IWorldGenerator {
     } 
     int cX = (maxX - minX) / 2 + minX & 0xFFFFFFF0;
     int cZ = (maxZ - minZ) / 2 + minZ & 0xFFFFFFF0;
-    for (int j = 0; j < chunks.size(); j++) {
-      MultiVector v = chunks.get(j);
+    for (MultiVector v : chunks) {
       if (v.X == cX && v.Z == cZ)
-        return v; 
+        return v;
     } 
     System.out.println("Center not found");
     return null;
@@ -148,19 +144,16 @@ public class CityGenerator implements IWorldGenerator {
   }
   
   private boolean checkDist(Vector current, double distance) {
-    for (int i = 0; i < cityLocation.size(); i++) {
-      if (Vector.VtoVlength(current, cityLocation.get(i)) < distance)
-        return false; 
+    for (Vector vector : cityLocation) {
+      if (Vector.VtoVlength(current, vector) < distance)
+        return false;
     } 
     return true;
   }
   
   public void resetData() {
-    this;
     generating = false;
-    this;
     cityNum = 0;
-    this;
     cityLocation.clear();
     this.loadedWorld = true;
   }
@@ -177,9 +170,7 @@ public class CityGenerator implements IWorldGenerator {
   }
   
   public void loadData(List<Vector> villageLoc, int size) {
-    this;
     cityLocation = villageLoc;
-    this;
     cityNum = size;
     this.loadedWorld = true;
   }

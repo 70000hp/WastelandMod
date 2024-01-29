@@ -25,7 +25,7 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
     super(par1ID);
     this.enableRain = true;
     this.biomeName = par2Name;
-    func_150570_a(biomeHeight);
+    setHeight(biomeHeight);
     this.theBiomeDecorator = (BiomeDecorator)new BiomeDecoratorWasteland();
     this.waterColorMultiplier = 3376435;
     lastID++;
@@ -73,10 +73,9 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
   public void setCreatureSpawns(List<BiomeGenBase.SpawnListEntry> entries, List<BiomeGenBase.SpawnListEntry> biomeEntities, boolean spawn) {
     biomeEntities.clear();
     if (spawn)
-      for (int i = 0; i < entries.size(); i++) {
-        BiomeGenBase.SpawnListEntry entry = entries.get(i);
-        if (entry.itemWeight > 0 && entry.maxGroupCount > 0)
-          biomeEntities.add(entries.get(i)); 
-      }  
+        for (SpawnListEntry entry : entries) {
+            if (entry.itemWeight > 0 && entry.maxGroupCount > 0)
+                biomeEntities.add(entry);
+        }
   }
 }

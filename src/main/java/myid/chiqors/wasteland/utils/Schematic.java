@@ -36,9 +36,9 @@ public class Schematic {
     this.data = d;
     this.chestNum = 0;
     int chestID = Block.getIdFromBlock((Block)Blocks.chest);
-    for (int i = 0; i < this.blocks.length; i++) {
-      if (this.blocks[i] == chestID)
-        this.chestNum++; 
-    } 
+      for (byte block : this.blocks) {
+          if (block == chestID)
+              this.chestNum++;
+      }
   }
 }

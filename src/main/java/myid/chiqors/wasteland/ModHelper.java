@@ -32,11 +32,11 @@ public class ModHelper {
   }
   
   public static String getCoordAsString(int x, int y, int z) {
-    return String.valueOf(x + ", " + y + ", " + z);
+    return x + ", " + y + ", " + z;
   }
   
   public static String getCoordAsString(int x, int z) {
-    return String.valueOf(x + ", " + z);
+    return x + ", " + z;
   }
   
   public static int getEntityRotationAsDirection(float rotationYaw) {

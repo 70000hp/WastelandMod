@@ -52,7 +52,7 @@ public class BlockRadFluid extends BlockFluidClassic {
   }
   
   public void onEntityCollidedWithBlock(World world, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) {
-    if (!world.isClient && entity instanceof EntityLivingBase && (world.getWorldTime() & 0xAL) == 0L)
+    if (!world.isRemote && entity instanceof EntityLivingBase && (world.getWorldTime() & 0xAL) == 0L)
       if (!((EntityLivingBase)entity).isPotionActive(Potion.poison.id))
         ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, 205, 0, false));  
   }

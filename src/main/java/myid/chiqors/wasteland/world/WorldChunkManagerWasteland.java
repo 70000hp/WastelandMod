@@ -70,7 +70,7 @@ public class WorldChunkManagerWasteland extends WorldChunkManager {
     int[] aint = this.biomeIndexLayer.getInts(p_76936_2_, p_76936_3_, p_76936_4_, p_76936_5_);
     for (int i1 = 0; i1 < p_76936_4_ * p_76936_5_; i1++) {
       try {
-        float f = BiomeGenBase.func_150568_d(aint[i1]).getIntRainfall() / 65536.0F;
+        float f = BiomeGenBase.getBiome(aint[i1]).getIntRainfall() / 65536.0F;
         if (f > 1.0F)
           f = 1.0F; 
         p_76936_1_[i1] = f;
@@ -101,7 +101,7 @@ public class WorldChunkManagerWasteland extends WorldChunkManager {
     int[] aint = this.genBiomes.getInts(p_76937_2_, p_76937_3_, p_76937_4_, p_76937_5_);
     try {
       for (int i1 = 0; i1 < p_76937_4_ * p_76937_5_; i1++)
-        p_76937_1_[i1] = BiomeGenBase.func_150568_d(aint[i1]); 
+        p_76937_1_[i1] = BiomeGenBase.getBiome(aint[i1]); 
       return p_76937_1_;
     } catch (Throwable throwable) {
       CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Invalid Biome id");
@@ -154,7 +154,7 @@ public class WorldChunkManagerWasteland extends WorldChunkManager {
     } 
     int[] aint = this.biomeIndexLayer.getInts(p_76931_2_, p_76931_3_, p_76931_4_, p_76931_5_);
     for (int i1 = 0; i1 < p_76931_4_ * p_76931_5_; i1++)
-      p_76931_1_[i1] = BiomeGenBase.func_150568_d(aint[i1]); 
+      p_76931_1_[i1] = BiomeGenBase.getBiome(aint[i1]); 
     return p_76931_1_;
   }
   
@@ -169,7 +169,7 @@ public class WorldChunkManagerWasteland extends WorldChunkManager {
     int[] aint = this.genBiomes.getInts(l, i1, l1, i2);
     try {
       for (int j2 = 0; j2 < l1 * i2; j2++) {
-        BiomeGenBase biomegenbase = BiomeGenBase.func_150568_d(aint[j2]);
+        BiomeGenBase biomegenbase = BiomeGenBase.getBiome(aint[j2]);
         if (!p_76940_4_.contains(biomegenbase))
           return false; 
       } 
@@ -200,7 +200,7 @@ public class WorldChunkManagerWasteland extends WorldChunkManager {
     for (int k2 = 0; k2 < l1 * i2; k2++) {
       int l2 = l + k2 % l1 << 2;
       int i3 = i1 + k2 / l1 << 2;
-      BiomeGenBase biomegenbase = BiomeGenBase.func_150568_d(aint[k2]);
+      BiomeGenBase biomegenbase = BiomeGenBase.getBiome(aint[k2]);
       if (p_150795_4_.contains(biomegenbase) && (chunkposition == null || p_150795_5_.nextInt(j2 + 1) == 0)) {
         chunkposition = new ChunkPosition(l2, 0, i3);
         j2++;

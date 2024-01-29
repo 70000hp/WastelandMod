@@ -116,7 +116,7 @@ public class CityBuilding {
                 String mobName = ModConfig.getSpawnerCreature(random);
                 RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.mob_spawner);
                 TileEntityMobSpawner mobSpawner = (TileEntityMobSpawner)world.getTileEntity(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z);
-                mobSpawner.func_145881_a().setMobID(mobName);
+                mobSpawner.func_145881_a().setEntityName(mobName);
               } 
             } else if (this.blocks[count] == cobbleID || this.blocks[count] == mossyCobbleID) {
               if (random.nextInt(50) != 0) {
@@ -291,99 +291,94 @@ public class CityBuilding {
   
   private LootStack setItems(Random random) {
     if (random.nextInt(CityLootConfig.ultraLootChance) == 0) {
-      this;
       return ultraLoot;
     } 
     if (random.nextInt(CityLootConfig.hardLootChance) == 0) {
-      this;
       return midLoot;
     } 
     if (random.nextInt(CityLootConfig.midLootChance) == 0) {
-      this;
       return midLoot;
-    } 
-    this;
+    }
     return easyLoot;
   }
   
   public static CityBuilding create(String name, int floors, Random random, List<SchematicBuilding> buildingSchematics, LootStack[] loot) {
     if (name.equalsIgnoreCase("none"))
-      return null; 
-    for (int i = 0; i < buildingSchematics.size(); i++) {
-      SchematicBuilding current = buildingSchematics.get(i);
-      if (current.name.equals(name)) {
-        Schematic middle, top;
-        int height, topH;
-        boolean singleFloor = (current.top == null || current.middle == null);
-        byte chestID = (byte)Block.getIdFromBlock((Block)Blocks.chest);
-        byte airID = (byte)Block.getIdFromBlock(Blocks.air);
-        Schematic bottom = (current.bottom.length == 1) ? current.bottom[0] : current.bottom[random.nextInt(current.bottom.length)];
-        int w = bottom.width;
-        int l = bottom.length;
-        int area = w * l;
-        if (!singleFloor) {
-          middle = (current.middle.length == 1) ? current.middle[0] : current.middle[random.nextInt(current.middle.length)];
-          top = (current.top.length == 1) ? current.top[0] : current.top[random.nextInt(current.top.length)];
-          height = bottom.height + top.height + middle.height * floors;
-          topH = top.height;
-        } else {
-          middle = null;
-          top = null;
-          height = bottom.height;
-          topH = 0;
-        } 
-        int size = area * height;
-        byte[] blocks = new byte[size];
-        byte[] meta = new byte[size];
-        int h = bottom.blocks.length;
-        int chestIndx = (bottom.chestNum == 0) ? -1 : random.nextInt(bottom.chestNum);
-        int chestCount = 0;
-        for (int j = 0; j < h; j++) {
-          if (bottom.blocks[j] == chestID) {
-            blocks[j] = (chestCount == chestIndx) ? chestID : airID;
-            meta[j] = (chestCount == chestIndx) ? bottom.data[j] : 0;
-            chestCount++;
-          } else {
-            blocks[j] = bottom.blocks[j];
-            meta[j] = bottom.data[j];
-          } 
-        } 
-        if (!singleFloor) {
-          int offset = bottom.blocks.length;
-          h = middle.blocks.length;
-          chestCount = 0;
-          for (int k = 0; k < floors; k++) {
-            chestIndx = (middle.chestNum == 0) ? -1 : random.nextInt(middle.chestNum);
-            chestCount = 0;
-            for (int n = 0; n < h; n++) {
-              if (middle.blocks[n] == chestID) {
-                blocks[n + offset] = (chestCount == chestIndx) ? chestID : airID;
-                meta[n + offset] = (chestCount == chestIndx) ? middle.data[n] : 0;
-                chestCount++;
+      return null;
+      for (SchematicBuilding current : buildingSchematics) {
+          if (current.name.equals(name)) {
+              Schematic middle, top;
+              int height, topH;
+              boolean singleFloor = (current.top == null || current.middle == null);
+              byte chestID = (byte) Block.getIdFromBlock((Block) Blocks.chest);
+              byte airID = (byte) Block.getIdFromBlock(Blocks.air);
+              Schematic bottom = (current.bottom.length == 1) ? current.bottom[0] : current.bottom[random.nextInt(current.bottom.length)];
+              int w = bottom.width;
+              int l = bottom.length;
+              int area = w * l;
+              if (!singleFloor) {
+                  middle = (current.middle.length == 1) ? current.middle[0] : current.middle[random.nextInt(current.middle.length)];
+                  top = (current.top.length == 1) ? current.top[0] : current.top[random.nextInt(current.top.length)];
+                  height = bottom.height + top.height + middle.height * floors;
+                  topH = top.height;
               } else {
-                blocks[n + offset] = middle.blocks[n];
-                meta[n + offset] = middle.data[n];
-              } 
-            } 
-            offset += middle.blocks.length;
-          } 
-          h = top.blocks.length;
-          chestIndx = (top.chestNum == 0) ? -1 : random.nextInt(top.chestNum);
-          chestCount = 0;
-          for (int m = 0; m < h; m++) {
-            if (top.blocks[m] == chestID) {
-              blocks[m + offset] = (chestCount == chestIndx) ? chestID : airID;
-              meta[m + offset] = (chestCount == chestIndx) ? top.data[m] : 0;
-              chestCount++;
-            } else {
-              blocks[m + offset] = top.blocks[m];
-              meta[m + offset] = top.data[m];
-            } 
-          } 
-        } 
-        return new CityBuilding(name, w, height, l, blocks, meta, topH, loot);
-      } 
-    } 
+                  middle = null;
+                  top = null;
+                  height = bottom.height;
+                  topH = 0;
+              }
+              int size = area * height;
+              byte[] blocks = new byte[size];
+              byte[] meta = new byte[size];
+              int h = bottom.blocks.length;
+              int chestIndx = (bottom.chestNum == 0) ? -1 : random.nextInt(bottom.chestNum);
+              int chestCount = 0;
+              for (int j = 0; j < h; j++) {
+                  if (bottom.blocks[j] == chestID) {
+                      blocks[j] = (chestCount == chestIndx) ? chestID : airID;
+                      meta[j] = (chestCount == chestIndx) ? bottom.data[j] : 0;
+                      chestCount++;
+                  } else {
+                      blocks[j] = bottom.blocks[j];
+                      meta[j] = bottom.data[j];
+                  }
+              }
+              if (!singleFloor) {
+                  int offset = bottom.blocks.length;
+                  h = middle.blocks.length;
+                  chestCount = 0;
+                  for (int k = 0; k < floors; k++) {
+                      chestIndx = (middle.chestNum == 0) ? -1 : random.nextInt(middle.chestNum);
+                      chestCount = 0;
+                      for (int n = 0; n < h; n++) {
+                          if (middle.blocks[n] == chestID) {
+                              blocks[n + offset] = (chestCount == chestIndx) ? chestID : airID;
+                              meta[n + offset] = (chestCount == chestIndx) ? middle.data[n] : 0;
+                              chestCount++;
+                          } else {
+                              blocks[n + offset] = middle.blocks[n];
+                              meta[n + offset] = middle.data[n];
+                          }
+                      }
+                      offset += middle.blocks.length;
+                  }
+                  h = top.blocks.length;
+                  chestIndx = (top.chestNum == 0) ? -1 : random.nextInt(top.chestNum);
+                  chestCount = 0;
+                  for (int m = 0; m < h; m++) {
+                      if (top.blocks[m] == chestID) {
+                          blocks[m + offset] = (chestCount == chestIndx) ? chestID : airID;
+                          meta[m + offset] = (chestCount == chestIndx) ? top.data[m] : 0;
+                          chestCount++;
+                      } else {
+                          blocks[m + offset] = top.blocks[m];
+                          meta[m + offset] = top.data[m];
+                      }
+                  }
+              }
+              return new CityBuilding(name, w, height, l, blocks, meta, topH, loot);
+          }
+      }
     System.out.println("Unknown City Building");
     return null;
   }

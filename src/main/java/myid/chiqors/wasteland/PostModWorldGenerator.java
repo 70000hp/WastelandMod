@@ -30,8 +30,7 @@ public class PostModWorldGenerator implements IWorldGenerator {
   private static int checkingChunkZ;
   
   public IWorldGenerator toIWorldGenerator() {
-    IWorldGenerator generator = this;
-    return generator;
+    return this;
   }
   
   public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {

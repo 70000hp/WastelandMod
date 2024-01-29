@@ -22,7 +22,7 @@ public class ItemRegistry {
   public ItemRegistry() {
     radiationWaste = (new Fluid("toxicWasteFluid")).setLuminosity(10).setDensity(1000).setViscosity(1500);
     registerFluids();
-    radiationWasteBlock = (BlockRadFluid)(new BlockRadFluid(radiationWaste, Material.water)).setUnlocalizedName("toxicWasteBlock");
+    radiationWasteBlock = (BlockRadFluid)(new BlockRadFluid(radiationWaste, Material.water)).setBlockName("toxicWasteBlock");
     registerBlocks();
     radiationWasteBucket = (ItemBucket)(new ItemBucket((Block)radiationWasteBlock)).setUnlocalizedName("toxicWasteBucket");
     radiationWasteBucket.setContainerItem(Items.bucket);

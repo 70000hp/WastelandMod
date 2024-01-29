@@ -19,7 +19,6 @@ public class WastelandGeneratorInfo {
   public void setComplete(String str) {
     StringBuilder builder = new StringBuilder();
     builder.append(str);
-    this;
     ruins = (str.split(",")).length;
     info = builder.toString();
     rarities = info.split(",");
@@ -43,7 +42,6 @@ public class WastelandGeneratorInfo {
       createDefault(); 
     if (rarity > -1 && 
       id <= rarities.length) {
-      this;
       rarities[id] = String.valueOf(rarity);
     } 
   }

@@ -38,7 +38,7 @@ public class Vector {
   }
   
   public String toCustomString() {
-    return "X:" + String.valueOf(this.X) + " Y:" + String.valueOf(this.Y) + " Z:" + String.valueOf(this.Z);
+    return "X:" + this.X + " Y:" + this.Y + " Z:" + this.Z;
   }
   
   public static double length(Vector v) {

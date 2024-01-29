@@ -50,10 +50,8 @@ public class Ruin {
   
   protected LootStack setItems(Random random) {
     if (random.nextInt(RuinConfig.rareRuinLootChance) == 0) {
-      this;
       return rareLoot;
-    } 
-    this;
+    }
     return normalLoot;
   }
   
@@ -67,7 +65,6 @@ public class Ruin {
   }
   
   public LootStack setSeedItems() {
-    this;
     return seedLoot;
   }
   
@@ -80,7 +77,7 @@ public class Ruin {
     int xCoord = i + random.nextInt(16);
     int yCoord = world.getHeightValue(i, j);
     int zCoord = j + random.nextInt(16);
-    if (!world.isClient)
+    if (!world.isRemote)
       generate(world, random, xCoord, yCoord, zCoord); 
   }
 }

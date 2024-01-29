@@ -45,8 +45,6 @@ public class ModConfig {
   
   public static boolean disableSleep;
   
-  public static boolean dayZombies;
-  
   public static boolean forceDisableGrass;
   
   public static int forceDisableGrassRadius;
@@ -90,7 +88,6 @@ public class ModConfig {
     lakeLiquidString = config.get("Worldgen", "Generated lake pockets liquid", "WLM:tile.toxicWasteBlock").getString();
     config.setCategoryComment("Misc", "Other config options");
     disableSleep = config.get("Misc", "Disable sleeping in bed", true).getBoolean(true);
-    dayZombies = config.get("Misc", "Allow zombies to spawn in daylight", true).getBoolean(true);
     config.setCategoryComment("CityGen", "World generation of cities and their spawners");
     spawnCities = config.get("CityGen", "Enable cities", true).getBoolean(true);
     minCityDistance = config.get("CityGen", "Min chunks between abandoned cities", 64).getInt(64);
@@ -132,8 +129,7 @@ public class ModConfig {
   public static String getSpawnerCreature(Random random) {
     int num = spawnChance.length;
     int totalChance = 0;
-    for (int i = 0; i < num; i++)
-      totalChance += spawnChance[i]; 
+      for (int k : spawnChance) totalChance += k;
     int creatureType = random.nextInt(totalChance);
     totalChance = 0;
     for (int j = 0; j < num; j++) {

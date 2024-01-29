@@ -189,7 +189,7 @@ public class ChunkProviderWasteland implements IChunkProvider {
     for (int i = 0; i < 16; i++) {
       for (int j = 0; j < 16; j++) {
         BiomeGenBase biomegenbase = biomesForReplacement[j + i * 16];
-        biomegenbase.func_150573_a(this.worldObj, this.rand, blocksForReplacement, metadataForReplacement, xChunk * 16 + i, zChunk * 16 + j, this.stoneNoise[j + i * 16]);
+        biomegenbase.genTerrainBlocks(this.worldObj, this.rand, blocksForReplacement, metadataForReplacement, xChunk * 16 + i, zChunk * 16 + j, this.stoneNoise[j + i * 16]);
       } 
     } 
   }
@@ -243,14 +243,14 @@ public class ChunkProviderWasteland implements IChunkProvider {
         for (int k = -byte0; k <= byte0; k++) {
           for (int l = -byte0; l <= byte0; l++) {
             BiomeGenBase biome1 = this.biomesForGeneration[i + k + 2 + (j + l + 2) * 10];
-            float flt3 = biome1.minHeight;
-            float flt4 = biome1.maxHeight;
-            if (this.currentWorldType == WorldType.field_151360_e && flt3 > 0.0F) {
+            float flt3 = biome1.rootHeight;
+            float flt4 = biome1.heightVariation;
+            if (this.currentWorldType == WorldType.AMPLIFIED && flt3 > 0.0F) {
               flt3 = 1.0F + flt3 * 2.0F;
               flt4 = 1.0F + flt4 * 4.0F;
             } 
             float flt5 = this.parabolicField[k + 2 + (l + 2) * 5] / (flt3 + 2.0F);
-            if (biome1.minHeight > biome0.minHeight)
+            if (biome1.rootHeight > biome0.rootHeight)
               flt5 /= 2.0F; 
             flt0 += flt4 * flt5;
             flt1 += flt3 * flt5;

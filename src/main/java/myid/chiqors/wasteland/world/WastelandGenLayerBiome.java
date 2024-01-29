@@ -117,15 +117,15 @@ public class WastelandGenLayerBiome extends GenLayer {
   private static int pickBiome(List<BiomeManager.BiomeEntry> biomes) {
     Random rand = new Random();
     int totalWeight = 0;
-    for (int i = 0; i < biomes.size(); i++)
-      totalWeight += ((BiomeManager.BiomeEntry)biomes.get(i)).itemWeight; 
+      for (BiomeManager.BiomeEntry biomeEntry : biomes)
+          totalWeight += ((BiomeManager.BiomeEntry) biomeEntry).itemWeight;
     int num = rand.nextInt(totalWeight);
     int sum = 0;
-    for (int j = 0; j < biomes.size(); j++) {
-      sum += ((BiomeManager.BiomeEntry)biomes.get(1)).itemWeight;
-      if (sum > num)
-        return ((BiomeManager.BiomeEntry)biomes.get(j)).biome.biomeID; 
-    } 
+      for (BiomeManager.BiomeEntry biome : biomes) {
+          sum += ((BiomeManager.BiomeEntry) biomes.get(1)).itemWeight;
+          if (sum > num)
+              return ((BiomeManager.BiomeEntry) biome).biome.biomeID;
+      }
     return pickBiome(biomes);
   }
 }

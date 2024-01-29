@@ -39,8 +39,7 @@ public class RuinVillageGenerator implements IWorldGenerator {
   }
   
   public IWorldGenerator toIWorldGenerator() {
-    IWorldGenerator generator = this;
-    return generator;
+    return this;
   }
   
   public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
@@ -50,13 +49,13 @@ public class RuinVillageGenerator implements IWorldGenerator {
   
   public void generateVillage(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
     Vector currentLoc = new Vector(chunkX * 16, world.getHeightValue(chunkX * 16, chunkZ * 16), chunkZ * 16);
-    if (checkDist(currentLoc, (ModConfig.minVillageDistance * 16)) && !this.generating && !world.isClient) {
+    if (checkDist(currentLoc, (ModConfig.minVillageDistance * 16)) && !this.generating && !world.isRemote) {
       this.generating = true;
       int villageSize = random.nextInt(3);
       int villageDim = (villageSize + 3) * 16;
       int[][] heightMap = getTerrainLevelMap(world, currentLoc, villageDim);
       if (checkLevelVariation(heightMap[0], 6) && checkCenter(currentLoc, 3, 1, world)) {
-        System.out.println("Generating Village at X:" + String.valueOf(chunkX * 16) + " Z:" + String.valueOf(chunkZ * 16));
+        System.out.println("Generating Village at X:" + chunkX * 16 + " Z:" + chunkZ * 16);
         villageLocation.add(currentLoc);
         villageNum++;
         RuinedVillage village = new RuinedVillage(world, chunkX * 16, chunkZ * 16, villageDim, villageSize, random);
@@ -118,18 +117,16 @@ public class RuinVillageGenerator implements IWorldGenerator {
   }
   
   private boolean checkDist(Vector current, double distance) {
-    for (int i = 0; i < villageLocation.size(); i++) {
-      if (Vector.VtoVlength(current, villageLocation.get(i)) < distance)
-        return false; 
-    } 
+      for (Vector vector : villageLocation) {
+          if (Vector.VtoVlength(current, vector) < distance)
+              return false;
+      }
     return true;
   }
   
   public void resetData() {
     this.generating = false;
-    this;
     villageNum = 0;
-    this;
     villageLocation.clear();
     this.loadedWorld = true;
   }
@@ -178,9 +175,7 @@ public class RuinVillageGenerator implements IWorldGenerator {
   }
   
   public void loadData(List<Vector> villageLoc, int size) {
-    this;
     villageLocation = villageLoc;
-    this;
     villageNum = size;
     this.loadedWorld = true;
   }

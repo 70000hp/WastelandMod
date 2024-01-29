@@ -109,7 +109,7 @@ public class WastelandWorldData {
       } 
       tagList.add(new IntTag("Total", villagePosition.size()));
       parentList.add("Villages");
-      tagName.add(String.valueOf("Total"));
+      tagName.add("Total");
       CompoundTag newGlobalTag = addTags(oldGlobalTag, parentList, tagList, tagName);
       FileOutputStream fos = new FileOutputStream(this.file);
       NBTOutputStream nos = new NBTOutputStream(fos);
@@ -163,7 +163,7 @@ public class WastelandWorldData {
       } 
       tagList.add(new IntTag("Total", cityPosition.size()));
       parentList.add("Cities");
-      tagName.add(String.valueOf("Total"));
+      tagName.add("Total");
       CompoundTag newGlobalTag = addTags(oldGlobalTag, parentList, tagList, tagName);
       FileOutputStream fos = new FileOutputStream(this.file);
       NBTOutputStream nos = new NBTOutputStream(fos);
@@ -201,12 +201,12 @@ public class WastelandWorldData {
       CompoundTag oldGlobalTag = (CompoundTag)nbt.readTag();
       nbt.close();
       fis.close();
-      for (int i = 0; i < names.size(); i++) {
-        StringTag tag = new StringTag(names.get(i), names.get(i));
-        tagList.add(tag);
-        parentList.add("Players");
-        tagName.add(String.valueOf(names.get(i)));
-      } 
+        for (String name : names) {
+            StringTag tag = new StringTag(name, name);
+            tagList.add(tag);
+            parentList.add("Players");
+            tagName.add(String.valueOf(name));
+        }
       CompoundTag newGlobalTag = addTags(oldGlobalTag, parentList, tagList, tagName);
       FileOutputStream fos = new FileOutputStream(this.file);
       NBTOutputStream nos = new NBTOutputStream(fos);
@@ -275,8 +275,7 @@ public class WastelandWorldData {
   }
   
   private static Tag getChildTag(Map<String, Tag> items, String key, Class<? extends Tag> expected) {
-    Tag tag = items.get(key);
-    return tag;
+      return items.get(key);
   }
   
   public void saveSpawnLoc(Vector spawn) {
@@ -296,7 +295,7 @@ public class WastelandWorldData {
       CompoundTag tag = new CompoundTag("Spawn", spawnTag);
       tagList.add(tag);
       parentList.add("WastelandMod");
-      tagName.add(String.valueOf("Spawn"));
+      tagName.add("Spawn");
       CompoundTag newGlobalTag = addTags(oldGlobalTag, parentList, tagList, tagName);
       FileOutputStream fos = new FileOutputStream(this.file);
       NBTOutputStream nos = new NBTOutputStream(fos);

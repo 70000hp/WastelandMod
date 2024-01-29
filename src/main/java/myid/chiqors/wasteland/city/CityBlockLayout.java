@@ -21,8 +21,7 @@ public class CityBlockLayout {
   
   private void setBuildings(Random random) {
     if (!this.block.isEmpty())
-      for (int i = 0; i < this.block.size(); i++) {
-        CityBlock current = this.block.get(i);
+      for (CityBlock current : this.block) {
         if (current.area.width == 32 && current.area.length == 32) {
           int r = random.nextInt(6);
           switch (r) {
@@ -44,7 +43,7 @@ public class CityBlockLayout {
             case 5:
               current.buildingName = "LTF";
               break;
-          } 
+          }
         } else if (current.area.width == 16 && current.area.length == 16) {
           int r = random.nextInt(5);
           switch (r) {
@@ -63,7 +62,7 @@ public class CityBlockLayout {
             case 4:
               current.buildingName = "SSB";
               break;
-          } 
+          }
         } else {
           int r = random.nextInt(6);
           switch (r) {
@@ -85,16 +84,15 @@ public class CityBlockLayout {
             case 5:
               current.buildingName = "MCA";
               break;
-          } 
-        } 
+          }
+        }
       }  
   }
   
   private void connectChunks(List<MultiVector> chunks) {
     for (int i = 0; i < chunks.size(); i++) {
       MultiVector current = chunks.get(i);
-      for (int j = 0; j < chunks.size(); j++) {
-        MultiVector compare = chunks.get(j);
+      for (MultiVector compare : chunks) {
         if (current.copy().add(new Vector(0, 0, 16)).equalsXZ(compare)) {
           current.connectedChunk[0] = compare;
         } else if (current.copy().add(new Vector(0, 0, -16)).equalsXZ(compare)) {
@@ -103,7 +101,7 @@ public class CityBlockLayout {
           current.connectedChunk[1] = compare;
         } else if (current.copy().add(new Vector(-16, 0, 0)).equalsXZ(compare)) {
           current.connectedChunk[3] = compare;
-        } 
+        }
       } 
     } 
   }
@@ -164,7 +162,7 @@ public class CityBlockLayout {
             v.Y = p2 - 1;
           } 
         } else {
-          System.out.println("Difference is too high: " + String.valueOf(Math.abs(p2 - p1)));
+          System.out.println("Difference is too high: " + Math.abs(p2 - p1));
           v.Y = (int)((p2 + p1) / 2.0D);
         } 
       } else if (p2 == 0 && p1 == 0) {
@@ -246,25 +244,21 @@ public class CityBlockLayout {
       int[] northChunkIDs = getAdjChunksInd(new MultiVector(p.X, p.Y, p.Z + 16), c);
       if (chunkID[1] >= 0 && northChunkIDs[1] >= 0) {
         removeIDs(c, new int[] { id, chunkID[0], chunkID[1], northChunkIDs[1] });
-        CityBlock block = new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z), 32, 32));
-        return block;
+        return new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z), 32, 32));
       } 
       if (chunkID[3] >= 0 && northChunkIDs[3] >= 0) {
         removeIDs(c, new int[] { id, chunkID[0], chunkID[3], northChunkIDs[3] });
-        CityBlock block = new CityBlock(new Rectangle(new Vector(p.X - 16, p.Y, p.Z), 32, 32));
-        return block;
+        return new CityBlock(new Rectangle(new Vector(p.X - 16, p.Y, p.Z), 32, 32));
       } 
     } else if (chunkID[2] >= 0) {
       int[] northChunkIDs = getAdjChunksInd(new MultiVector(p.X, p.Y, p.Z - 16), c);
       if (chunkID[1] >= 0 && northChunkIDs[1] >= 0) {
         removeIDs(c, new int[] { id, chunkID[2], chunkID[1], northChunkIDs[1] });
-        CityBlock block = new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z - 16), 32, 32));
-        return block;
+        return new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z - 16), 32, 32));
       } 
       if (chunkID[3] >= 0 && northChunkIDs[3] >= 0) {
         removeIDs(c, new int[] { id, chunkID[2], chunkID[3], northChunkIDs[3] });
-        CityBlock block = new CityBlock(new Rectangle(new Vector(p.X - 16, p.Y, p.Z - 16), 32, 32));
-        return block;
+        return new CityBlock(new Rectangle(new Vector(p.X - 16, p.Y, p.Z - 16), 32, 32));
       } 
     } 
     return null;
@@ -275,44 +269,36 @@ public class CityBlockLayout {
     if (rand.nextInt(2) == 0) {
       if (chunkID[0] >= 0) {
         removeIDs(c, new int[] { id, chunkID[0] });
-        CityBlock block = new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z), 16, 32));
-        return block;
+        return new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z), 16, 32));
       } 
       if (chunkID[2] >= 0) {
         removeIDs(c, new int[] { id, chunkID[2] });
-        CityBlock block = new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z - 16), 16, 32));
-        return block;
+        return new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z - 16), 16, 32));
       } 
       if (chunkID[1] >= 0) {
         removeIDs(c, new int[] { id, chunkID[1] });
-        CityBlock block = new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z), 32, 16));
-        return block;
+        return new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z), 32, 16));
       } 
       if (chunkID[3] >= 0) {
         removeIDs(c, new int[] { id, chunkID[3] });
-        CityBlock block = new CityBlock(new Rectangle(new Vector(p.X - 16, p.Y, p.Z), 32, 16));
-        return block;
+        return new CityBlock(new Rectangle(new Vector(p.X - 16, p.Y, p.Z), 32, 16));
       } 
     } else {
       if (chunkID[1] >= 0) {
         removeIDs(c, new int[] { id, chunkID[1] });
-        CityBlock block = new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z), 32, 16));
-        return block;
+        return new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z), 32, 16));
       } 
       if (chunkID[3] >= 0) {
         removeIDs(c, new int[] { id, chunkID[3] });
-        CityBlock block = new CityBlock(new Rectangle(new Vector(p.X - 16, p.Y, p.Z), 32, 16));
-        return block;
+        return new CityBlock(new Rectangle(new Vector(p.X - 16, p.Y, p.Z), 32, 16));
       } 
       if (chunkID[0] >= 0) {
         removeIDs(c, new int[] { id, chunkID[0] });
-        CityBlock block = new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z), 16, 32));
-        return block;
+        return new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z), 16, 32));
       } 
       if (chunkID[2] >= 0) {
         removeIDs(c, new int[] { id, chunkID[2] });
-        CityBlock block = new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z - 16), 16, 32));
-        return block;
+        return new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z - 16), 16, 32));
       } 
     } 
     return null;
@@ -320,8 +306,7 @@ public class CityBlockLayout {
   
   private CityBlock smallBlock(MultiVector p, List<MultiVector> c, int id) {
     removeIDs(c, new int[] { id });
-    CityBlock block = new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z), 16, 16));
-    return block;
+    return new CityBlock(new Rectangle(new Vector(p.X, p.Y, p.Z), 16, 16));
   }
   
   private void setConnections(CityBlock block, List<CityBlock> c) {
@@ -364,9 +349,9 @@ public class CityBlockLayout {
   private void setCornerHeights(CityBlock block, Vector[] vectors) {
     for (int i = 0; i < block.cornerHeight.length; i++) {
       Vector corner = block.getPositionFromCorner(i);
-      for (int j = 0; j < vectors.length; j++) {
-        if (corner.equalsXZ(vectors[j]))
-          block.cornerHeight[i] = (vectors[j]).Y; 
+      for (Vector vector : vectors) {
+        if (corner.equalsXZ(vector))
+          block.cornerHeight[i] = vector.Y;
       } 
       if (block.cornerHeight[i] == 0) {
         boolean flag = true;

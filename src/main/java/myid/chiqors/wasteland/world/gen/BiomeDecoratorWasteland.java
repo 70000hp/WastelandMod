@@ -55,7 +55,7 @@ public class BiomeDecoratorWasteland extends BiomeDecorator {
   }
   
   protected void func_150513_a(BiomeGenBase biome) {
-    super.func_150513_a(biome);
+    super.genDecorations(biome);
     Random rand = new Random();
     if (biome.biomeID == WastelandBiomes.apocalypse.biomeID) {
       decorateWasteland(rand);

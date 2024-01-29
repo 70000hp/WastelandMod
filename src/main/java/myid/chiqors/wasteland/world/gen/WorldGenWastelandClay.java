@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenWastelandClay extends WorldGenerator {
-  private Block field_150546_a;
   
   private int numberOfBlocks;
   

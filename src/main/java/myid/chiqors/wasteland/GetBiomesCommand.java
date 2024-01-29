@@ -24,8 +24,7 @@ public class GetBiomesCommand extends CommandBase {
   }
   
   public String getCommandUsage(ICommandSender iCommandSender) {
-    this;
-    return "/biomes <range> (min range is " + String.valueOf(200) + ")";
+    return "/biomes <range> (min range is " + 200 + ")";
   }
   
   public void processCommand(ICommandSender iCommandSender, String[] var) {

@@ -1,6 +1,5 @@
 package myid.chiqors.wasteland;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -9,17 +8,13 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import myid.chiqors.wasteland.city.CityGenerator;
 import myid.chiqors.wasteland.config.CityLootConfig;
 import myid.chiqors.wasteland.config.EntitySpawnConfig;
 import myid.chiqors.wasteland.config.ModConfig;
 import myid.chiqors.wasteland.config.RuinConfig;
-import myid.chiqors.wasteland.entity.EntityDayZombie;
-import myid.chiqors.wasteland.entity.RenderDayZombie;
 import myid.chiqors.wasteland.items.ItemRegistry;
 import myid.chiqors.wasteland.ruin.RuinVillageGenerator;
 import myid.chiqors.wasteland.utils.Message;
@@ -27,11 +22,11 @@ import myid.chiqors.wasteland.world.WastelandWorldData;
 import myid.chiqors.wasteland.world.WorldTypeWasteland;
 import myid.chiqors.wasteland.world.biome.BiomeGenWastelandBase;
 import myid.chiqors.wasteland.world.gen.WastelandGeneratorInfo;
-import java.io.File;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.world.WorldType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+
+import java.io.File;
 
 @Mod(modid = "WLM", name = "The Wasteland Mod", version = "1.4.2", useMetadata = true)
 public class Wasteland {
@@ -65,12 +60,8 @@ public class Wasteland {
     ModConfig.load(config);
     RuinConfig.load(ruinConfig);
     CityLootConfig.load(cityConfig);
-    int id = EntityRegistry.findGlobalUniqueEntityId();
-    EntityRegistry.registerGlobalEntityID(EntityDayZombie.class, "Day Zombie", id);
-    EntityRegistry.registerModEntity(EntityDayZombie.class, "Day Zombie", id, instance, 128, 1, true);
     items = new ItemRegistry();
     if (event.getSide().isClient()) {
-      registerRendering();
       MinecraftForge.EVENT_BUS.register(new GuiEventHandler());
     } 
     villageGenerator = new RuinVillageGenerator();
@@ -93,9 +84,5 @@ public class Wasteland {
     BiomeGenWastelandBase.load();
     GameRegistry.registerWorldGenerator((new PostModWorldGenerator()).toIWorldGenerator(), 10);
   }
-  
-  @SideOnly(Side.CLIENT)
-  private static void registerRendering() {
-    RenderingRegistry.registerEntityRenderingHandler(EntityDayZombie.class, (Render)new RenderDayZombie());
-  }
+
 }

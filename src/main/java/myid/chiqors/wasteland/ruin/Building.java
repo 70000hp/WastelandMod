@@ -199,14 +199,11 @@ public class Building {
   
   private LootStack setItems(Random random) {
     if (random.nextInt(RuinConfig.hardLootChance) == 0) {
-      this;
       return hardLoot;
     } 
     if (random.nextInt(RuinConfig.midLootChance) == 0) {
-      this;
       return midLoot;
-    } 
-    this;
+    }
     return easyLoot;
   }
   
@@ -227,7 +224,6 @@ public class Building {
   }
   
   private static Tag getChildTag(Map<String, Tag> items, String key, Class<? extends Tag> expected) {
-    Tag tag = items.get(key);
-    return tag;
+      return items.get(key);
   }
 }

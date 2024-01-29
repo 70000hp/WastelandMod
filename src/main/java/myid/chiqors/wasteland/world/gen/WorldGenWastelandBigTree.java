@@ -131,7 +131,7 @@ public class WorldGenWastelandBigTree extends WorldGenBigTree {
           var13++;
           continue;
         } 
-        func_150516_a(this.worldObj, var11[0], var11[1], var11[2], par6, 0);
+        setBlockAndNotifyAdequately(this.worldObj, var11[0], var11[1], var11[2], par6, 0);
         var13++;
       } 
     } 
@@ -160,8 +160,9 @@ public class WorldGenWastelandBigTree extends WorldGenBigTree {
   
   void generateLeafNode(int par1, int par2, int par3) {
     int var4 = par2;
+    float var6;
     for (int var5 = par2 + this.leafDistanceLimit; var4 < var5; var4++)
-      float var6 = leafSize(var4 - par2); 
+       var6 = leafSize(var4 - par2);
   }
   
   void placeBlockLine(int[] par1ArrayOfInteger, int[] par2ArrayOfInteger, Block par3, int meta) {
@@ -199,7 +200,7 @@ public class WorldGenWastelandBigTree extends WorldGenBigTree {
           } else if (var19 == var20) {
             var17 = 8;
           }  
-        func_150516_a(this.worldObj, var14[0], var14[1], var14[2], par3, var17 + meta);
+        setBlockAndNotifyAdequately(this.worldObj, var14[0], var14[1], var14[2], par3, var17 + meta);
       } 
     } 
   }

@@ -22,7 +22,7 @@ public class RuinedVillage {
   
   public RuinedVillage(World world, int posX, int posZ, int dim, int size, Random rand) {
     rand.nextInt(100);
-    System.out.println("Size: " + String.valueOf(size));
+    System.out.println("Size: " + size);
     this.locX = posX;
     this.locZ = posZ;
     this.dimension = dim;
@@ -54,7 +54,7 @@ public class RuinedVillage {
         smallStruct = numStructures - largeStruct - midStruct;
       } 
     } 
-    System.out.println("Buildings: " + String.valueOf(numStructures) + " - S:" + String.valueOf(smallStruct) + " M:" + String.valueOf(midStruct) + " L:" + String.valueOf(largeStruct) + " - C:" + String.valueOf(centerStruct));
+    System.out.println("Buildings: " + numStructures + " - S:" + smallStruct + " M:" + midStruct + " L:" + largeStruct + " - C:" + centerStruct);
     if (centerStruct == 0) {
       this.center = null;
     } else if (centerStruct == 1) {

@@ -51,12 +51,12 @@ public class Layout {
       Rectangle pos = (new Rectangle(Vector.randomVector2D(rand, this.villageDim / 2, (this.villageSize < 2) ? 4 : 6).add(cent), b.width, b.length)).rotate(rot);
       if (this.cPos != null)
         if (Rectangle.checkConflict(pos, this.cPos, 2))
-          flag = false;  
-      for (int j = 0; j < this.bPos.length; j++) {
-        if (this.bPos[j] != null)
-          if (Rectangle.checkConflict(pos, this.bPos[j], 2))
-            flag = false;  
-      } 
+          flag = false;
+        for (Rectangle bPo : this.bPos) {
+            if (bPo != null)
+                if (Rectangle.checkConflict(pos, bPo, 2))
+                    flag = false;
+        }
       int[] levels = getLevels(world, pos);
       if (flag && checkLevel(levels, (b.width < 8 && b.length < 8) ? 0 : 1)) {
         pos.position.Y = getAverageLevel(levels) - 1;
@@ -79,25 +79,23 @@ public class Layout {
   public static boolean checkLevel(int[] levels, int maxVar) {
     int maxHeight = levels[0];
     int minHeight = maxHeight;
-    for (int j = 0; j < levels.length; j++) {
-      maxHeight = (levels[j] > maxHeight) ? levels[j] : maxHeight;
-      minHeight = (levels[j] < minHeight) ? levels[j] : minHeight;
-    } 
+      for (int level : levels) {
+          maxHeight = (level > maxHeight) ? level : maxHeight;
+          minHeight = (level < minHeight) ? level : minHeight;
+      }
     return (maxHeight - minHeight <= maxVar);
   }
   
   public static int getAverageLevel(int[] levels) {
     float level = 0.0F;
-    for (int j = 0; j < levels.length; j++)
-      level += levels[j]; 
+      for (int i : levels) level += i;
     return Math.round(level / levels.length);
   }
   
   public static int getMinLevel(int[] levels) {
     if (levels != null && levels.length > 0) {
       int min = levels[0];
-      for (int i = 0; i < levels.length; i++)
-        min = (levels[i] < min) ? levels[i] : min; 
+        for (int level : levels) min = (level < min) ? level : min;
       return min;
     } 
     return -1;

@@ -48,7 +48,7 @@ public class CityBlock {
     if (index < this.connectedBlocks.length) {
       this.connectedBlocks[index] = block;
     } else {
-      System.out.println("City block does not have side: " + String.valueOf(index));
+      System.out.println("City block does not have side: " + index);
     } 
   }
   

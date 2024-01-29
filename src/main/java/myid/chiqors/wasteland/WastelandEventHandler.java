@@ -48,13 +48,13 @@ public class WastelandEventHandler {
   
   @SubscribeEvent
   public void loadData(WorldEvent.Load event) {
-    if (!event.world.isClient) {
+    if (!event.world.isRemote) {
       ServerCommandManager manager = (ServerCommandManager)MinecraftServer.getServer().getCommandManager();
       GetBiomesCommand command = new GetBiomesCommand();
       if (!manager.getCommands().containsKey(command.getCommandName()))
         manager.registerCommand((ICommand)command); 
     } 
-    if (!event.world.isClient && event.world.getWorldChunkManager().getClass().getName() == WorldChunkManagerWasteland.class.getName()) {
+    if (!event.world.isRemote && event.world.getWorldChunkManager().getClass().getName() == WorldChunkManagerWasteland.class.getName()) {
       if (MinecraftServer.getServer().isSinglePlayer()) {
         this.worldSaveData.setFile("saves/" + MinecraftServer.getServer().getFolderName() + "/data/WastelandMod.dat");
       } else {
@@ -98,7 +98,7 @@ public class WastelandEventHandler {
   
   @SubscribeEvent
   public void saveData(WorldEvent.Save event) {
-    if (!event.world.isClient && event.world.getWorldChunkManager().getClass().getName() == WorldChunkManagerWasteland.class.getName()) {
+    if (!event.world.isRemote && event.world.getWorldChunkManager().getClass().getName() == WorldChunkManagerWasteland.class.getName()) {
       this.villageGeneratorHook.saveData(this.worldSaveData);
       this.cityGeneratorHook.saveData(this.worldSaveData);
       this.newSpawn = false;
@@ -108,7 +108,7 @@ public class WastelandEventHandler {
   @SubscribeEvent
   public void changeStartSpawn(EntityJoinWorldEvent event) {
     if (ModConfig.spawnBunker && event.world.getWorldChunkManager().getClass().getName() == WorldChunkManagerWasteland.class.getName())
-      if (event.entity instanceof EntityPlayer && !event.world.isClient) {
+      if (event.entity instanceof EntityPlayer && !event.world.isRemote) {
         Vector pos = new Vector((int)event.entity.posX, (int)event.entity.posY, (int)event.entity.posZ);
         EntityPlayer player = (EntityPlayer)event.entity;
         if (isNewPlayer(player) && Vector.VtoVlengthXZ(pos, this.spawnLoc) < 16.0D) {
@@ -118,7 +118,7 @@ public class WastelandEventHandler {
           this.worldSaveData.savePlayerName(player.getDisplayName());
         } 
       }  
-    if (event.entity instanceof EntityPlayer && event.world.isClient)
+    if (event.entity instanceof EntityPlayer && event.world.isRemote)
       ProgressGui.visible = false; 
   }
   
@@ -127,7 +127,7 @@ public class WastelandEventHandler {
     if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && ModConfig.disableSleep) {
       Block block = event.world.getBlock(event.x, event.y, event.z);
       if (block instanceof net.minecraft.block.BlockBed)
-        if (!event.world.isClient) {
+        if (!event.world.isRemote) {
           ChunkCoordinates spawnPos = new ChunkCoordinates(event.x, event.y, event.z);
           event.entityPlayer.setSpawnChunk(spawnPos, false);
           event.entityPlayer.addChatMessage((IChatComponent)new ChatComponentText("Spawn point set..."));

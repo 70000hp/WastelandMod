@@ -144,7 +144,7 @@ public class Message implements IMessage {
         int numBiomes = (data.length - count) / 4;
         for (int j = 0; j < numBiomes; j++) {
           int id = Message.getInt(data, count);
-          biomes.add(BiomeGenBase.func_150568_d(id));
+          biomes.add(BiomeGenBase.getBiome(id));
           count += 4;
         } 
         ClientProxy.displayBiomeMap(biomeData, 200, biomes);

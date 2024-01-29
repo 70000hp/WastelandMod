@@ -44,13 +44,13 @@ public class CustomItemStack {
   }
   
   public static void placeLoot(Random rand, TileEntityChest chest, ItemStack[] loot) {
-    for (int i = 0; i < loot.length; i++) {
-      int slot = rand.nextInt(chest.getSizeInventory());
-      while (chest.getStackInSlot(slot) != null)
-        slot = (slot >= chest.getSizeInventory() - 1) ? 0 : (slot + 1); 
-      if (loot[i] != null)
-        chest.setInventorySlotContents(slot, loot[i]); 
-    } 
+      for (ItemStack itemStack : loot) {
+          int slot = rand.nextInt(chest.getSizeInventory());
+          while (chest.getStackInSlot(slot) != null)
+              slot = (slot >= chest.getSizeInventory() - 1) ? 0 : (slot + 1);
+          if (itemStack != null)
+              chest.setInventorySlotContents(slot, itemStack);
+      }
   }
   
   private static void copyDamage(ItemStack newItem, ItemStack oldItem) {
