@@ -25,8 +25,6 @@ public class Building {
   
   public int length;
   
-  public int rotation;
-  
   public String name;
   
   public boolean duplicate;
@@ -35,10 +33,6 @@ public class Building {
   
   private byte[] data;
   
-  private List entities;
-  
-  private List tileentities;
-  
   private RuinGenHelper genHelper = new RuinGenHelper();
   
   public static LootStack easyLoot;
@@ -46,36 +40,6 @@ public class Building {
   public static LootStack midLoot;
   
   public static LootStack hardLoot;
-  
-  public static final int CLOCK_TOWER = 0;
-  
-  public static final int CHURCH = 1;
-  
-  public static final int DINER = 2;
-  
-  public static final int STAND = 3;
-  
-  public static final int HOSPITAL = 4;
-  
-  public static final int L_FARM = 5;
-  
-  public static final int L_HOUSE1 = 6;
-  
-  public static final int L_HOUSE2 = 7;
-  
-  public static final int LIBRARY = 8;
-  
-  public static final int M_HOUSE1 = 9;
-  
-  public static final int M_HOUSE2 = 10;
-  
-  public static final int S_FARM = 11;
-  
-  public static final int S_HOUSE1 = 12;
-  
-  public static final int S_HOUSE2 = 13;
-  
-  public static final int WELL = 14;
   
   public Building(String name, int w, int h, int l, byte[] b, byte[] d, boolean multiple) {
     this.width = w;
@@ -97,7 +61,7 @@ public class Building {
       case 1:
         return new Building("church", 9, 12, 5, BuildingCode.Church.BLOCKS, BuildingCode.Church.DATA, false);
       case 2:
-        return new Building("diner", 10, 11, 16, BuildingCode.Diner.BLOCKS, BuildingCode.Diner.DATA, false);
+        return new Building("diner", 10, 11, 16, BuildingCode.Diner.BLOCKS, BuildingCode.Diner.DATA, true);
       case 3:
         return new Building("stand", 5, 5, 3, BuildingCode.GroceryStand.BLOCKS, BuildingCode.GroceryStand.DATA, true);
       case 4:
@@ -105,9 +69,9 @@ public class Building {
       case 5:
         return new Building("largeFarm", 14, 10, 27, BuildingCode.LargeFarm.BLOCKS, BuildingCode.LargeFarm.DATA, false);
       case 6:
-        return new Building("largeHouse1", 11, 9, 9, BuildingCode.LargeHouse1.BLOCKS, BuildingCode.LargeHouse1.DATA, false);
+        return new Building("largeHouse1", 11, 9, 9, BuildingCode.LargeHouse1.BLOCKS, BuildingCode.LargeHouse1.DATA, true);
       case 7:
-        return new Building("largeHouse2", 12, 12, 11, BuildingCode.LargeHouse2.BLOCKS, BuildingCode.LargeHouse2.DATA, false);
+        return new Building("largeHouse2", 12, 12, 11, BuildingCode.LargeHouse2.BLOCKS, BuildingCode.LargeHouse2.DATA, true);
       case 8:
         return new Building("library", 14, 10, 14, BuildingCode.Library.BLOCKS, BuildingCode.Library.DATA, false);
       case 9:

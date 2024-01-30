@@ -54,7 +54,7 @@ public class WastelandEventHandler {
       if (!manager.getCommands().containsKey(command.getCommandName()))
         manager.registerCommand((ICommand)command); 
     } 
-    if (!event.world.isRemote && event.world.getWorldChunkManager().getClass().getName() == WorldChunkManagerWasteland.class.getName()) {
+    if (!event.world.isRemote) {
       if (MinecraftServer.getServer().isSinglePlayer()) {
         this.worldSaveData.setFile("saves/" + MinecraftServer.getServer().getFolderName() + "/data/WastelandMod.dat");
       } else {
@@ -74,7 +74,7 @@ public class WastelandEventHandler {
         this.spawnLoc = this.worldSaveData.loadSpawnLoc();
       } 
       if (this.newSpawn && ModConfig.spawnBunker) {
-        this.spawnHeight = getMinWorldHeight(spawn, 3, event.world) - 7;
+        this.spawnHeight = Math.max(getMinWorldHeight(spawn, 3, event.world), 10) - 7;
         spawn.Y = this.spawnHeight;
         RuinVillageGenerator.spawnBunker(spawn, event.world);
         this.spawnLoc = new Vector(spawn.X, spawn.Y + 1, spawn.Z);
@@ -98,7 +98,7 @@ public class WastelandEventHandler {
   
   @SubscribeEvent
   public void saveData(WorldEvent.Save event) {
-    if (!event.world.isRemote && event.world.getWorldChunkManager().getClass().getName() == WorldChunkManagerWasteland.class.getName()) {
+    if (!event.world.isRemote ) {
       this.villageGeneratorHook.saveData(this.worldSaveData);
       this.cityGeneratorHook.saveData(this.worldSaveData);
       this.newSpawn = false;
@@ -107,7 +107,7 @@ public class WastelandEventHandler {
   
   @SubscribeEvent
   public void changeStartSpawn(EntityJoinWorldEvent event) {
-    if (ModConfig.spawnBunker && event.world.getWorldChunkManager().getClass().getName() == WorldChunkManagerWasteland.class.getName())
+    if (ModConfig.spawnBunker )
       if (event.entity instanceof EntityPlayer && !event.world.isRemote) {
         Vector pos = new Vector((int)event.entity.posX, (int)event.entity.posY, (int)event.entity.posZ);
         EntityPlayer player = (EntityPlayer)event.entity;
@@ -171,11 +171,6 @@ public class WastelandEventHandler {
         } 
       } 
     } 
-  }
-  
-  @SubscribeEvent
-  public void onItemUse(PlayerUseItemEvent event) {
-    System.out.println(event.item.toString());
   }
   
   @SubscribeEvent

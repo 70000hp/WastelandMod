@@ -31,18 +31,19 @@ repositories {
     //}
 }
 dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-      
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+    dependencies {
+        implementation 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev'
+        compileOnly 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:src'
 
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+        implementation 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev'
+        compileOnly 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:src'
+
+        implementation 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev'
+        compileOnly 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:src'
+
+        //compileOnly 'inventory-tweaks:InventoryTweaks:1.62+beta.84:api'
+        implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
+    }
 
 }
 

@@ -40,7 +40,7 @@ public class CityGenerator implements IWorldGenerator {
   }
   
   public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-    if (world.provider.dimensionId == 0 && world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16) == WastelandBiomes.city && this.loadedWorld && ModConfig.spawnCities)
+    if (world.provider.dimensionId == 0 && this.loadedWorld && ModConfig.spawnCities)
       generateCity(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider); 
   }
   
@@ -106,6 +106,9 @@ public class CityGenerator implements IWorldGenerator {
     MultiVector[] newChunks = { null, null, null, null };
     boolean containsChunk = false;
     int i;
+
+    if(chunks.size() > 256) return;
+
     for (i = 0; i < 4; i++) {
       MultiVector current = chooseChunk(i, position);
       if ((world.getBiomeGenForCoords(current.X, current.Z)).biomeID == biomeID) {

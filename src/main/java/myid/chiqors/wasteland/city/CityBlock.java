@@ -183,7 +183,7 @@ public class CityBlock {
       for (int k = roadWidth; k < this.area.width - roadWidth; k++) {
         RuinGenHelper.setBlock(this.area.position.X + k, this.area.position.Y, this.area.position.Z + j, surfaceBlock);
         RuinedCity.clearAbove(this.area.position.X + k, this.area.position.Y + 1, this.area.position.Z + j, 5, world);
-        RuinedCity.fillBelow(this.area.position.X + k, this.area.position.Y - 1, this.area.position.Z + j, 3, world);
+        RuinedCity.fillBelow(this.area.position.X + k, this.area.position.Y - 1, this.area.position.Z + j, 15, world);
       } 
     } 
     int rubble = this.area.length * this.area.width / 10;

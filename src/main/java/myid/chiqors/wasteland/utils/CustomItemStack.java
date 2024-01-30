@@ -45,11 +45,13 @@ public class CustomItemStack {
   
   public static void placeLoot(Random rand, TileEntityChest chest, ItemStack[] loot) {
       for (ItemStack itemStack : loot) {
-          int slot = rand.nextInt(chest.getSizeInventory());
-          while (chest.getStackInSlot(slot) != null)
+          if(chest != null) {
+            int slot = rand.nextInt(chest.getSizeInventory());
+            while (chest.getStackInSlot(slot) != null)
               slot = (slot >= chest.getSizeInventory() - 1) ? 0 : (slot + 1);
-          if (itemStack != null)
+            if (itemStack != null)
               chest.setInventorySlotContents(slot, itemStack);
+          }
       }
   }
   

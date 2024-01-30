@@ -580,9 +580,9 @@ public class ClockTowerCode {
     for (int i = 0; i < 5746; i++) {
       if (i < BLOCKS1.length) {
         output[i] = BLOCKS1[i];
-      } else if (i >= BLOCKS1.length && i < BLOCKS2.length + BLOCKS1.length) {
+      } else if (i < BLOCKS2.length + BLOCKS1.length) {
         output[i] = BLOCKS2[i - BLOCKS1.length];
-      } else if (i >= BLOCKS1.length + BLOCKS2.length && i < BLOCKS3.length + BLOCKS2.length + BLOCKS1.length) {
+      } else if (i < BLOCKS3.length + BLOCKS2.length + BLOCKS1.length) {
         output[i] = BLOCKS3[i - BLOCKS1.length + BLOCKS2.length];
       } else {
         output[i] = BLOCKS4[i - BLOCKS1.length + BLOCKS2.length + BLOCKS3.length];

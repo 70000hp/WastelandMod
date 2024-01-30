@@ -43,7 +43,7 @@ public class RuinVillageGenerator implements IWorldGenerator {
   }
   
   public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-    if (world.provider.dimensionId == 0 && world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16) == WastelandBiomes.apocalypse && this.loadedWorld)
+    if (world.provider.dimensionId == 0 && this.loadedWorld)
       generateVillage(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider); 
   }
   

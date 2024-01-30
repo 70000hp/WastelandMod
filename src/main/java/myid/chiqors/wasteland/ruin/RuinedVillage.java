@@ -32,18 +32,18 @@ public class RuinedVillage {
     int midStruct = 0;
     int largeStruct = 0;
     if (size == 0) {
-      numStructures = rand.nextInt(4) + 3;
+      numStructures = rand.nextInt(6) + 3;
       centerStruct = rand.nextInt(2);
       smallStruct = 3;
       midStruct = numStructures - smallStruct;
     } else if (size == 1) {
-      numStructures = rand.nextInt(5) + 5;
+      numStructures = rand.nextInt(8) + 5;
       centerStruct = rand.nextInt(2) + 1;
       smallStruct = 2;
       largeStruct = rand.nextInt(2) + 2;
       midStruct = numStructures - smallStruct - largeStruct;
     } else {
-      numStructures = rand.nextInt(6) + 6;
+      numStructures = rand.nextInt(12) + 6;
       centerStruct = 3;
       largeStruct = rand.nextInt(3) + 3;
       midStruct = rand.nextInt(3) + 2;
