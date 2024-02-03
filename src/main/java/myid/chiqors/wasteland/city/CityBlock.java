@@ -9,6 +9,8 @@ import myid.chiqors.wasteland.utils.Rectangle;
 import myid.chiqors.wasteland.utils.Vector;
 import java.util.List;
 import java.util.Random;
+
+import myid.chiqors.wasteland.world.WorldChunkManagerWasteland;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -177,12 +179,12 @@ public class CityBlock {
   }
   
   private void generateBase(World world, Random random) {
-    int roadWidth = 2;
-    Block surfaceBlock = ModConfig.getSurfaceBlock();
+    int roadWidth = 3;
+    Block surfaceBlock = world.getWorldChunkManager() instanceof WorldChunkManagerWasteland ? ModConfig.getSurfaceBlock() : Blocks.grass;;
     for (int j = roadWidth; j < this.area.length - roadWidth; j++) {
       for (int k = roadWidth; k < this.area.width - roadWidth; k++) {
+        RuinedCity.clearAbove(this.area.position.X + k, this.area.position.Y, this.area.position.Z + j, 90, world);
         RuinGenHelper.setBlock(this.area.position.X + k, this.area.position.Y, this.area.position.Z + j, surfaceBlock);
-        RuinedCity.clearAbove(this.area.position.X + k, this.area.position.Y + 1, this.area.position.Z + j, 5, world);
         RuinedCity.fillBelow(this.area.position.X + k, this.area.position.Y - 1, this.area.position.Z + j, 15, world);
       } 
     } 

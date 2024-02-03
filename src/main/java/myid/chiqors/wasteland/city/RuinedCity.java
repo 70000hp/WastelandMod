@@ -76,7 +76,7 @@ public class RuinedCity {
   }
   
   private void generateCityRoads(World world, Random r) {
-    int roadWidth = 2;
+    int roadWidth = 3;
     int hOffset = 0;
     for (int b = 0; b < this.layout.block.size(); b++) {
       CityBlock block = this.layout.block.get(b);
@@ -129,11 +129,11 @@ public class RuinedCity {
         boolean f = (r.nextInt(odds) == 0);
         if (i < length / 2) {
           world.setBlock(x + i, y1, z, f ? surfaceBlock : roadBlock, f ? 0 : 15, 2);
-          clearAbove(x + i, y1 + 1, z, 5, world);
+          clearAbove(x + i, y1 + 1, z, 90, world);
           fillBelow(x + i, y1 - 1, z, 3, world);
         } else {
           world.setBlock(x + i, y2, z, f ? surfaceBlock : roadBlock, f ? 0 : 15, 2);
-          clearAbove(x + i, y2 + 1, z, 5, world);
+          clearAbove(x + i, y2 + 1, z, 90, world);
           fillBelow(x + i, y2 - 1, z, 3, world);
         } 
       } 
@@ -142,11 +142,11 @@ public class RuinedCity {
         boolean f = (r.nextInt(odds) == 0);
         if (i < length / 2) {
           world.setBlock(x, y1, z + i, f ? surfaceBlock : roadBlock, f ? 0 : 15, 2);
-          clearAbove(x, y1 + 1, z + i, 5, world);
+          clearAbove(x, y1 + 1, z + i, 90, world);
           fillBelow(x, y1 - 1, z + i, 3, world);
         } else {
           world.setBlock(x, y2, z + i, f ? surfaceBlock : roadBlock, f ? 0 : 15, 2);
-          clearAbove(x, y2 + 1, z + i, 5, world);
+          clearAbove(x, y2 + 1, z + i, 90, world);
           fillBelow(x, y2 - 1, z + i, 3, world);
         } 
       } 
@@ -163,8 +163,8 @@ public class RuinedCity {
   public static void fillBelow(int x, int y, int z, int d, World world) {
     for (int i = 0; i < d; i++) {
       Block b = world.getBlock(x, y - i, z);
-      if (b.equals(Blocks.air) || b.equals(Blocks.deadbush))
-        world.setBlock(x, y - i, z, Blocks.stone, 0, 2); 
+      if (!b.hasTileEntity(0) && b != Blocks.bedrock)
+        world.setBlock(x, y - i, z, Blocks.stonebrick, 0, 2);
     } 
   }
 }

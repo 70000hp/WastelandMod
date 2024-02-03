@@ -5,6 +5,7 @@ package myid.chiqors.wasteland.ruin;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
 import myid.chiqors.wasteland.WastelandBiomes;
+import myid.chiqors.wasteland.city.MultiVector;
 import myid.chiqors.wasteland.config.ModConfig;
 import myid.chiqors.wasteland.config.RuinConfig;
 import myid.chiqors.wasteland.items.LootStack;
@@ -20,6 +21,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.common.BiomeDictionary;
 
 public class RuinVillageGenerator implements IWorldGenerator {
   public static List<Vector> villageLocation;
@@ -31,7 +33,7 @@ public class RuinVillageGenerator implements IWorldGenerator {
   private boolean loadedWorld;
   
   public RuinVillageGenerator() {
-    GameRegistry.registerWorldGenerator(toIWorldGenerator(), 12);
+    GameRegistry.registerWorldGenerator(toIWorldGenerator(), 8);
     villageLocation = new ArrayList<Vector>();
     villageNum = 0;
     this.generating = false;
@@ -48,13 +50,15 @@ public class RuinVillageGenerator implements IWorldGenerator {
   }
   
   public void generateVillage(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-    Vector currentLoc = new Vector(chunkX * 16, world.getHeightValue(chunkX * 16, chunkZ * 16), chunkZ * 16);
-    if (checkDist(currentLoc, (ModConfig.minVillageDistance * 16)) && !this.generating && !world.isRemote) {
+    MultiVector currentLoc = new MultiVector(chunkX * 16, Layout.getWorldHeight(world, chunkX * 16, chunkZ * 16), chunkZ * 16);
+    if (checkDist(currentLoc, (ModConfig.minVillageDistance * 16))
+            && !this.generating && !world.isRemote
+            && !BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16), BiomeDictionary.Type.WATER)) {
       this.generating = true;
       int villageSize = random.nextInt(3);
-      int villageDim = (villageSize + 3) * 16;
+      int villageDim = (villageSize + 8) * 16;
       int[][] heightMap = getTerrainLevelMap(world, currentLoc, villageDim);
-      if (checkLevelVariation(heightMap[0], 6) && checkCenter(currentLoc, 3, 1, world)) {
+      if (true) {
         System.out.println("Generating Village at X:" + chunkX * 16 + " Z:" + chunkZ * 16);
         villageLocation.add(currentLoc);
         villageNum++;
@@ -103,19 +107,6 @@ public class RuinVillageGenerator implements IWorldGenerator {
     world.setBlock(pos.X - 1, worldHeight + 2, pos.Z - 5, Blocks.air, 3, 2);
   }
   
-  private boolean checkCenter(Vector currentLoc, int rad, int maxVar, World world) {
-    int max = getWorldHeight(world, currentLoc.X, currentLoc.Z);
-    int min = max;
-    for (int i = 0; i < rad * 2 + 1; i++) {
-      for (int j = 0; j < rad * 2 + 1; j++) {
-        int h = getWorldHeight(world, currentLoc.X - rad + i, currentLoc.Z - rad + j);
-        max = (h > max) ? h : max;
-        min = (h < min) ? h : min;
-      } 
-    } 
-    return (max - min <= maxVar);
-  }
-  
   private boolean checkDist(Vector current, double distance) {
       for (Vector vector : villageLocation) {
           if (Vector.VtoVlength(current, vector) < distance)
@@ -137,7 +128,7 @@ public class RuinVillageGenerator implements IWorldGenerator {
     for (int i = 1; i < heightMap.length; i++) {
       if (heightMap[i] > maxHeight)
         maxHeight = heightMap[i]; 
-      if (heightMap[i] < minHeight)
+      else if (heightMap[i] < minHeight)
         minHeight = heightMap[i]; 
     } 
     return (maxHeight - minHeight <= maxBlockVariation);

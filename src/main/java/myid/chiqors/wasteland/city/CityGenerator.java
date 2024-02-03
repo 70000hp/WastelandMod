@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.common.BiomeDictionary;
 
 public class CityGenerator implements IWorldGenerator {
   public static List<Vector> cityLocation;
@@ -29,7 +30,7 @@ public class CityGenerator implements IWorldGenerator {
   private boolean loadedWorld;
   
   public CityGenerator() {
-    GameRegistry.registerWorldGenerator(toIWorldGenerator(), 12);
+    GameRegistry.registerWorldGenerator(toIWorldGenerator(), 20);
     cityLocation = new ArrayList<Vector>();
     cityNum = 0;
     this.loadedWorld = false;
@@ -46,17 +47,19 @@ public class CityGenerator implements IWorldGenerator {
   
   public void generateCity(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
     MultiVector currentLoc = new MultiVector(chunkX * 16, Layout.getWorldHeight(world, chunkX * 16, chunkZ * 16), chunkZ * 16);
-    if (checkDist(currentLoc, (ModConfig.minCityDistance * 16))) {
+    if (random.nextInt(ModConfig.cityChance) == 0
+            && checkDist(currentLoc, (ModConfig.minCityDistance * 16))
+            && !BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16), BiomeDictionary.Type.WATER)) {
+
       if (!generating && !world.isRemote) {
         Wasteland.NETWORK.sendToAll((IMessage)Message.createChatMessage("Generating world structures (please wait)..."));
         Wasteland.NETWORK.sendToAll((IMessage)Message.createProgressMessage(0, 1));
         generating = true;
         List<MultiVector> chunks = new ArrayList<MultiVector>();
         chunks.add(currentLoc);
-        addConnectedBiomeChunks(chunks, currentLoc, world);
+        addConnectedBiomeChunks(chunks, currentLoc, world, ModConfig.minCityDistance * 16);
         MultiVector center = getCenterChunk(chunks, world);
-        limitCitySize(chunks, center, ModConfig.maxCitySize * 16);
-        if (chunks.size() > 0) {
+        if (chunks.size() > 0 && center != null) {
           System.out.println("Generating City at X:" + center.X + " Z:" + center.Z + " Size: " + chunks.size());
           List<SchematicBuilding> buildingSchematics = SchematicBuilding.loadAllBuildings();
           LootStack[] loot = LootStack.loadCityLoot();
@@ -70,13 +73,6 @@ public class CityGenerator implements IWorldGenerator {
         Wasteland.NETWORK.sendToAll((IMessage)Message.createChatMessage("...done"));
         generating = false;
       } 
-    } 
-  }
-  
-  private void limitCitySize(List<MultiVector> allChunks, MultiVector centerChunk, int maxChunkDist) {
-    for (int i = allChunks.size() - 1; i >= 0; i--) {
-      if (Vector.VtoVlengthXZ(centerChunk, allChunks.get(i)) > maxChunkDist)
-        allChunks.remove(i); 
     } 
   }
   
@@ -101,14 +97,12 @@ public class CityGenerator implements IWorldGenerator {
     return null;
   }
   
-  private void addConnectedBiomeChunks(List<MultiVector> chunks, MultiVector position, World world) {
+  private void addConnectedBiomeChunks(List<MultiVector> chunks, MultiVector position, World world, int maxSize) {
+    if(chunks.size() > maxSize) return;
     int biomeID = (world.getBiomeGenForCoords(position.X, position.Z)).biomeID;
     MultiVector[] newChunks = { null, null, null, null };
     boolean containsChunk = false;
     int i;
-
-    if(chunks.size() > 256) return;
-
     for (i = 0; i < 4; i++) {
       MultiVector current = chooseChunk(i, position);
       if ((world.getBiomeGenForCoords(current.X, current.Z)).biomeID == biomeID) {
@@ -122,13 +116,13 @@ public class CityGenerator implements IWorldGenerator {
           chunks.add(newChunks[i]);
         } else {
           newChunks[i] = null;
-        } 
+        }
         containsChunk = false;
-      } 
-    } 
+      }
+    }
     for (i = 0; i < 4; i++) {
       if (newChunks[i] != null)
-        addConnectedBiomeChunks(chunks, newChunks[i], world); 
+        addConnectedBiomeChunks(chunks, newChunks[i], world, maxSize);
     } 
   }
   

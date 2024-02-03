@@ -6,6 +6,7 @@ import myid.chiqors.wasteland.config.EntitySpawnConfig;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenForest extends BiomeGenWastelandBase {
+
   public BiomeGenForest(int par1ID, String par2Name, BiomeGenBase.Height par3BiomeHeight) {
     super(par1ID, par2Name, par3BiomeHeight);
     setCreatureSpawns(EntitySpawnConfig.forestCreatures.get(0), this.spawnableMonsterList, EntitySpawnConfig.enableHostileSpawn);

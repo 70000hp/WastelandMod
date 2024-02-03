@@ -21,45 +21,36 @@ public class RuinedVillage {
   private int dimension;
   
   public RuinedVillage(World world, int posX, int posZ, int dim, int size, Random rand) {
-    rand.nextInt(100);
     System.out.println("Size: " + size);
     this.locX = posX;
     this.locZ = posZ;
     this.dimension = dim;
-    int numStructures = 1;
-    int centerStruct = 0;
-    int smallStruct = 1;
-    int midStruct = 0;
-    int largeStruct = 0;
+    int numStructures;
+    int centerStruct;
+    int smallStruct;
+    int midStruct;
+    int largeStruct;
     if (size == 0) {
-      numStructures = rand.nextInt(6) + 3;
-      centerStruct = rand.nextInt(2);
-      smallStruct = 3;
-      midStruct = numStructures - smallStruct;
+      numStructures = rand.nextInt(8) + 12;
+      centerStruct = rand.nextInt(2) + 2;
+      smallStruct = 6;
+      largeStruct = rand.nextInt(2) + 7;
+      midStruct = numStructures - smallStruct - largeStruct;
     } else if (size == 1) {
-      numStructures = rand.nextInt(8) + 5;
-      centerStruct = rand.nextInt(2) + 1;
-      smallStruct = 2;
-      largeStruct = rand.nextInt(2) + 2;
+      numStructures = rand.nextInt(8) + 15;
+      centerStruct = rand.nextInt(2) + 3;
+      smallStruct = 6;
+      largeStruct = rand.nextInt(2) + 9;
       midStruct = numStructures - smallStruct - largeStruct;
     } else {
-      numStructures = rand.nextInt(12) + 6;
-      centerStruct = 3;
-      largeStruct = rand.nextInt(3) + 3;
-      midStruct = rand.nextInt(3) + 2;
-      if (midStruct + largeStruct > numStructures) {
-        midStruct = numStructures - largeStruct;
-        smallStruct = 0;
-      } else {
-        smallStruct = numStructures - largeStruct - midStruct;
-      } 
-    } 
+      numStructures = rand.nextInt(12) + 25;
+      centerStruct = rand.nextInt(2) + 4;
+      largeStruct = rand.nextInt(3) + 12;
+      midStruct = rand.nextInt(3) + 3;
+      smallStruct = numStructures - largeStruct - midStruct;
+    }
     System.out.println("Buildings: " + numStructures + " - S:" + smallStruct + " M:" + midStruct + " L:" + largeStruct + " - C:" + centerStruct);
-    if (centerStruct == 0) {
-      this.center = null;
-    } else if (centerStruct == 1) {
-      this.center = Building.create(3);
-    } else if (centerStruct == 2) {
+    if (centerStruct == 2) {
       this.center = Building.create(14);
     } else {
       this.center = Building.create(0);

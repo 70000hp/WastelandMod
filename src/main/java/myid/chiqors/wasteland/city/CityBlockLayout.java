@@ -231,10 +231,10 @@ public class CityBlockLayout {
       for (int k = 0; k < block.connectedBlocks.length; k++) {
         if (block.connectedBlocks[k] != null) {
           int diff = Math.abs(block.area.position.Y - (block.connectedBlocks[k]).area.position.Y);
-          maxD = (diff > maxD) ? diff : maxD;
+          maxD = Math.max(diff, maxD);
         } 
       } 
-      block.doGenerate = (maxD < 3);
+      block.doGenerate = (maxD < 10);
     } 
   }
   

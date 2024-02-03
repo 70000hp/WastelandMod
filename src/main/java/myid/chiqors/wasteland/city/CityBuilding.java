@@ -11,11 +11,14 @@ import myid.chiqors.wasteland.utils.Schematic;
 import myid.chiqors.wasteland.utils.Vector;
 import java.util.List;
 import java.util.Random;
+
+import myid.chiqors.wasteland.world.WorldChunkManagerWasteland;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProviderSurface;
 
 public class CityBuilding {
   public int width;
@@ -83,6 +86,7 @@ public class CityBuilding {
   
   public void generate(World world, Random random, Vector pos, int rot, int cityColour) {
     RuinGenHelper.setWorld(world);
+    Block top = !(world.getWorldChunkManager() instanceof WorldChunkManagerWasteland) ? surfaceBlock : Blocks.grass;
     int count = 0;
     boolean doGen = true;
     Vector p = new Vector(0, 0, 0);
@@ -100,7 +104,7 @@ public class CityBuilding {
               doGen = (doGen && Vector.VtoVlength(p, this.damageLoc[c]) > this.damageSize[c]);  
           if (doGen)
             if (this.blocks[count] == bedrockID) {
-              RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, surfaceBlock);
+              RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, top);
             } else if (this.blocks[count] == airID) {
               if (p.Y > 0 && p.Y < 3)
                 RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.air); 
@@ -116,7 +120,8 @@ public class CityBuilding {
                 String mobName = ModConfig.getSpawnerCreature(random);
                 RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.mob_spawner);
                 TileEntityMobSpawner mobSpawner = (TileEntityMobSpawner)world.getTileEntity(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z);
-                mobSpawner.func_145881_a().setEntityName(mobName);
+                if(mobName != null)
+                    mobSpawner.func_145881_a().setEntityName(mobName);
               } 
             } else if (this.blocks[count] == cobbleID || this.blocks[count] == mossyCobbleID) {
               if (random.nextInt(50) != 0) {
@@ -305,7 +310,7 @@ public class CityBuilding {
   public static CityBuilding create(String name, int floors, Random random, List<SchematicBuilding> buildingSchematics, LootStack[] loot) {
     if (name.equalsIgnoreCase("none"))
       return null;
-      for (SchematicBuilding current : buildingSchematics) {
+    for (SchematicBuilding current : buildingSchematics) {
           if (current.name.equals(name)) {
               Schematic middle, top;
               int height, topH;

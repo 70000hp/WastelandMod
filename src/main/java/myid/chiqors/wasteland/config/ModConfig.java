@@ -50,6 +50,8 @@ public class ModConfig {
   public static int forceDisableGrassRadius;
   
   public static int minCityDistance;
+
+  public static int cityChance;
   
   public static boolean spawnCities;
   
@@ -74,7 +76,7 @@ public class ModConfig {
     config.setCategoryComment("Worldgen", "General world generation config");
     wastelandTreeSpawnRate = ConfigHelper.createConfigInt(config,"Worldgen", "Dead Tree Rarity", 2);
     randomFirePerChunk = ConfigHelper.createConfigInt(config,"Worldgen", "Wasteland fires per chunk", 1);
-    minVillageDistance = ConfigHelper.createConfigInt(config,"Worldgen", "Min chunks between abandoned towns", 32);
+    minVillageDistance = ConfigHelper.createConfigInt(config,"Worldgen", "Min chunks between abandoned towns", 12);
     wastelandRuinRarirty = ConfigHelper.createConfigInt(config,"Worldgen", "Wasteland ruins rarity", 50);
     forestRuinRarity = ConfigHelper.createConfigInt(config,"Worldgen", "Forest tent/treehouse/ruins rarity", 50);
     mountainRuinRarity = ConfigHelper.createConfigInt(config,"Worldgen", "Mountain ruins rarity", 50);
@@ -90,8 +92,9 @@ public class ModConfig {
     disableSleep = ConfigHelper.createConfigBool(config,"Misc", "Disable sleeping in bed", true);
     config.setCategoryComment("CityGen", "World generation of cities and their spawners");
     spawnCities = ConfigHelper.createConfigBool(config,"CityGen", "Enable cities", true);
-    minCityDistance = ConfigHelper.createConfigInt(config,"CityGen", "Min chunks between abandoned cities", 32);
-    maxCitySize = config.getInt("Max city size", "CityGen", 8, 4, 16, "Max allowed city size (radius in chunks); Set to lower values for slow processors\nThis only changes maximum allowable size, small city biomes will still spawn small cities");
+    minCityDistance = ConfigHelper.createConfigInt(config,"CityGen", "Min chunks between abandoned cities", 528);
+    cityChance = ConfigHelper.createConfigInt(config,"CityGen", "Chance of a city to spawn where possible, affected by value above, 1 in x format", 5);
+    maxCitySize = config.getInt("Max city size", "CityGen", 8, 2, 24, "Max allowed city size (radius in chunks); Set to lower values for slow processors\nThis only changes maximum allowable size, small city biomes will still spawn small cities");
     citySpawnerList = config.getStringList("City spawner rarity", "CityGen", new String[] { "Zombie,25", "Skeleton,25", "Spider,20", "Creeper,15", "CaveSpider,8", "PigZombie,4", "Blaze,2", "Witch,1" }, "Add or remove spawner types\nMob_name,spawn_chance\nCheck CreatureSpawn.cfg to see names of spawnable creatures. Higher spawn_chance means higher probablily of spawner choosing to be that mob/creature");
     config.save();
     setSpawnerCreatures(citySpawnerList);

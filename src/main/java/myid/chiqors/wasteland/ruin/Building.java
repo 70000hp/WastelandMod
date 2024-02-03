@@ -12,6 +12,8 @@ import myid.chiqors.wasteland.utils.Vector;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import myid.chiqors.wasteland.world.WorldChunkManagerWasteland;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
@@ -57,7 +59,6 @@ public class Building {
   public static Building create(int building) {
     switch (building) {
       case 0:
-        return new Building("cTower", 13, 34, 13, BuildingCode.ClockTower.BLOCKS, BuildingCode.ClockTower.DATA, false);
       case 1:
         return new Building("church", 9, 12, 5, BuildingCode.Church.BLOCKS, BuildingCode.Church.DATA, false);
       case 2:
@@ -92,11 +93,12 @@ public class Building {
   
   public boolean generate(World world, Random random, Vector pos, int rot) {
     int maxSize, minSize, numHoles;
+    Block top = world.getWorldChunkManager() instanceof WorldChunkManagerWasteland ? ModConfig.getSurfaceBlock() : Blocks.grass;
     RuinGenHelper.setWorld(world);
     if (this.blocks.length < 100) {
-      numHoles = random.nextInt(2) + 2;
-      maxSize = 2;
-      minSize = 0;
+      numHoles = 1;
+      maxSize = 5;
+      minSize = 4;
     } else if (this.blocks.length >= 100 && this.blocks.length < 500) {
       numHoles = random.nextInt(2) + 2;
       maxSize = 2;
@@ -143,7 +145,7 @@ public class Building {
             z = this.width - k - 1;
           } 
           if (this.blocks[count] == 7) {
-            RuinGenHelper.setBlock(pos.X + x, pos.Y + j, pos.Z + z, ModConfig.getSurfaceBlock());
+            RuinGenHelper.setBlock(pos.X + x, pos.Y + j, pos.Z + z, top);
           } else if (this.blocks[count] != 2) {
             if (this.blocks[count] == 54) {
               RuinGenHelper.setBlock(pos.X + x, pos.Y + j, pos.Z + z, (Block)Blocks.chest);

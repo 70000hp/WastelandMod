@@ -15,8 +15,6 @@ import net.minecraftforge.common.BiomeManager;
 public class BiomeGenWastelandBase extends BiomeGenBase {
   public static final BiomeGenBase.Height height_Wasteland = new BiomeGenBase.Height(0.1F, 0.05F);
   
-  public static final BiomeGenBase.Height height_WastelandCity = new BiomeGenBase.Height(0.09F, 0.01F);
-  
   public static final BiomeGenBase.Height height_WastelandMountains = new BiomeGenBase.Height(1.0F, 0.5F);
   
   private static int lastID = 0;
@@ -36,17 +34,14 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
     BiomeGenBase apocalypse = (new BiomeGenApocalypse(ModConfig.apocalypseBiomeID, "Wasteland", height_Wasteland)).setColor(14728553);
     BiomeGenBase apocMountains = (new BiomeGenMountains(ModConfig.mountainBiomeID, "Wasteland Mountains", height_WastelandMountains)).setColor(10255379);
     BiomeGenBase apocForest = (new BiomeGenForest(ModConfig.forestBiomeID, "Wasteland Forest", height_Wasteland)).setColor(10793807);
-    BiomeGenBase apocCity = (new BiomeGenCity(ModConfig.cityBiomeID, "Wasteland City", height_WastelandCity)).setColor(9410739);
     BiomeGenBase radioactive = (new BiomeGenRadioactive(ModConfig.radioactiveBiomeID, "Radioactive Wasteland", height_Wasteland)).setColor(6088238);
     BiomeDictionary.registerBiomeType(apocalypse, new BiomeDictionary.Type[] { BiomeDictionary.Type.WASTELAND });
     BiomeDictionary.registerBiomeType(apocMountains, new BiomeDictionary.Type[] { BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.MOUNTAIN });
     BiomeDictionary.registerBiomeType(apocForest, new BiomeDictionary.Type[] { BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.FOREST });
-    BiomeDictionary.registerBiomeType(apocCity, new BiomeDictionary.Type[] { BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.DEAD });
     BiomeDictionary.registerBiomeType(radioactive, new BiomeDictionary.Type[] { BiomeDictionary.Type.WASTELAND });
     BiomeManager.addSpawnBiome(apocalypse);
     BiomeManager.addSpawnBiome(apocMountains);
     BiomeManager.addSpawnBiome(apocForest);
-    BiomeManager.addSpawnBiome(apocCity);
     BiomeManager.addSpawnBiome(radioactive);
   }
   
@@ -63,7 +58,6 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
   public void loadBiome() {
     this.theBiomeDecorator.deadBushPerChunk = 5;
     this.theBiomeDecorator.flowersPerChunk = -999;
-    this.theBiomeDecorator.generateLakes = false;
     this.theBiomeDecorator.grassPerChunk = -999;
     this.theBiomeDecorator.treesPerChunk = -999;
     setTopBlock(ModConfig.getSurfaceBlock());
