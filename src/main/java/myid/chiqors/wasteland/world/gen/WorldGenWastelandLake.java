@@ -13,62 +13,79 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenWastelandLake extends WorldGenerator {
-  private Block field_150556_a;
+  private final Block block;
   
-  private static final String __OBFID = "CL_00000418";
-  
-  public WorldGenWastelandLake(Block p_i45455_1_) {
-    this.field_150556_a = p_i45455_1_;
+  public WorldGenWastelandLake(Block block) {
+    this.block = block;
   }
-  
-  public boolean generate(World p_generate_1_, Random p_generate_2_, int p_generate_3_, int p_generate_4_, int p_generate_5_) {
-    p_generate_3_ -= 8;
 
-    if (p_generate_4_ <= 4) {
+  public boolean generate(World p_76484_1_, Random p_76484_2_, int p_76484_3_, int p_76484_4_, int p_76484_5_)
+  {
+    p_76484_3_ -= 8;
+
+    if (p_76484_4_ <= 4)
+    {
       return false;
-    } else {
-      p_generate_4_ -= 4;
-      boolean[] var6 = new boolean[2048];
-      int var7 = p_generate_2_.nextInt(40) + 40;
+    }
+    else
+    {
+      p_76484_4_ -= 4;
+      boolean[] aboolean = new boolean[2048];
+      int l = p_76484_2_.nextInt(4) + 4;
+      int i1;
 
-      int var8;
-      for (var8 = 0; var8 < var7; ++var8) {
-        double var9 = p_generate_2_.nextDouble() * 6.0 + 3.0;
-        double var11 = p_generate_2_.nextDouble() * 4.0 + 2.0;
-        double var13 = p_generate_2_.nextDouble() * 6.0 + 3.0;
-        double var15 = p_generate_2_.nextDouble() * (16.0 - var9 - 2.0) + 1.0 + var9 / 2.0;
-        double var17 = p_generate_2_.nextDouble() * (8.0 - var11 - 4.0) + 2.0 + var11 / 2.0;
-        double var19 = p_generate_2_.nextDouble() * (16.0 - var13 - 2.0) + 1.0 + var13 / 2.0;
+      for (i1 = 0; i1 < l; ++i1)
+      {
+        double d0 = p_76484_2_.nextDouble() * 6.0D + 3.0D;
+        double d1 = p_76484_2_.nextDouble() * 4.0D + 2.0D;
+        double d2 = p_76484_2_.nextDouble() * 6.0D + 3.0D;
+        double d3 = p_76484_2_.nextDouble() * (16.0D - d0 - 2.0D) + 1.0D + d0 / 2.0D;
+        double d4 = p_76484_2_.nextDouble() * (8.0D - d1 - 4.0D) + 2.0D + d1 / 2.0D;
+        double d5 = p_76484_2_.nextDouble() * (16.0D - d2 - 2.0D) + 1.0D + d2 / 2.0D;
 
-        for (int var21 = 1; var21 < 15; ++var21) {
-          for (int var22 = 1; var22 < 15; ++var22) {
-            for (int var23 = 1; var23 < 7; ++var23) {
-              double var24 = ((double) var21 - var15) / (var9 / 2.0);
-              double var26 = ((double) var23 - var17) / (var11 / 2.0);
-              double var28 = ((double) var22 - var19) / (var13 / 2.0);
-              double var30 = var24 * var24 + var26 * var26 + var28 * var28;
-              if (var30 < 1.0) {
-                var6[(var21 * 16 + var22) * 8 + var23] = true;
+        for (int k1 = 1; k1 < 15; ++k1)
+        {
+          for (int l1 = 1; l1 < 15; ++l1)
+          {
+            for (int i2 = 1; i2 < 7; ++i2)
+            {
+              double d6 = ((double)k1 - d3) / (d0 / 2.0D);
+              double d7 = ((double)i2 - d4) / (d1 / 2.0D);
+              double d8 = ((double)l1 - d5) / (d2 / 2.0D);
+              double d9 = d6 * d6 + d7 * d7 + d8 * d8;
+
+              if (d9 < 1.0D)
+              {
+                aboolean[(k1 * 16 + l1) * 8 + i2] = true;
               }
             }
           }
         }
       }
 
-      int var10;
-      int var32;
-      boolean var33;
-      for (var8 = 0; var8 < 16; ++var8) {
-        for (var32 = 0; var32 < 16; ++var32) {
-          for (var10 = 0; var10 < 8; ++var10) {
-            var33 = !var6[(var8 * 16 + var32) * 8 + var10] && (var8 < 15 && var6[((var8 + 1) * 16 + var32) * 8 + var10] || var8 > 0 && var6[((var8 - 1) * 16 + var32) * 8 + var10] || var32 < 15 && var6[(var8 * 16 + var32 + 1) * 8 + var10] || var32 > 0 && var6[(var8 * 16 + (var32 - 1)) * 8 + var10] || var10 < 7 && var6[(var8 * 16 + var32) * 8 + var10 + 1] || var10 > 0 && var6[(var8 * 16 + var32) * 8 + (var10 - 1)]);
-            if (var33) {
-              Material var12 = p_generate_1_.getBlock(p_generate_3_ + var8, p_generate_4_ + var10, p_generate_5_ + var32).getMaterial();
-              if (var10 >= 4 && var12.isLiquid()) {
+      int j1;
+      int j2;
+      boolean flag;
+
+      for (i1 = 0; i1 < 16; ++i1)
+      {
+        for (j2 = 0; j2 < 16; ++j2)
+        {
+          for (j1 = 0; j1 < 8; ++j1)
+          {
+            flag = !aboolean[(i1 * 16 + j2) * 8 + j1] && (i1 < 15 && aboolean[((i1 + 1) * 16 + j2) * 8 + j1] || i1 > 0 && aboolean[((i1 - 1) * 16 + j2) * 8 + j1] || j2 < 15 && aboolean[(i1 * 16 + j2 + 1) * 8 + j1] || j2 > 0 && aboolean[(i1 * 16 + (j2 - 1)) * 8 + j1] || j1 < 7 && aboolean[(i1 * 16 + j2) * 8 + j1 + 1] || j1 > 0 && aboolean[(i1 * 16 + j2) * 8 + (j1 - 1)]);
+
+            if (flag)
+            {
+              Material material = p_76484_1_.getBlock(p_76484_3_ + i1, p_76484_4_ + j1, p_76484_5_ + j2).getMaterial();
+
+              if (j1 >= 4 && material.isLiquid())
+              {
                 return false;
               }
 
-              if (var10 < 4 && !var12.isSolid() && p_generate_1_.getBlock(p_generate_3_ + var8, p_generate_4_ + var10, p_generate_5_ + var32) != this.field_150556_a) {
+              if (j1 < 4 && !material.isSolid() && p_76484_1_.getBlock(p_76484_3_ + i1, p_76484_4_ + j1, p_76484_5_ + j2) != this.block)
+              {
                 return false;
               }
             }
@@ -76,39 +93,55 @@ public class WorldGenWastelandLake extends WorldGenerator {
         }
       }
 
-      for (var8 = 0; var8 < 16; ++var8) {
-        for (var32 = 0; var32 < 16; ++var32) {
-          for (var10 = 0; var10 < 8; ++var10) {
-            if (var6[(var8 * 16 + var32) * 8 + var10]) {
-              p_generate_1_.setBlock(p_generate_3_ + var8, p_generate_4_ + var10, p_generate_5_ + var32, var10 >= 4 ? Blocks.air : this.field_150556_a, 0, 2);
+      for (i1 = 0; i1 < 16; ++i1)
+      {
+        for (j2 = 0; j2 < 16; ++j2)
+        {
+          for (j1 = 0; j1 < 8; ++j1)
+          {
+            if (aboolean[(i1 * 16 + j2) * 8 + j1])
+            {
+              p_76484_1_.setBlock(p_76484_3_ + i1, p_76484_4_ + j1, p_76484_5_ + j2, j1 >= 4 ? Blocks.air : this.block, 0, 2);
             }
           }
         }
       }
 
-      if (this.field_150556_a.getMaterial() == Material.lava) {
-        for (var8 = 0; var8 < 16; ++var8) {
-          for (var32 = 0; var32 < 16; ++var32) {
-            for (var10 = 0; var10 < 8; ++var10) {
-              var33 = !var6[(var8 * 16 + var32) * 8 + var10] && (var8 < 15 && var6[((var8 + 1) * 16 + var32) * 8 + var10] || var8 > 0 && var6[((var8 - 1) * 16 + var32) * 8 + var10] || var32 < 15 && var6[(var8 * 16 + var32 + 1) * 8 + var10] || var32 > 0 && var6[(var8 * 16 + (var32 - 1)) * 8 + var10] || var10 < 7 && var6[(var8 * 16 + var32) * 8 + var10 + 1] || var10 > 0 && var6[(var8 * 16 + var32) * 8 + (var10 - 1)]);
-              if (var33 && (var10 < 4 || p_generate_2_.nextInt(2) != 0) && p_generate_1_.getBlock(p_generate_3_ + var8, p_generate_4_ + var10, p_generate_5_ + var32).getMaterial().isSolid()) {
-                p_generate_1_.setBlock(p_generate_3_ + var8, p_generate_4_ + var10, p_generate_5_ + var32, Blocks.stone, 0, 2);
+      if (this.block.getMaterial() == Material.lava)
+      {
+        for (i1 = 0; i1 < 16; ++i1)
+        {
+          for (j2 = 0; j2 < 16; ++j2)
+          {
+            for (j1 = 0; j1 < 8; ++j1)
+            {
+              flag = !aboolean[(i1 * 16 + j2) * 8 + j1] && (i1 < 15 && aboolean[((i1 + 1) * 16 + j2) * 8 + j1] || i1 > 0 && aboolean[((i1 - 1) * 16 + j2) * 8 + j1] || j2 < 15 && aboolean[(i1 * 16 + j2 + 1) * 8 + j1] || j2 > 0 && aboolean[(i1 * 16 + (j2 - 1)) * 8 + j1] || j1 < 7 && aboolean[(i1 * 16 + j2) * 8 + j1 + 1] || j1 > 0 && aboolean[(i1 * 16 + j2) * 8 + (j1 - 1)]);
+
+              if (flag && (j1 < 4 || p_76484_2_.nextInt(2) != 0) && p_76484_1_.getBlock(p_76484_3_ + i1, p_76484_4_ + j1, p_76484_5_ + j2).getMaterial().isSolid())
+              {
+                p_76484_1_.setBlock(p_76484_3_ + i1, p_76484_4_ + j1, p_76484_5_ + j2, Blocks.stone, 0, 2);
               }
             }
           }
         }
       }
 
-      if (this.field_150556_a.getMaterial() == Material.water) {
-        for (var8 = 0; var8 < 16; ++var8) {
-          for (var32 = 0; var32 < 16; ++var32) {
-            byte var35 = 4;
-            if (p_generate_1_.isBlockFreezable(p_generate_3_ + var8, p_generate_4_ + var35, p_generate_5_ + var32)) {
-              p_generate_1_.setBlock(p_generate_3_ + var8, p_generate_4_ + var35, p_generate_5_ + var32, Blocks.ice, 0, 2);
+      if (this.block.getMaterial() == Material.water)
+      {
+        for (i1 = 0; i1 < 16; ++i1)
+        {
+          for (j2 = 0; j2 < 16; ++j2)
+          {
+            byte b0 = 4;
+
+            if (p_76484_1_.isBlockFreezable(p_76484_3_ + i1, p_76484_4_ + b0, p_76484_5_ + j2))
+            {
+              p_76484_1_.setBlock(p_76484_3_ + i1, p_76484_4_ + b0, p_76484_5_ + j2, Blocks.ice, 0, 2);
             }
           }
         }
       }
+
       return true;
     }
   }

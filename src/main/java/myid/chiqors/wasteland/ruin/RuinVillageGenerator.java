@@ -4,7 +4,6 @@ package myid.chiqors.wasteland.ruin;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
-import myid.chiqors.wasteland.WastelandBiomes;
 import myid.chiqors.wasteland.city.MultiVector;
 import myid.chiqors.wasteland.config.ModConfig;
 import myid.chiqors.wasteland.config.RuinConfig;
@@ -33,7 +32,7 @@ public class RuinVillageGenerator implements IWorldGenerator {
   private boolean loadedWorld;
   
   public RuinVillageGenerator() {
-    GameRegistry.registerWorldGenerator(toIWorldGenerator(), 8);
+    GameRegistry.registerWorldGenerator(toIWorldGenerator(), 7);
     villageLocation = new ArrayList<Vector>();
     villageNum = 0;
     this.generating = false;
@@ -51,7 +50,7 @@ public class RuinVillageGenerator implements IWorldGenerator {
   
   public void generateVillage(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
     MultiVector currentLoc = new MultiVector(chunkX * 16, Layout.getWorldHeight(world, chunkX * 16, chunkZ * 16), chunkZ * 16);
-    if (checkDist(currentLoc, (ModConfig.minVillageDistance * 16))
+    if (!world.isRemote && !this.generating && checkDist(currentLoc, (ModConfig.minVillageDistance * 16))
             && !this.generating && !world.isRemote
             && !BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16), BiomeDictionary.Type.WATER)) {
       this.generating = true;

@@ -5,6 +5,8 @@ package myid.chiqors.wasteland.world;
 import cpw.mods.fml.common.eventhandler.Event;
 import java.util.List;
 import java.util.Random;
+
+import myid.chiqors.wasteland.config.ModConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.entity.EnumCreatureType;
@@ -25,6 +27,7 @@ import net.minecraft.world.gen.NoiseGenerator;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraft.world.gen.feature.WorldGenDungeons;
+import net.minecraft.world.gen.feature.WorldGenLakes;
 import net.minecraft.world.gen.structure.MapGenMineshaft;
 import net.minecraft.world.gen.structure.MapGenScatteredFeature;
 import net.minecraft.world.gen.structure.MapGenStronghold;
@@ -34,6 +37,8 @@ import net.minecraftforge.event.terraingen.ChunkProviderEvent;
 import net.minecraftforge.event.terraingen.InitMapGenEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
+
+import static net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.*;
 
 public class ChunkProviderWasteland implements IChunkProvider {
   private Random rand;
@@ -184,8 +189,9 @@ public class ChunkProviderWasteland implements IChunkProvider {
     ChunkProviderEvent.ReplaceBiomeBlocks blockReplacementEvent = new ChunkProviderEvent.ReplaceBiomeBlocks(this, xChunk, zChunk, blocksForReplacement, metadataForReplacement, biomesForReplacement, world);
     MinecraftForge.EVENT_BUS.post((Event)blockReplacementEvent);
     if (blockReplacementEvent.getResult() == Event.Result.DENY)
-      return; 
-    this.stoneNoise = this.noiseGen4.func_151599_a(this.stoneNoise, (xChunk * 16), (zChunk * 16), 16, 16, 0.0625D, 0.0625D, 1.0D);
+      return;
+    double d0 = 0.03125D;
+    this.stoneNoise = this.noiseGen4.func_151599_a(this.stoneNoise, xChunk * 16, zChunk * 16, 16, 16, d0 * 2.0D, d0 * 2.0D, 1.0D);
     for (int i = 0; i < 16; i++) {
       for (int j = 0; j < 16; j++) {
         BiomeGenBase biomegenbase = biomesForReplacement[j + i * 16];
@@ -315,13 +321,18 @@ public class ChunkProviderWasteland implements IChunkProvider {
     long j1 = this.rand.nextLong() / 2L * 2L + 1L;
     this.rand.setSeed(par2 * i1 + par3 * j1 ^ this.worldObj.getSeed());
     boolean bln = false;
+    
     MinecraftForge.EVENT_BUS.post((Event)new PopulateChunkEvent.Pre(par1IChunkProvider, this.worldObj, this.rand, par2, par3, bln));
+    
     if (this.mapFeaturesEnabled) {
+      
       this.mineshaftGenerator.generateStructuresInChunk(this.worldObj, this.rand, par2, par3);
       bln = this.villageGenerator.generateStructuresInChunk(this.worldObj, this.rand, par2, par3);
       this.strongholdGenerator.generateStructuresInChunk(this.worldObj, this.rand, par2, par3);
       this.scatteredFeatureGenerator.generateStructuresInChunk(this.worldObj, this.rand, par2, par3);
+      
     } 
+    
     boolean doGen = TerrainGen.populate(par1IChunkProvider, this.worldObj, this.rand, par2, par3, bln, PopulateChunkEvent.Populate.EventType.DUNGEON);
     int var1;
     for (var1 = 0; doGen && var1 < 8; var1++) {

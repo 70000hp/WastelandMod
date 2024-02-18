@@ -45,17 +45,17 @@ public class CityLootConfig {
   public static void load(Configuration config) {
     config.load();
     config.setCategoryComment("Loot Amount", "Total itemstacks in chests. Randomized between max and min");
-    easyLootMax = config.getInt("Common village chest items MAX", "Loot Amount", 20, 0, 27, "");
-    easyLootMin = config.getInt("Common village chest items MIN", "Loot Amount", 12, 0, 27, "");
+    easyLootMax = config.getInt("Common village chest items MAX", "Loot Amount", 26, 0, 27, "");
+    easyLootMin = config.getInt("Common village chest items MIN", "Loot Amount", 20, 0, 27, "");
     easyLootRepeat = config.getBoolean("Common village chest item duplicates", "Loot Amount", true, "Set to false to prevent item duplicates in a spawned chest. If items MAX > total types of items, item MAX = total types");
-    midLootMax = config.getInt("Uncommon village chest items MAX", "Loot Amount", 16, 0, 27, "");
-    midLootMin = config.getInt("Uncommon village chest items MIN", "Loot Amount", 10, 0, 27, "");
+    midLootMax = config.getInt("Uncommon village chest items MAX", "Loot Amount", 25, 0, 27, "");
+    midLootMin = config.getInt("Uncommon village chest items MIN", "Loot Amount", 20, 0, 27, "");
     midLootRepeat = config.getBoolean("Uncommon village chest item duplicates", "Loot Amount", true, "Set to false to prevent item duplicates in a spawned chest. If items MAX > total types of items, item MAX = total types");
-    hardLootMax = config.getInt("Rare village chest items MAX", "Loot Amount", 13, 0, 27, "");
-    hardLootMin = config.getInt("Rare village chest items MIN", "Loot Amount", 10, 0, 27, "");
+    hardLootMax = config.getInt("Rare village chest items MAX", "Loot Amount", 24, 0, 27, "");
+    hardLootMin = config.getInt("Rare village chest items MIN", "Loot Amount", 15, 0, 27, "");
     hardLootRepeat = config.getBoolean("Rare village chest item duplicates", "Loot Amount", true, "Set to false to prevent item duplicates in a spawned chest. If items MAX > total types of items, item MAX = total types");
-    ultraLootMax = config.getInt("Rare village chest items MAX", "Loot Amount", 12, 0, 27, "");
-    ultraLootMin = config.getInt("Rare village chest items MIN", "Loot Amount", 8, 0, 27, "");
+    ultraLootMax = config.getInt("Rare village chest items MAX", "Loot Amount", 20, 0, 27, "");
+    ultraLootMin = config.getInt("Rare village chest items MIN", "Loot Amount", 15, 0, 27, "");
     ultraLootRepeat = config.getBoolean("Rare village chest item duplicates", "Loot Amount", true, "Set to false to prevent item duplicates in a spawned chest. If items MAX > total types of items, item MAX = total types");
     config.setCategoryComment("Loot List", "Add item names chest loot. Do NOT skip or add blank lines. Format for items:\nmod_name:item_name:damage_value,max,min\nCheck mod language registry for item names. max = maximum stack size, min = minimum stack size. If max/min stack size > game stack limit, game will chose the stack limit.");
     easyLoot = config.get("Loot List", "Common chest loot items", new String[] { "minecraft:mushroom_stew,1,1", "minecraft:bread,2,1", "minecraft:wheat,6,2", "minecraft:apple,3,1", "minecraft:gunpowder,8,2", "minecraft:string,8,2", "minecraft:dye,4,2", "minecraft:rotten_flesh,6,1" }).getStringList();

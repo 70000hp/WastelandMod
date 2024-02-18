@@ -15,15 +15,9 @@ public class ModConfig {
   
   public static int clayRarity;
   
-  public static int randomFirePerChunk;
-  
   public static int minVillageDistance;
   
   public static int wastelandRuinRarirty;
-  
-  public static int forestRuinRarity;
-  
-  public static int mountainRuinRarity;
   
   public static String surfaceBlockString;
   
@@ -36,8 +30,7 @@ public class ModConfig {
   public static int mountainBiomeID;
   
   public static int forestBiomeID;
-  
-  public static int cityBiomeID;
+
   
   public static int radioactiveBiomeID;
   
@@ -71,16 +64,12 @@ public class ModConfig {
     apocalypseBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland Biome ID", 43);
     mountainBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland Mountains Biome ID", 44);
     forestBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland Forest Biome ID", 45);
-    cityBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland City Biome ID", 46);
-    radioactiveBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Radioactive Wasteland Biome ID", 47);
+    radioactiveBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Radioactive Wasteland Biome ID", 46);
     config.setCategoryComment("Worldgen", "General world generation config");
-    wastelandTreeSpawnRate = ConfigHelper.createConfigInt(config,"Worldgen", "Dead Tree Rarity", 2);
-    randomFirePerChunk = ConfigHelper.createConfigInt(config,"Worldgen", "Wasteland fires per chunk", 1);
-    minVillageDistance = ConfigHelper.createConfigInt(config,"Worldgen", "Min chunks between abandoned towns", 12);
-    wastelandRuinRarirty = ConfigHelper.createConfigInt(config,"Worldgen", "Wasteland ruins rarity", 50);
-    forestRuinRarity = ConfigHelper.createConfigInt(config,"Worldgen", "Forest tent/treehouse/ruins rarity", 50);
-    mountainRuinRarity = ConfigHelper.createConfigInt(config,"Worldgen", "Mountain ruins rarity", 50);
-    lakeSpawnRate = ConfigHelper.createConfigInt(config,"Worldgen", "Radioactive waste lake rarity", 50);
+    wastelandTreeSpawnRate = ConfigHelper.createConfigInt(config,"Worldgen", "Dead Tree Rarity", 10);
+    minVillageDistance = ConfigHelper.createConfigInt(config,"Worldgen", "Min chunks between abandoned towns", 32);
+    wastelandRuinRarirty = ConfigHelper.createConfigInt(config,"Worldgen", "Wasteland ruins rarity", 20);
+    lakeSpawnRate = ConfigHelper.createConfigInt(config,"Worldgen", "Radioactive waste lake rarity", 20);
     clayRarity = ConfigHelper.createConfigInt(config,"Worldgen", "Clay rarity", 3);
     forceDisableGrass = config.getBoolean("Force disable grass generation", "Worldgen", false, "Set to true to disable grass blocks generation added by other mods");
     forceDisableGrassRadius = config.getInt("Grass replace radius", "Worldgen", 2, 0, 16, "Radius (in chunks) to check to replace generated grass blocks\nIf you're not sure what this does, dont change it");

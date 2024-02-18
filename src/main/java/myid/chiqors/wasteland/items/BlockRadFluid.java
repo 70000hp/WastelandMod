@@ -22,8 +22,7 @@ public class BlockRadFluid extends BlockFluidClassic {
   
   @SideOnly(Side.CLIENT)
   protected IIcon flowingIcon;
-  
-  private long tickedWorldTime;
+
   
   public BlockRadFluid(Fluid fluid, Material material) {
     super(fluid, material);
@@ -37,18 +36,6 @@ public class BlockRadFluid extends BlockFluidClassic {
   public void registerBlockIcons(IIconRegister register) {
     this.stillIcon = register.registerIcon("WLM:toxic_still");
     this.flowingIcon = register.registerIcon("WLM:toxic_flow");
-  }
-  
-  public boolean canDisplace(IBlockAccess world, int x, int y, int z) {
-    if (world.getBlock(x, y, z).getMaterial().isLiquid())
-      return false; 
-    return super.canDisplace(world, x, y, z);
-  }
-  
-  public boolean displaceIfPossible(World world, int x, int y, int z) {
-    if (world.getBlock(x, y, z).getMaterial().isLiquid())
-      return false; 
-    return super.displaceIfPossible(world, x, y, z);
   }
   
   public void onEntityCollidedWithBlock(World world, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) {

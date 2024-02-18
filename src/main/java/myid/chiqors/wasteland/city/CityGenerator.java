@@ -6,7 +6,6 @@ import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.registry.GameRegistry;
 import myid.chiqors.wasteland.Wasteland;
-import myid.chiqors.wasteland.WastelandBiomes;
 import myid.chiqors.wasteland.config.ModConfig;
 import myid.chiqors.wasteland.items.LootStack;
 import myid.chiqors.wasteland.ruin.Layout;
@@ -30,7 +29,7 @@ public class CityGenerator implements IWorldGenerator {
   private boolean loadedWorld;
   
   public CityGenerator() {
-    GameRegistry.registerWorldGenerator(toIWorldGenerator(), 20);
+    GameRegistry.registerWorldGenerator(toIWorldGenerator(), 8);
     cityLocation = new ArrayList<Vector>();
     cityNum = 0;
     this.loadedWorld = false;
@@ -49,7 +48,8 @@ public class CityGenerator implements IWorldGenerator {
     MultiVector currentLoc = new MultiVector(chunkX * 16, Layout.getWorldHeight(world, chunkX * 16, chunkZ * 16), chunkZ * 16);
     if (random.nextInt(ModConfig.cityChance) == 0
             && checkDist(currentLoc, (ModConfig.minCityDistance * 16))
-            && !BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16), BiomeDictionary.Type.WATER)) {
+            && !BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16), BiomeDictionary.Type.WATER)
+    ) {
 
       if (!generating && !world.isRemote) {
         Wasteland.NETWORK.sendToAll((IMessage)Message.createChatMessage("Generating world structures (please wait)..."));
@@ -57,7 +57,7 @@ public class CityGenerator implements IWorldGenerator {
         generating = true;
         List<MultiVector> chunks = new ArrayList<MultiVector>();
         chunks.add(currentLoc);
-        addConnectedBiomeChunks(chunks, currentLoc, world, ModConfig.minCityDistance * 16);
+        addConnectedBiomeChunks(chunks, currentLoc, world, ModConfig.maxCitySize * 16);
         MultiVector center = getCenterChunk(chunks, world);
         if (chunks.size() > 0 && center != null) {
           System.out.println("Generating City at X:" + center.X + " Z:" + center.Z + " Size: " + chunks.size());

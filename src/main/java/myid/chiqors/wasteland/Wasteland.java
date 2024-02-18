@@ -82,7 +82,7 @@ public class Wasteland {
     Configuration spawnConfig = new Configuration(new File("config/Wasteland/CreatureSpawns.cfg"));
     EntitySpawnConfig.load(spawnConfig);
     BiomeGenWastelandBase.load();
-    GameRegistry.registerWorldGenerator((new PostModWorldGenerator()).toIWorldGenerator(), 7);
+    //GameRegistry.registerWorldGenerator((new PostModWorldGenerator()).toIWorldGenerator(), 7);
   }
 
 }

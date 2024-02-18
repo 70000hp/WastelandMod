@@ -5,9 +5,7 @@ package myid.chiqors.wasteland.world;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import myid.chiqors.wasteland.WastelandBiomes;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.Random;
 import net.minecraft.crash.CrashReport;
@@ -25,7 +23,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.WorldTypeEvent;
 
 public class WorldChunkManagerWasteland extends WorldChunkManager {
-  public static ArrayList<BiomeGenBase> allowedBiomes = new ArrayList<BiomeGenBase>(Arrays.asList(new BiomeGenBase[] { WastelandBiomes.apocalypse, WastelandBiomes.mountains, WastelandBiomes.forest }));
   
   private GenLayer genBiomes;
   
@@ -33,14 +30,10 @@ public class WorldChunkManagerWasteland extends WorldChunkManager {
   
   private BiomeCache biomeCache;
   
-  private List biomesToSpawnIn;
-  
   private static final String __OBFID = "CL_00000166";
   
   protected WorldChunkManagerWasteland() {
     this.biomeCache = new BiomeCache(this);
-    this.biomesToSpawnIn = new ArrayList();
-    this.biomesToSpawnIn.addAll(allowedBiomes);
   }
   
   public WorldChunkManagerWasteland(long p_i1975_1_, WorldType p_i1975_3_) {
@@ -56,7 +49,7 @@ public class WorldChunkManagerWasteland extends WorldChunkManager {
   }
   
   public List getBiomesToSpawnIn() {
-    return this.biomesToSpawnIn;
+    return allowedBiomes;
   }
   
   public BiomeGenBase getBiomeGenAt(int p_76935_1_, int p_76935_2_) {
@@ -113,30 +106,6 @@ public class WorldChunkManagerWasteland extends WorldChunkManager {
       crashreportcategory.addCrashSection("h", Integer.valueOf(p_76937_5_));
       throw new ReportedException(crashreport);
     } 
-  }
-  
-  private static BiomeGenBase pickBiome(BiomeGenBase[] biomes) {
-    int[] weight = new int[biomes.length];
-    Random rand = new Random();
-    int totalWeight = 0;
-    for (int i = 0; i < biomes.length; i++) {
-      if ((biomes[i]).biomeID == WastelandBiomes.apocalypse.biomeID) {
-        weight[i] = 10;
-      } else if ((biomes[i]).biomeID == WastelandBiomes.forest.biomeID) {
-        weight[i] = 10;
-      } else if ((biomes[i]).biomeID == WastelandBiomes.mountains.biomeID) {
-        weight[i] = 10;
-      } 
-      totalWeight += weight[i];
-    } 
-    int num = rand.nextInt(totalWeight);
-    int sum = 0;
-    for (int j = 0; j < biomes.length; j++) {
-      sum += weight[j];
-      if (sum > num)
-        return biomes[j]; 
-    } 
-    return pickBiome(biomes);
   }
   
   public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] p_76933_1_, int p_76933_2_, int p_76933_3_, int p_76933_4_, int p_76933_5_) {
