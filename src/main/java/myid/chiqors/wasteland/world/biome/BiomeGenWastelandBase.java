@@ -27,7 +27,7 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
   public int treeSpawnRate = ModConfig.wastelandTreeSpawnRate;
   public int treesPerChunk = 1;
   public boolean temples = false;
-  public boolean wasteTerrain = true;
+  public boolean wasteTerrain = false;
   private static int lastID = 0;
   
   public BiomeGenWastelandBase(int par1ID, String par2Name, BiomeGenBase.Height biomeHeight) {
@@ -42,21 +42,32 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
   }
   
   public static void load() {
-    BiomeGenBase apocalypse = (new BiomeGenApocalypse(ModConfig.apocalypseBiomeID, "Wasteland", BiomeGenBase.height_LowPlains)).setColor(14728553);
-    BiomeGenBase apocMountains = (new BiomeGenMountains(ModConfig.mountainBiomeID, "Wasteland Mountains", height_WastelandMountains)).setColor(10255379);
-    BiomeGenBase apocForest = (new BiomeGenForest(ModConfig.forestBiomeID, "Wasteland Forest", BiomeGenBase.height_MidPlains)).setColor(10793807);
-    BiomeGenBase radioactive = (new BiomeGenRadioactive(ModConfig.radioactiveBiomeID, "Radioactive Wasteland", BiomeGenBase.height_Shores)).setColor(6088238);
+    BiomeGenBase apocalypse = (new BiomeGenApocalypse(ModConfig.apocalypseBiomeID, "Wasteland", BiomeGenBase.height_LowPlains)).setColor(14728553).setTemperatureRainfall(0.8F, 0.2F);
+    BiomeGenBase apocMountains = (new BiomeGenMountains(ModConfig.mountainBiomeID, "Wasteland Mountains", height_WastelandMountains)).setColor(10255379).setTemperatureRainfall(0.7F, 0.3F);
+    BiomeGenBase apocForest = (new BiomeGenForest(ModConfig.forestBiomeID, "Wasteland Forest", BiomeGenBase.height_MidPlains, false)).setColor(10793807).setTemperatureRainfall(0.7F, 0.6F);
+    BiomeGenBase radioactive = (new BiomeGenRadioactive(ModConfig.radioactiveBiomeID, "Radioactive Wasteland", BiomeGenBase.height_Shores)).setColor(6088238).setTemperatureRainfall(0.5F, 0.5F);
     BiomeGenBase tundra = (new BiomeGenWastelandTundra(ModConfig.radioactiveBiomeID + 1, "Wasteland Tundra", BiomeGenBase.height_LowPlains)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(10526880);
     BiomeGenBase tundraHills = (new BiomeGenWastelandTundra(ModConfig.radioactiveBiomeID + 2, "Wasteland Mountains", BiomeGenBase.height_HighPlateaus)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(10526880);
     BiomeGenBase tundraForest = (new BiomeGenWastelandTaiga(ModConfig.radioactiveBiomeID + 3, "Wasteland Taiga", BiomeGenBase.height_MidPlains)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(747097);
+    BiomeGenBase desert = (new BiomeGenWastelandDesert(ModConfig.radioactiveBiomeID + 4, "Wasteland Desert", BiomeGenBase.height_LowHills)).setColor(747097).setTemperatureRainfall(1.5F, 0.0F);
+    BiomeGenBase mesa = (new BiomeGenWastelandMesa(ModConfig.radioactiveBiomeID + 5, "Wasteland Mesa", BiomeGenBase.height_Default, false)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
+    BiomeGenBase bryce = (new BiomeGenWastelandMesa(ModConfig.radioactiveBiomeID + 6, "Wasteland Bryce", BiomeGenBase.height_Default, true)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
+
     BiomeDictionary.registerBiomeType(apocalypse, BiomeDictionary.Type.WASTELAND);
     BiomeDictionary.registerBiomeType(apocMountains, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.MOUNTAIN);
     BiomeDictionary.registerBiomeType(apocForest, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.FOREST);
+    BiomeDictionary.registerBiomeType(apocForest.createMutation(), BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.FOREST);
     BiomeDictionary.registerBiomeType(radioactive, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.SWAMP);
     BiomeDictionary.registerBiomeType(tundra, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.CONIFEROUS, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SNOWY);
     BiomeDictionary.registerBiomeType(tundraHills, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.MOUNTAIN, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SNOWY);
     BiomeDictionary.registerBiomeType(tundraForest, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.CONIFEROUS, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SNOWY);
+    BiomeDictionary.registerBiomeType(desert, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.DRY);
+    BiomeDictionary.registerBiomeType(mesa, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
+    BiomeDictionary.registerBiomeType(mesa.createMutation(), BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
+    BiomeDictionary.registerBiomeType(bryce, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
     BiomeManager.addSpawnBiome(apocalypse);
+    BiomeManager.addSpawnBiome(desert);
+    BiomeManager.addSpawnBiome(mesa);
     BiomeManager.addSpawnBiome(tundra);
     BiomeManager.addSpawnBiome(tundraHills);
     BiomeManager.addSpawnBiome(apocMountains);

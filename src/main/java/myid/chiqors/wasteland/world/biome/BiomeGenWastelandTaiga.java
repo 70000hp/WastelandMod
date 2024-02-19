@@ -19,11 +19,12 @@ public class BiomeGenWastelandTaiga extends BiomeGenWastelandBase
     public BiomeGenWastelandTaiga(int par1ID, String par2Name, BiomeGenBase.Height par3BiomeHeight) {
         super(par1ID, par2Name, par3BiomeHeight);
         treesPerChunk = 2;
-        treeSpawnRate /= 3;
+        treeSpawnRate /= 2;
         temples = true;
         this.theBiomeDecorator.grassPerChunk = 2;
         this.theBiomeDecorator.deadBushPerChunk = 6;
         this.theBiomeDecorator.mushroomsPerChunk = 6;
+
     }
 
     /**
@@ -50,22 +51,12 @@ public class BiomeGenWastelandTaiga extends BiomeGenWastelandBase
             int k1 = world.getHeightValue(i1, j1);
             field_150643_aG.generate(world, p_76728_2_, i1, k1, j1);
         }
-        if(world.rand.nextInt(8) == 0){
+        if(world.rand.nextInt(6) == 0){
             l = p_76728_3_ + p_76728_2_.nextInt(16) + 8;
             i1 = p_76728_4_ + p_76728_2_.nextInt(16) + 8;
             this.field_150616_aD.generate(world, p_76728_2_, l, world.getHeightValue(l, i1), i1);
         }
         super.decorate(world, p_76728_2_, p_76728_3_, p_76728_4_);
-    }
-
-    public void genTerrainBlocks(World p_150573_1_, Random p_150573_2_, Block[] p_150573_3_, byte[] p_150573_4_, int p_150573_5_, int p_150573_6_, double p_150573_7_)
-    {
-
-        this.fillerBlock = Blocks.dirt;
-        this.topBlock = Blocks.dirt;
-        this.field_150604_aj = 1;
-
-        this.genBiomeTerrain(p_150573_1_, p_150573_2_, p_150573_3_, p_150573_4_, p_150573_5_, p_150573_6_, p_150573_7_);
     }
 
 }

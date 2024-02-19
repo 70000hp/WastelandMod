@@ -61,11 +61,18 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
                                 b0 = 0;
                                 block1 = Blocks.stone;
                             }
-                            else if (l1 >= 59 && l1 <= 64)
+                            else if (l1 >= 59 && l1 <= 70)
                             {
-                                block = this.topBlock;
-                                b0 = (byte)(this.field_150604_aj & 255);
-                                block1 = this.fillerBlock;
+                                if(wasteTerrain){
+                                    int type = random.nextInt(3);
+                                    block = type == 0 ? Blocks.hardened_clay : this.topBlock;
+                                    if (type == 2){
+                                        b0 = 2;
+                                    }
+                                } else {
+                                    block = this.topBlock;
+                                    b0 = (byte) (this.field_150604_aj & 255);
+                                }
                             }
 
                             if (l1 < 63)

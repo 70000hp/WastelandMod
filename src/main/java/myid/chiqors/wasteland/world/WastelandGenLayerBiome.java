@@ -23,13 +23,18 @@ public class WastelandGenLayerBiome extends GenLayer {
     for (i = 0; i < 10; i++) {
       this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID), 10));
       this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID), 12));
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mountainBiomeID), 12));
+      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID + 128), 11));
+      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mountainBiomeID), 11));
       this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 2), 10));
       this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 3), 10));
+      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 6), 9));
+      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 5 + 128), 9));
     }
     for (i = 0; i < 20; i++){
       this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.apocalypseBiomeID), 10));
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 1), 10));
+      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 4), 8));
+      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 5), 7));
+      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 1), 8));
     }
   }
   public static GenLayer[] initializeAllBiomeGenerators(long p_75901_0_, WorldType p_75901_2_)
