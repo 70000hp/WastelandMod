@@ -93,7 +93,7 @@ public class Building {
   
   public boolean generate(World world, Random random, Vector pos, int rot) {
     int maxSize, minSize, numHoles;
-    Block top = world.getWorldChunkManager() instanceof WorldChunkManagerWasteland ? ModConfig.getSurfaceBlock() : Blocks.grass;
+    Block top = world.getWorldChunkManager() instanceof WorldChunkManagerWasteland ?  world.getBiomeGenForCoords(pos.X, pos.Z).topBlock : Blocks.grass;
     RuinGenHelper.setWorld(world);
     if (this.blocks.length < 100) {
       numHoles = 1;
@@ -154,8 +154,11 @@ public class Building {
               CustomItemStack.placeLoot(random, chest, CustomItemStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
             } else {
               RuinGenHelper.setBlock(pos.X + x, pos.Y + j, pos.Z + z, Block.getBlockById(this.blocks[count]), this.data[count]);
-            } 
-          } 
+            }
+          }
+          int var3 = world.getPrecipitationHeight(x + pos.X, z + pos.Z );
+          if (world.func_147478_e(x + pos.X, var3, z + pos.Z , true))
+            world.setBlock(x + pos.X, var3, z + pos.Z , Blocks.snow_layer, 0, 2);
           count++;
         } 
       } 

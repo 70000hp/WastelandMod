@@ -28,7 +28,7 @@ import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
 
-@Mod(modid = "WLM", name = "The Wasteland Mod", version = "1.4.2", useMetadata = true)
+@Mod(modid = "WLM", name = "The Wasteland Mod", version = "1.4.5", useMetadata = true)
 public class Wasteland {
   public static WorldType wastelandWorldType;
   

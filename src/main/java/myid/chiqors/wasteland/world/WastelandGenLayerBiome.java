@@ -13,29 +13,41 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.layer.*;
 import net.minecraftforge.common.BiomeManager;
 
+
 public class WastelandGenLayerBiome extends GenLayer {
-  private List<BiomeManager.BiomeEntry> biomes = new ArrayList<BiomeManager.BiomeEntry>();
+  private ArrayList<BiomeManager.BiomeEntry>[] biomes = new ArrayList[BiomeManager.BiomeType.values().length];
 
   public WastelandGenLayerBiome(long p_i2122_1_, GenLayer p_i2122_3_) {
     super(p_i2122_1_);
     this.parent = p_i2122_3_;
-    int i;
-    for (i = 0; i < 10; i++) {
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID), 10));
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID), 12));
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID + 128), 11));
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mountainBiomeID), 11));
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 2), 10));
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 3), 10));
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 6), 9));
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 5 + 128), 9));
+    for (BiomeManager.BiomeType type : BiomeManager.BiomeType.values())
+    {
+      int idx = type.ordinal();
+      if (biomes[idx] == null) biomes[idx] = new ArrayList<BiomeManager.BiomeEntry>();
     }
-    for (i = 0; i < 20; i++){
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.apocalypseBiomeID), 10));
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 4), 8));
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 5), 7));
-      this.biomes.add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 1), 8));
-    }
+
+    //no cool and icy biomes plox
+    this.biomes[BiomeManager.BiomeType.WARM.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID), 7));
+    this.biomes[BiomeManager.BiomeType.WARM.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID), 10));
+    this.biomes[BiomeManager.BiomeType.WARM.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.apocalypseBiomeID), 10));
+    this.biomes[BiomeManager.BiomeType.WARM.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mountainBiomeID), 8));
+
+    this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 6), 9));
+    this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 5), 9));
+    this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 5 + 128), 8));
+    this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 4), 10));
+
+    this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 1), 7));
+    this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID), 7));
+    this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mountainBiomeID), 8));
+    this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID + 128), 9));
+
+    this.biomes[BiomeManager.BiomeType.ICY.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID + 128), 7));
+    this.biomes[BiomeManager.BiomeType.ICY.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 2), 8));
+    this.biomes[BiomeManager.BiomeType.ICY.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 3), 9));
+    this.biomes[BiomeManager.BiomeType.ICY.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.radioactiveBiomeID + 1), 10));
+
+
   }
   public static GenLayer[] initializeAllBiomeGenerators(long p_75901_0_, WorldType p_75901_2_)
   {
@@ -100,15 +112,39 @@ public class WastelandGenLayerBiome extends GenLayer {
   public int[] getInts(int p_75904_1_, int p_75904_2_, int p_75904_3_, int p_75904_4_) {
     int[] aint = this.parent.getInts(p_75904_1_, p_75904_2_, p_75904_3_, p_75904_4_);
     int[] aint1 = IntCache.getIntCache(p_75904_3_ * p_75904_4_);
-    for (int i1 = 0; i1 < p_75904_4_; i1++) {
-      for (int j1 = 0; j1 < p_75904_3_; j1++) {
-        initChunkSeed((j1 + p_75904_1_), (i1 + p_75904_2_));
+    for (int i1 = 0; i1 < p_75904_4_; ++i1)
+    {
+      for (int j1 = 0; j1 < p_75904_3_; ++j1)
+      {
+        this.initChunkSeed((long)(j1 + p_75904_1_), (long)(i1 + p_75904_2_));
         int k1 = aint[j1 + i1 * p_75904_3_];
-        int l1 = (k1 & 0xF00) >> 8;
-        k1 &= 0xFFFFF0FF;
-        aint1[j1 + i1 * p_75904_3_] = ((BiomeManager.BiomeEntry)WeightedRandom.getItem(this.biomes, (int)(nextLong((WeightedRandom.getTotalWeight(this.biomes) / 10)) * 10L))).biome.biomeID;
-      } 
-    } 
+        k1 &= -3841;
+
+       if (k1 == 1)
+        {
+          aint1[j1 + i1 * p_75904_3_] = getWeightedBiomeEntry(BiomeManager.BiomeType.DESERT).biome.biomeID;
+        }
+        else if (k1 == 2)
+        {
+          aint1[j1 + i1 * p_75904_3_] = getWeightedBiomeEntry(BiomeManager.BiomeType.WARM).biome.biomeID;
+        }
+        else if (k1 == 3)
+        {
+          aint1[j1 + i1 * p_75904_3_] = getWeightedBiomeEntry(BiomeManager.BiomeType.COOL).biome.biomeID;
+        }
+        else
+        {
+          aint1[j1 + i1 * p_75904_3_] = getWeightedBiomeEntry(BiomeManager.BiomeType.ICY).biome.biomeID;
+        }
+      }
+    }
     return aint1;
+  }
+  protected BiomeManager.BiomeEntry getWeightedBiomeEntry(BiomeManager.BiomeType type)
+  {
+    List<BiomeManager.BiomeEntry> biomeList = biomes[type.ordinal()];
+    int totalWeight = WeightedRandom.getTotalWeight(biomeList);
+    int weight = BiomeManager.isTypeListModded(type)?nextInt(totalWeight):nextInt(totalWeight / 10) * 10;
+    return (BiomeManager.BiomeEntry)WeightedRandom.getItem(biomeList, weight);
   }
 }

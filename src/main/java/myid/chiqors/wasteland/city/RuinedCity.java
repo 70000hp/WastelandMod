@@ -113,9 +113,9 @@ public class RuinedCity {
               y2 = block.cornerHeight[0];
             } else {
               y2 = block.cornerHeight[2 * w + l + i + 1];
-            } 
+            }
             generateRoad(world, x + j, z + i * 16 - roadWidth, y1 + hOffset, y2 + hOffset, 16 + roadWidth * 2, false, r);
-          }  
+          }
       } 
     } 
   }
@@ -123,7 +123,7 @@ public class RuinedCity {
   private void generateRoad(World world, int x, int z, int y1, int y2, int length, boolean dir, Random r) {
     int odds = 10;
     Block roadBlock = Blocks.stained_hardened_clay;
-    Block surfaceBlock = ModConfig.getSurfaceBlock();
+    Block surfaceBlock = world.getBiomeGenForCoords(x,z).topBlock;
     if (dir) {
       for (int i = 0; i < length; i++) {
         boolean f = (r.nextInt(odds) == 0);
@@ -135,8 +135,11 @@ public class RuinedCity {
           world.setBlock(x + i, y2, z, f ? surfaceBlock : roadBlock, f ? 0 : 15, 2);
           clearAbove(x + i, y2 + 1, z, 90, world);
           fillBelow(x + i, y2 - 1, z, 3, world);
-        } 
-      } 
+        }
+        int var3 = world.getPrecipitationHeight(x + i, z);
+        if (world.func_147478_e(x + i, var3, z, true))
+          world.setBlock(x + i, var3, z, Blocks.snow_layer, 0, 2);
+      }
     } else {
       for (int i = 0; i < length; i++) {
         boolean f = (r.nextInt(odds) == 0);
@@ -148,7 +151,10 @@ public class RuinedCity {
           world.setBlock(x, y2, z + i, f ? surfaceBlock : roadBlock, f ? 0 : 15, 2);
           clearAbove(x, y2 + 1, z + i, 90, world);
           fillBelow(x, y2 - 1, z + i, 3, world);
-        } 
+        }
+        int var3 = world.getPrecipitationHeight(x, z + i);
+        if (world.func_147478_e(x, var3, z + i, true))
+          world.setBlock(x, var3, z + i, Blocks.snow_layer, 0, 2);
       } 
     } 
   }

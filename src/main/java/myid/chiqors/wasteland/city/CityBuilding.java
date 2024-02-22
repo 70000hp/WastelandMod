@@ -86,9 +86,10 @@ public class CityBuilding {
   
   public void generate(World world, Random random, Vector pos, int rot, int cityColour) {
     RuinGenHelper.setWorld(world);
-    Block top = !(world.getWorldChunkManager() instanceof WorldChunkManagerWasteland) ? surfaceBlock : Blocks.grass;
+    Block top = !(world.getWorldChunkManager() instanceof WorldChunkManagerWasteland) ? world.getBiomeGenForCoords(pos.X, pos.Z).topBlock : Blocks.grass;
     int count = 0;
     boolean doGen = true;
+    int flavor = random.nextInt(3);
     Vector p = new Vector(0, 0, 0);
     short j;
     for (j = 0; j < this.height; j = (short)(j + 1)) {
@@ -172,10 +173,15 @@ public class CityBuilding {
                 RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.planks, this.data[count]); 
             } else {
               RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Block.getBlockById(this.blocks[count]), this.data[count]);
-            }  
+            }
           doGen = true;
           count++;
-        } 
+         if(j == height - 1) {
+          int var3 = world.getPrecipitationHeight(p.X + pos.X, p.Z + pos.Z);
+          if (world.func_147478_e(p.X + pos.X, var3, p.Z + pos.Z, true))
+             world.setBlock(p.X + pos.X, var3, p.Z + pos.Z, Blocks.snow_layer, 0, 2);
+         }
+        }
       } 
     } 
   }
@@ -387,8 +393,7 @@ public class CityBuilding {
     System.out.println("Unknown City Building");
     return null;
   }
-  
-  public static final Block surfaceBlock = ModConfig.getSurfaceBlock();
+
   
   public static final int cobbleID = Block.getIdFromBlock(Blocks.cobblestone);
   

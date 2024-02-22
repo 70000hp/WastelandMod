@@ -180,12 +180,15 @@ public class CityBlock {
   
   private void generateBase(World world, Random random) {
     int roadWidth = 3;
-    Block surfaceBlock = world.getWorldChunkManager() instanceof WorldChunkManagerWasteland ? ModConfig.getSurfaceBlock() : Blocks.grass;;
+    Block surfaceBlock = world.getWorldChunkManager() instanceof WorldChunkManagerWasteland ? world.getBiomeGenForCoords(this.area.position.X,this.area.position.Z).topBlock : Blocks.grass;
     for (int j = roadWidth; j < this.area.length - roadWidth; j++) {
       for (int k = roadWidth; k < this.area.width - roadWidth; k++) {
         RuinedCity.clearAbove(this.area.position.X + k, this.area.position.Y, this.area.position.Z + j, 90, world);
         RuinGenHelper.setBlock(this.area.position.X + k, this.area.position.Y, this.area.position.Z + j, surfaceBlock);
         RuinedCity.fillBelow(this.area.position.X + k, this.area.position.Y - 1, this.area.position.Z + j, 15, world);
+        int var3 = world.getPrecipitationHeight(this.area.position.X + k, this.area.position.Z + j);
+        if (world.func_147478_e(this.area.position.X + k, var3, this.area.position.Z + j, true))
+          world.setBlock(this.area.position.X + k, var3, this.area.position.Z + j, Blocks.snow_layer, 0, 2);
       } 
     } 
     int rubble = this.area.length * this.area.width / 10;
@@ -197,6 +200,9 @@ public class CityBlock {
         Block b = (type == 0) ? Blocks.cobblestone : ((type == 1) ? Blocks.stonebrick : ((type == 2) ? Blocks.mossy_cobblestone : ((type == 3) ? Blocks.glass : ((type == 4) ? Blocks.gravel : surfaceBlock))));
         int m = (type == 1) ? random.nextInt(3) : 0;
         world.setBlock(this.area.position.X + x, this.area.position.Y + 1, this.area.position.Z + z, b, m, 2);
+        int var3 = world.getPrecipitationHeight(this.area.position.X + x, this.area.position.Z + z);
+        if (world.func_147478_e(this.area.position.X + x, var3, this.area.position.Z + z, true))
+          world.setBlock(this.area.position.X + x, var3, this.area.position.Z + z, Blocks.snow_layer, 0, 2);
       } else {
         world.setBlock(this.area.position.X + x, this.area.position.Y, this.area.position.Z + z, Blocks.air, 0, 2);
       } 
