@@ -46,12 +46,12 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
     BiomeGenBase apocMountains = (new BiomeGenMountains(ModConfig.mountainBiomeID, "Wasteland Mountains", height_WastelandMountains)).setColor(10255379).setTemperatureRainfall(0.7F, 0.3F);
     BiomeGenBase apocForest = (new BiomeGenForest(ModConfig.forestBiomeID, "Wasteland Forest", BiomeGenBase.height_MidPlains, false)).setColor(10793807).setTemperatureRainfall(0.7F, 0.6F);
     BiomeGenBase radioactive = (new BiomeGenRadioactive(ModConfig.radioactiveBiomeID, "Radioactive Wasteland", BiomeGenBase.height_Shores)).setColor(6088238).setTemperatureRainfall(0.5F, 0.5F);
-    BiomeGenBase tundra = (new BiomeGenWastelandTundra(ModConfig.radioactiveBiomeID + 1, "Wasteland Tundra", BiomeGenBase.height_LowPlains)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(10526880);
-    BiomeGenBase tundraHills = (new BiomeGenWastelandTundra(ModConfig.radioactiveBiomeID + 2, "Wasteland Mountains", BiomeGenBase.height_HighPlateaus)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(10526880);
-    BiomeGenBase tundraForest = (new BiomeGenWastelandTaiga(ModConfig.radioactiveBiomeID + 3, "Wasteland Taiga", BiomeGenBase.height_MidPlains)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(747097);
-    BiomeGenBase desert = (new BiomeGenWastelandDesert(ModConfig.radioactiveBiomeID + 4, "Wasteland Desert", BiomeGenBase.height_LowHills)).setColor(747097).setTemperatureRainfall(1.5F, 0.0F);
-    BiomeGenBase mesa = (new BiomeGenWastelandMesa(ModConfig.radioactiveBiomeID + 5, "Wasteland Mesa", BiomeGenBase.height_Default, false)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
-    BiomeGenBase bryce = (new BiomeGenWastelandMesa(ModConfig.radioactiveBiomeID + 6, "Wasteland Bryce", BiomeGenBase.height_Default, true)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
+    BiomeGenBase tundra = (new BiomeGenWastelandTundra(ModConfig.tundraBiomeID, "Wasteland Tundra", BiomeGenBase.height_LowPlains)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(10526880);
+    BiomeGenBase tundraHills = (new BiomeGenWastelandTundra(ModConfig.tundraHillsBiomeID, "Tundra Mountains", height_WastelandMountains)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(10526880);
+    BiomeGenBase tundraForest = (new BiomeGenWastelandTaiga(ModConfig.taigaBiomeID, "Wasteland Taiga", BiomeGenBase.height_MidPlains)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(747097);
+    BiomeGenBase desert = (new BiomeGenWastelandDesert(ModConfig.desertBiomeID, "Wasteland Desert", BiomeGenBase.height_LowHills)).setColor(747097).setTemperatureRainfall(1.5F, 0.0F);
+    BiomeGenBase mesa = (new BiomeGenWastelandMesa(ModConfig.mesaBiomeID, "Wasteland Mesa", BiomeGenBase.height_Default, false)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
+    BiomeGenBase bryce = (new BiomeGenWastelandMesa(ModConfig.bryceBiomeID, "Wasteland Bryce", BiomeGenBase.height_Default, true)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
 
     BiomeDictionary.registerBiomeType(apocalypse, BiomeDictionary.Type.WASTELAND);
     BiomeDictionary.registerBiomeType(apocMountains, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.MOUNTAIN);

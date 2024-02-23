@@ -26,14 +26,16 @@ public class ModConfig {
   public static String[] woodBlockStringList;
   
   public static int apocalypseBiomeID;
-  
   public static int mountainBiomeID;
-  
   public static int forestBiomeID;
-
-  
   public static int radioactiveBiomeID;
-  
+  public static int tundraBiomeID;
+  public static int tundraHillsBiomeID;
+  public static int taigaBiomeID;
+  public static int desertBiomeID;
+  public static int mesaBiomeID;
+  public static int bryceBiomeID;
+
   public static boolean spawnBunker;
   
   public static boolean disableSleep;
@@ -65,6 +67,13 @@ public class ModConfig {
     mountainBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland Mountains Biome ID", 44);
     forestBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland Forest Biome ID", 45);
     radioactiveBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Radioactive Wasteland Biome ID", 46);
+    tundraBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland Tundra Biome ID", 47);
+    tundraHillsBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Tundra Mountains Biome ID", 48);
+    taigaBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland Taiga", 49);
+    desertBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland Desert Biome ID", 50);
+    mesaBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Mesa Biome ID", 51);
+    bryceBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Radioactive Wasteland Biome ID", 52);
+
     config.setCategoryComment("Worldgen", "General world generation config");
     wastelandTreeSpawnRate = ConfigHelper.createConfigInt(config,"Worldgen", "Dead Tree Rarity", 10);
     minVillageDistance = ConfigHelper.createConfigInt(config,"Worldgen", "Min chunks between abandoned towns", 32);
