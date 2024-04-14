@@ -15,7 +15,6 @@ public class WorldGenWastelandClay extends WorldGenerator {
 
   private int numberOfBlocks;
 
-  private static final String __OBFID = "CL_00000405";
 
   public WorldGenWastelandClay(int p_i2011_1_) {
     this.numberOfBlocks = p_i2011_1_;

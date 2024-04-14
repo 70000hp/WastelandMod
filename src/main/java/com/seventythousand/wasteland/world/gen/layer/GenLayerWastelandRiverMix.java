@@ -11,7 +11,6 @@ public class GenLayerWastelandRiverMix extends WastelandGenLayerBiome
 {
     private GenLayer biomePatternGeneratorChain;
     private GenLayer riverPatternGeneratorChain;
-    private static final String __OBFID = "CL_00000567";
 
     public GenLayerWastelandRiverMix(long p_i2129_1_, GenLayer p_i2129_3_, GenLayer p_i2129_4_)
     {

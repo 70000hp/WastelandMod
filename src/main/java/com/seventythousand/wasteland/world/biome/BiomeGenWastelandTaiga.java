@@ -11,7 +11,6 @@ public class BiomeGenWastelandTaiga extends BiomeGenWastelandBase
 {
     private static WorldGenBlockBlob field_150643_aG = new WorldGenBlockBlob(Blocks.snow, 0);
     private WorldGenIceSpike field_150616_aD = new WorldGenIceSpike();
-    private static final String __OBFID = "CL_00000186";
 
     public BiomeGenWastelandTaiga(int par1ID, String par2Name, BiomeGenBase.Height par3BiomeHeight) {
         super(par1ID, par2Name, par3BiomeHeight);

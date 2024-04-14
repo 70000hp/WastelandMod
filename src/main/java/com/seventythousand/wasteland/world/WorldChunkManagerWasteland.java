@@ -30,7 +30,6 @@ public class WorldChunkManagerWasteland extends WorldChunkManager {
 
   private BiomeCache biomeCache;
 
-  private static final String __OBFID = "CL_00000166";
 
   protected WorldChunkManagerWasteland() {
     this.biomeCache = new BiomeCache(this);

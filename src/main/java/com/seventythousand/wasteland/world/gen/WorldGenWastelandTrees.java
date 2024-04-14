@@ -17,7 +17,6 @@ public class WorldGenWastelandTrees extends WorldGenAbstractTree
     private int metaWood;
     public boolean leaves;
 
-    private static final String __OBFID = "CL_00000438";
 
     public WorldGenWastelandTrees(boolean p_i2027_1_)
     {
