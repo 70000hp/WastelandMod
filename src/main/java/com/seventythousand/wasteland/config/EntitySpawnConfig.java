@@ -5,6 +5,8 @@ package com.seventythousand.wasteland.config;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
@@ -16,13 +18,6 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.config.Configuration;
 
 public class EntitySpawnConfig {
-  private static final String WASTELAND = "wasteland";
-
-  private static final String MOUNTAINS = "mountains";
-
-  private static final String FOREST = "forest";
-
-  private static final String CITY = "city";
 
   public static List<List<BiomeGenBase.SpawnListEntry>> wastelandCreatures;
 
@@ -48,7 +43,7 @@ public class EntitySpawnConfig {
     forestCreatures = copyArrayList(creatures);
     mountainsCreatures = copyArrayList(creatures);
     cityCreatures = copyArrayList(creatures);
-    Map<String, Object> entities = EntityList.classToStringMapping;
+    Map<Class<? extends Entity>, String> entities = EntityList.classToStringMapping;
     config.load();
     config.setCategoryComment("General", "");
     enableHostileSpawn = config.get("General", "Enable hostile creatures", true).getBoolean(true);
@@ -59,31 +54,31 @@ public class EntitySpawnConfig {
     int i;
     for (i = 0; i < hostileCreatures.size(); i++) {
       BiomeGenBase.SpawnListEntry entity = hostileCreatures.get(i);
-      String creatureConfig = config.get(category, entity.entityClass.getName(), "wasteland," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "forest" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "mountains" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "city" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + ",", entities.get(entity.entityClass).toString()).getString();
-      setValues(((List<BiomeGenBase.SpawnListEntry>)wastelandCreatures.get(0)).get(i), getSpawnValues(creatureConfig, "wasteland"));
-      setValues(((List<BiomeGenBase.SpawnListEntry>)forestCreatures.get(0)).get(i), getSpawnValues(creatureConfig, "forest"));
-      setValues(((List<BiomeGenBase.SpawnListEntry>)mountainsCreatures.get(0)).get(i), getSpawnValues(creatureConfig, "mountains"));
-      setValues(((List<BiomeGenBase.SpawnListEntry>)cityCreatures.get(0)).get(i), getSpawnValues(creatureConfig, "city"));
+      String creatureConfig = config.get(category, entity.entityClass.getName(), "wasteland," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "forest" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "mountains" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "city" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + ",", entities.get(entity.entityClass)).getString();
+      setValues(wastelandCreatures.get(0).get(i), getSpawnValues(creatureConfig, "wasteland"));
+      setValues(forestCreatures.get(0).get(i), getSpawnValues(creatureConfig, "forest"));
+      setValues(mountainsCreatures.get(0).get(i), getSpawnValues(creatureConfig, "mountains"));
+      setValues(cityCreatures.get(0).get(i), getSpawnValues(creatureConfig, "city"));
     }
     category = "Passive Creature List";
     config.setCategoryComment(category, "Class name = spawnWeight , minGroup , maxGorup  --- do not use spaces!");
     for (i = 0; i < passiveCreatures.size(); i++) {
       BiomeGenBase.SpawnListEntry entity = passiveCreatures.get(i);
-      String creatureConfig = config.get(category, entity.entityClass.getName(), "wasteland," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "forest" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "mountains" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "city" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + ",", entities.get(entity.entityClass).toString()).getString();
-      setValues(((List<BiomeGenBase.SpawnListEntry>)wastelandCreatures.get(1)).get(i), getSpawnValues(creatureConfig, "wasteland"));
-      setValues(((List<BiomeGenBase.SpawnListEntry>)forestCreatures.get(1)).get(i), getSpawnValues(creatureConfig, "forest"));
-      setValues(((List<BiomeGenBase.SpawnListEntry>)mountainsCreatures.get(1)).get(i), getSpawnValues(creatureConfig, "mountains"));
-      setValues(((List<BiomeGenBase.SpawnListEntry>)cityCreatures.get(1)).get(i), getSpawnValues(creatureConfig, "city"));
+      String creatureConfig = config.get(category, entity.entityClass.getName(), "wasteland," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "forest" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "mountains" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "city" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + ",", entities.get(entity.entityClass)).getString();
+      setValues(wastelandCreatures.get(1).get(i), getSpawnValues(creatureConfig, "wasteland"));
+      setValues(forestCreatures.get(1).get(i), getSpawnValues(creatureConfig, "forest"));
+      setValues(mountainsCreatures.get(1).get(i), getSpawnValues(creatureConfig, "mountains"));
+      setValues(cityCreatures.get(1).get(i), getSpawnValues(creatureConfig, "city"));
     }
     category = "Water Creature List";
     config.setCategoryComment(category, "Class name = spawnWeight , minGroup , maxGorup  --- do not use spaces!");
     for (i = 0; i < waterCreatures.size(); i++) {
       BiomeGenBase.SpawnListEntry entity = waterCreatures.get(i);
-      String creatureConfig = config.get(category, entity.entityClass.getName(), "wasteland," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "forest" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "mountains" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "city" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + ",", entities.get(entity.entityClass).toString()).getString();
-      setValues(((List<BiomeGenBase.SpawnListEntry>)wastelandCreatures.get(2)).get(i), getSpawnValues(creatureConfig, "wasteland"));
-      setValues(((List<BiomeGenBase.SpawnListEntry>)forestCreatures.get(2)).get(i), getSpawnValues(creatureConfig, "forest"));
-      setValues(((List<BiomeGenBase.SpawnListEntry>)mountainsCreatures.get(2)).get(i), getSpawnValues(creatureConfig, "mountains"));
-      setValues(((List<BiomeGenBase.SpawnListEntry>)cityCreatures.get(2)).get(i), getSpawnValues(creatureConfig, "city"));
+      String creatureConfig = config.get(category, entity.entityClass.getName(), "wasteland," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "forest" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "mountains" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + "," + "city" + "," + entity.itemWeight + "," + entity.minGroupCount + "," + entity.maxGroupCount + ",", entities.get(entity.entityClass)).getString();
+      setValues(wastelandCreatures.get(2).get(i), getSpawnValues(creatureConfig, "wasteland"));
+      setValues(forestCreatures.get(2).get(i), getSpawnValues(creatureConfig, "forest"));
+      setValues(mountainsCreatures.get(2).get(i), getSpawnValues(creatureConfig, "mountains"));
+      setValues(cityCreatures.get(2).get(i), getSpawnValues(creatureConfig, "city"));
     }
     config.save();
   }
@@ -151,10 +146,11 @@ public class EntitySpawnConfig {
     return creatures;
   }
 
+  @SuppressWarnings("unchecked")
   private static void addRemainingCreatures(List<List<BiomeGenBase.SpawnListEntry>> creatures) {
-    Map<String, Object> entities = EntityList.stringToClassMapping;
+    Map<String, Class<? extends Entity>> entities = EntityList.stringToClassMapping;
     for (String entityName : entities.keySet()) {
-      Class<?> entity = (Class)entities.get(entityName);
+      Class<? extends EntityLiving> entity = (Class<? extends EntityLiving>) entities.get(entityName);
       boolean containsCreature = false;
       if (EntityLiving.class.isAssignableFrom(entity)) {
           for (List<BiomeGenBase.SpawnListEntry> creature : creatures) {
@@ -163,14 +159,14 @@ public class EntitySpawnConfig {
           }
         if (!containsCreature && !entity.equals(EntityMob.class) && !entity.equals(EntityLiving.class)) {
           if (IMob.class.isAssignableFrom(entity) || EntityMob.class.isAssignableFrom(entity)) {
-            ((List<BiomeGenBase.SpawnListEntry>)creatures.get(0)).add(new BiomeGenBase.SpawnListEntry(entity, 0, 0, 0));
+            creatures.get(0).add(new BiomeGenBase.SpawnListEntry(entity, 0, 0, 0));
             continue;
           }
           if (EntityWaterMob.class.isAssignableFrom(entity)) {
-            ((List<BiomeGenBase.SpawnListEntry>)creatures.get(2)).add(new BiomeGenBase.SpawnListEntry(entity, 0, 0, 0));
+            creatures.get(2).add(new BiomeGenBase.SpawnListEntry(entity, 0, 0, 0));
             continue;
           }
-          ((List<BiomeGenBase.SpawnListEntry>)creatures.get(1)).add(new BiomeGenBase.SpawnListEntry(entity, 0, 0, 0));
+          creatures.get(1).add(new BiomeGenBase.SpawnListEntry(entity, 0, 0, 0));
         }
       }
     }
@@ -194,9 +190,9 @@ public class EntitySpawnConfig {
   }
 
   public static void printString(List<BiomeGenBase.SpawnListEntry> list) {
-    Map<String, Object> entities = EntityList.classToStringMapping;
+    Map<Class<? extends Entity>, String> entities = EntityList.classToStringMapping;
       for (BiomeGenBase.SpawnListEntry entry : list) {
-          System.out.println(entities.get(entry.entityClass).toString() + ": " + entry.itemWeight + " " + entry.minGroupCount + " " + entry.maxGroupCount);
+          System.out.println(entities.get(entry.entityClass) + ": " + entry.itemWeight + " " + entry.minGroupCount + " " + entry.maxGroupCount);
       }
   }
 }

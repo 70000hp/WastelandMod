@@ -1,3 +1,4 @@
+
 /*
  * Add your dependencies here. Supported configurations:
  *  - api("group:name:version:classifier"): if you use the types from this dependency in the public API of this mod
@@ -34,8 +35,9 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-    //runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.5.4-GTNH:dev")
-   // runtimeOnlyNonPublishable('com.github.GTNewHorizons:CodeChickenLib:1.2.1:dev')
-   // runtimeOnlyNonPublishable('com.github.GTNewHorizons:CodeChickenCore:1.2.1:dev')
-   // implementation 'com.github.HbmMods:Hbm-s-Nuclear-Tech-GIT:1.0.27X4921:jar'
+    shadowImplementation(rfg.deobf(project.files("libs/jnbt-1.1.jar")))
+    runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.5.4-GTNH:dev")
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:CodeChickenLib:1.2.1:dev')
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:CodeChickenCore:1.2.1:dev')
+    //shadowImplementation(rfg.deobf(project.files("libs/HBM-NTM.jar")))
 }
