@@ -2,6 +2,7 @@
 
 package com.seventythousand.wasteland.city;
 
+import com.hbm.blocks.ModBlocks;
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.items.LootStack;
 import com.seventythousand.wasteland.utils.Message;
@@ -123,7 +124,7 @@ public class RuinedCity {
 
   private void generateRoad(World world, int x, int z, int y1, int y2, int length, boolean dir, Random r) {
     int odds = 10;
-    Block roadBlock = Blocks.stained_hardened_clay;
+    Block roadBlock = ModBlocks.asphalt;
     Block surfaceBlock = world.getBiomeGenForCoords(x,z).topBlock;
     if (dir) {
       for (int i = 0; i < length; i++) {

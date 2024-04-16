@@ -2,6 +2,7 @@
 
 package com.seventythousand.wasteland.world.biome;
 
+import com.hbm.blocks.ModBlocks;
 import com.seventythousand.wasteland.config.EntitySpawnConfig;
 import com.seventythousand.wasteland.config.ModConfig;
 import net.minecraft.block.Block;
@@ -17,6 +18,11 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
     super(par1ID, par2Name, par3BiomeHeight);
     this.smallLakeSpawnRate = 1000;
     this.ruinSpawnRate /= 4;
+    flowers.clear();
+    addFlower(ModBlocks.mush, 0, 1000);
+    setTopBlock(ModBlocks.waste_mycelium);
+    wFlowers.clear();
+    wFlowers.put(ModBlocks.mush, 0);
     this.wasteTerrain = true;
     setCreatureSpawns(EntitySpawnConfig.cityCreatures.get(0), this.spawnableMonsterList, EntitySpawnConfig.enableHostileSpawn);
     setCreatureSpawns(EntitySpawnConfig.cityCreatures.get(1), this.spawnableCreatureList, EntitySpawnConfig.enablePassiveSpawn);

@@ -2,6 +2,7 @@
 
 package com.seventythousand.wasteland.city;
 
+import com.hbm.blocks.ModBlocks;
 import com.seventythousand.wasteland.config.CityLootConfig;
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.items.LootStack;
@@ -92,6 +93,7 @@ public class CityBuilding {
     int flavor = random.nextInt(3);
     Vector p = new Vector(0, 0, 0);
     short j;
+    //TODO: rip up this disgusting fucking thing
     for (j = 0; j < this.height; j = (short)(j + 1)) {
       p.Y = j;
       short k;
@@ -128,35 +130,80 @@ public class CityBuilding {
               if (random.nextInt(50) != 0) {
                 int randomNumber = random.nextInt(10);
                 if (randomNumber == 0) {
-                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.stone);
-                } else if (randomNumber < 4) {
-                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.mossy_cobblestone);
+                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.brick_concrete_cracked);
                 } else {
-                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.cobblestone);
+                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.brick_concrete);
                 }
               }
             } else if (this.blocks[count] == stoneID) {
               if (random.nextInt(75) != 0) {
                 int randomNumber = random.nextInt(10);
                 if (randomNumber == 0) {
-                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.mossy_cobblestone);
-                } else if (randomNumber < 3) {
-                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.cobblestone);
+                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_slab);
                 } else {
-                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.stone);
+                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_smooth);
                 }
               }
+            } else if (this.blocks[count] == stoneSlabID) {
+                if (random.nextInt(75) != 0) {
+                    RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_pillar);
+                }
             } else if (this.blocks[count] == stoneBrickID) {
               if (random.nextInt(75) != 0) {
-                int randomNumber = random.nextInt(10);
-                int meta = (randomNumber < 5) ? 0 : ((randomNumber > 6) ? 2 : 1);
-                RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.stonebrick, meta);
+                  int randomNumber = random.nextInt(10);
+                  if(flavor == 0) {
+                      if (randomNumber == 0) {
+                          RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.brick_concrete_broken);
+                      } else if (randomNumber < 4) {
+                          RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.brick_concrete_mossy);
+                      } else {
+                          RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.brick_concrete);
+                      }
+                  } else {
+                      if (randomNumber == 0) {
+                          RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.tile_lab_broken);
+                      } else if (randomNumber < 4) {
+                          RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.tile_lab_cracked);
+                      } else {
+                          RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.tile_lab);
+                      }
+                  }
               }
+            } else if (this.blocks[count] == Block.getIdFromBlock(Blocks.wooden_door)) {
+                if (random.nextInt(75) != 0) {
+                    RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.door_office, data[count]);
+                }
+            } else if (this.blocks[count] == Block.getIdFromBlock(Blocks.stone_slab)) {
+                if (random.nextInt(75) != 0) {
+                    switch (data[count]) {
+                        case 4 ->
+                            RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.stone_slab, data[count]);
+                        case 5 ->
+                            RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_brick_slab);
+                        default ->
+                            RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_slab);
+                    }
+                }
+            } else if (this.blocks[count] == Block.getIdFromBlock(Blocks.stone_brick_stairs)) {
+                if (random.nextInt(75) != 0) {
+                    RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_smooth_stairs, data[count]);
+                }
             } else if (this.blocks[count] == sandStoneID) {
               if (random.nextInt(65) != 0) {
                 int randomNumber = random.nextInt(10);
-                int meta = (randomNumber < 4) ? 0 : 2;
-                RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.sandstone, meta);
+                if(flavor == 0) {
+                    if (randomNumber == 0) {
+                        RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.sandstone);
+                    } else {
+                        RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.reinforced_sand);
+                    }
+                } else {
+                    if (randomNumber == 0) {
+                        RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_super_broken);
+                    } else {
+                        RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_super);
+                    }
+                }
               }
             } else if (this.blocks[count] == glassID || this.blocks[count] == glassPaneID) {
               if (random.nextInt(20) != 0)
@@ -402,6 +449,8 @@ public class CityBuilding {
   public static final int stoneID = Block.getIdFromBlock(Blocks.stone);
 
   public static final int sandStoneID = Block.getIdFromBlock(Blocks.sandstone);
+
+  public static final int stoneSlabID = Block.getIdFromBlock(Blocks.double_stone_slab);
 
   public static final int stoneBrickID = Block.getIdFromBlock(Blocks.stonebrick);
 
