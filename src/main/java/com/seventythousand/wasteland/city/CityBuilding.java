@@ -57,7 +57,7 @@ public class CityBuilding {
 
   private int roofHeight;
 
-  public CityBuilding(String name, int w, int h, int l, byte[] b, byte[] d, int roofHeight, LootStack[] loot) {
+  public CityBuilding(String name, int w, int h, int l, byte[] b, byte[] d, int roofHeight) {
     this.width = w;
     this.height = h;
     this.length = l;
@@ -65,6 +65,7 @@ public class CityBuilding {
     this.blocks = b;
     this.data = d;
     this.name = name;
+    LootStack[] loot = LootStack.loadCityLoot();
     easyLoot = loot[0];
     midLoot = loot[1];
     hardLoot = loot[2];
@@ -359,7 +360,7 @@ public class CityBuilding {
     return easyLoot;
   }
 
-  public static CityBuilding create(String name, int floors, Random random, List<SchematicBuilding> buildingSchematics, LootStack[] loot) {
+  public static CityBuilding create(String name, int floors, Random random, List<SchematicBuilding> buildingSchematics) {
     if (name.equalsIgnoreCase("none"))
       return null;
     for (SchematicBuilding current : buildingSchematics) {
@@ -433,7 +434,7 @@ public class CityBuilding {
                       }
                   }
               }
-              return new CityBuilding(name, w, height, l, blocks, meta, topH, loot);
+              return new CityBuilding(name, w, height, l, blocks, meta, topH);
           }
       }
     System.out.println("Unknown City Building");

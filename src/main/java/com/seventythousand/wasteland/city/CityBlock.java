@@ -143,10 +143,10 @@ public class CityBlock {
     return -1;
   }
 
-  public void generate(World world, Random random, List<SchematicBuilding> buildingSchematics, LootStack[] loot, int cityColour) {
+  public void generate(World world, Random random, List<SchematicBuilding> buildingSchematics, int cityColour) {
     RuinGenHelper.setWorld(world);
     generateBase(world, random);
-    CityBuilding building = CityBuilding.create(this.buildingName, random.nextInt(4) + 2, random, buildingSchematics, loot);
+    CityBuilding building = CityBuilding.create(this.buildingName, random.nextInt(4) + 2, random, buildingSchematics);
     if (building != null) {
       int offsetX, offsetZ, damageNodes = building.height / 15;
       damageNodes = (damageNodes > 0) ? (random.nextInt(damageNodes) + 1) : 1;
