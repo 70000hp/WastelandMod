@@ -4,7 +4,6 @@ package com.seventythousand.wasteland.ruin;
 
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.items.LootStack;
-import com.seventythousand.wasteland.utils.CustomItemStack;
 import com.seventythousand.wasteland.utils.Rectangle;
 import com.seventythousand.wasteland.utils.Vector;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -335,7 +334,7 @@ public class RuinRuined extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(x - 4, yCoord, z - 2, (Block)Blocks.chest);
       TileEntityChest chest = (TileEntityChest)world.getTileEntity(x - 4, yCoord, z - 2);
       LootStack loot = setItems(rand);
-      CustomItemStack.placeLoot(rand, chest, CustomItemStack.getLootItems(rand, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+      LootStack.placeLoot(rand, chest, LootStack.getLootItems(rand, loot.items, loot.minNum, loot.maxNum, loot.repeat));
       RuinGenHelper.setBlock(x - 4, yCoord, z + 4, Blocks.stonebrick, 2);
       RuinGenHelper.setBlock(x - 5, yCoord, z - 2, Blocks.stonebrick);
       RuinGenHelper.setBlock(x - 5, yCoord, z - 1, Blocks.stonebrick, 2);

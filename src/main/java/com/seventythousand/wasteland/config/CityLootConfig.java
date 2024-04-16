@@ -1,6 +1,7 @@
 package com.seventythousand.wasteland.config;
 
-import com.seventythousand.wasteland.utils.CustomItemStack;
+import com.seventythousand.wasteland.items.LootStack;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.config.Configuration;
 
 public class CityLootConfig {
@@ -69,7 +70,7 @@ public class CityLootConfig {
     config.save();
   }
 
-  public static CustomItemStack[] getLoot(String[] rawStringArray) {
+  public static WeightedRandomChestContent[] getLoot(String[] rawStringArray) {
     return RuinConfig.getLoot(rawStringArray);
   }
 }

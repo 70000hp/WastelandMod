@@ -3,7 +3,6 @@
 package com.seventythousand.wasteland.ruin;
 
 import com.seventythousand.wasteland.items.LootStack;
-import com.seventythousand.wasteland.utils.CustomItemStack;
 import cpw.mods.fml.common.IWorldGenerator;
 
 import java.util.Random;
@@ -346,7 +345,7 @@ public class RuinBarnHouse extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 7, (Block)Blocks.chest);
       TileEntityChest chest = (TileEntityChest)world.getTileEntity(xCoord + 1, yCoord, zCoord + 7);
       LootStack loot = setItems(random);
-      CustomItemStack.placeLoot(random, chest, CustomItemStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+      LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
       RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 8, Blocks.log);
       RuinGenHelper.setBlock(xCoord + 1, yCoord, zCoord + 9, Blocks.cobblestone);
       RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord - 1, Blocks.cobblestone);

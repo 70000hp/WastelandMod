@@ -3,7 +3,6 @@
 package com.seventythousand.wasteland.ruin;
 
 import com.seventythousand.wasteland.items.LootStack;
-import com.seventythousand.wasteland.utils.CustomItemStack;
 import com.seventythousand.wasteland.utils.Rectangle;
 import com.seventythousand.wasteland.utils.Vector;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -117,7 +116,7 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
             RuinGenHelper.setBlock(x + k8, y - 3, z + j9, (Block)Blocks.chest);
             TileEntityChest chest = (TileEntityChest)world.getTileEntity(x + k8, y - 3, z + j9);
             LootStack lootStack = setItems(random);
-            CustomItemStack.placeLoot(random, chest, CustomItemStack.getLootItems(random, lootStack.items, lootStack.minNum, lootStack.maxNum, lootStack.repeat));
+            LootStack.placeLoot(random, chest, LootStack.getLootItems(random, lootStack.items, lootStack.minNum, lootStack.maxNum, lootStack.repeat));
           }
           k3 = 0;
           i3 = 0;
@@ -226,7 +225,7 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
           RuinGenHelper.setBlock(k9, y + 1, l9, (Block)Blocks.chest);
           TileEntityChest chest1 = (TileEntityChest)world.getTileEntity(k9, y + 1, l9);
           LootStack loot = setItems(random);
-          CustomItemStack.placeLoot(random, chest1, CustomItemStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+          LootStack.placeLoot(random, chest1, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
           int i10 = random.nextInt(2);
           if (i10 == 0) {
             int j10 = 0;
@@ -259,7 +258,7 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
               RuinGenHelper.setBlock(x + 3, y + 1, z - 3, (Block)Blocks.chest);
               TileEntityChest chest2 = (TileEntityChest)world.getTileEntity(x + 3, y + 1, z - 3);
               LootStack loot1 = setSeedItems();
-              CustomItemStack.placeLoot(random, chest2, CustomItemStack.getLootItems(random, loot1.items, loot1.minNum, loot1.maxNum, loot1.repeat));
+              LootStack.placeLoot(random, chest2, LootStack.getLootItems(random, loot1.items, loot1.minNum, loot1.maxNum, loot1.repeat));
             }
           }
           return true;
