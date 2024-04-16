@@ -2,9 +2,10 @@
 
 package com.seventythousand.wasteland.config;
 
+import com.seventythousand.wasteland.items.LootStack;
 import cpw.mods.fml.common.registry.GameRegistry;
-import com.seventythousand.wasteland.utils.CustomItemStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.config.Configuration;
 
 public class RuinConfig {
@@ -109,8 +110,8 @@ public class RuinConfig {
     config.save();
   }
 
-  public static CustomItemStack[] getLoot(String[] rawStringArray) {
-    CustomItemStack[] items = new CustomItemStack[rawStringArray.length];
+  public static WeightedRandomChestContent[] getLoot(String[] rawStringArray) {
+      WeightedRandomChestContent[] items = new WeightedRandomChestContent[rawStringArray.length];
     for (int i = 0; i < rawStringArray.length; i++) {
       if (rawStringArray[i].length() > 0) {
         int max, min;
@@ -136,7 +137,7 @@ public class RuinConfig {
         }
         ItemStack itemStack = GameRegistry.findItemStack(mod, item, 1);
         itemStack.setItemDamage(damage);
-        items[i] = new CustomItemStack(itemStack, max, min);
+        items[i] = new WeightedRandomChestContent(itemStack, itemStack.getItemDamage(), max, min);
       }
     }
     return items;

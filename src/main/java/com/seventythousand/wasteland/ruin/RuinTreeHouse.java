@@ -4,7 +4,6 @@ package com.seventythousand.wasteland.ruin;
 
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.items.LootStack;
-import com.seventythousand.wasteland.utils.CustomItemStack;
 import cpw.mods.fml.common.IWorldGenerator;
 
 import java.util.Random;
@@ -57,7 +56,7 @@ public class RuinTreeHouse extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(x - 1, yCoord, z + 1, (Block)Blocks.chest);
       TileEntityChest chest = (TileEntityChest)world.getTileEntity(x - 1, yCoord, z + 1);
       LootStack loot = setItems(random);
-      CustomItemStack.placeLoot(random, chest, CustomItemStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+      LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
       RuinGenHelper.setBlock(x - 1, yCoord, z + 2, Blocks.log);
       RuinGenHelper.setBlock(x - 2, yCoord, z - 2, Blocks.log);
       RuinGenHelper.setBlock(x - 2, yCoord, z + 1, Blocks.log);

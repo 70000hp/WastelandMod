@@ -6,7 +6,6 @@ import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.config.RuinConfig;
 import com.seventythousand.wasteland.items.LootStack;
 import com.seventythousand.wasteland.ruin.code.BuildingCode;
-import com.seventythousand.wasteland.utils.CustomItemStack;
 import com.seventythousand.wasteland.utils.Vector;
 import com.seventythousand.wasteland.world.WastelandWorldData;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -85,7 +84,7 @@ public class RuinVillageGenerator implements IWorldGenerator {
             world.setBlock(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j, Block.getBlockById(blocks[count]), data[count], 0);
             TileEntityChest chest = (TileEntityChest)world.getTileEntity(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j);
             LootStack loot = new LootStack(RuinConfig.getLoot(RuinConfig.startLoot), RuinConfig.startLootMax, RuinConfig.startLootMin, RuinConfig.startLootRepeat);
-            CustomItemStack.placeLoot(random, chest, CustomItemStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+            LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
           } else if (blocks[count] == 98) {
             int meta = random.nextInt(10);
             meta = (meta > 6) ? random.nextInt(5) : 0;

@@ -7,7 +7,6 @@ import com.seventythousand.wasteland.config.CityLootConfig;
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.items.LootStack;
 import com.seventythousand.wasteland.ruin.RuinGenHelper;
-import com.seventythousand.wasteland.utils.CustomItemStack;
 import com.seventythousand.wasteland.utils.Schematic;
 import com.seventythousand.wasteland.utils.Vector;
 import com.seventythousand.wasteland.world.WorldChunkManagerWasteland;
@@ -116,7 +115,7 @@ public class CityBuilding {
                 RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, (Block)Blocks.chest, this.data[count]);
                 TileEntityChest chest = (TileEntityChest)world.getTileEntity(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z);
                 LootStack loot = setItems(random);
-                CustomItemStack.placeLoot(random, chest, CustomItemStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+                LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
               }
             } else if (this.blocks[count] == spawnerID) {
               if (random.nextInt(12) != 0) {

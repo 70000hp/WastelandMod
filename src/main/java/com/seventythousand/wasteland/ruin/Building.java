@@ -5,7 +5,6 @@ package com.seventythousand.wasteland.ruin;
 import com.seventythousand.wasteland.config.RuinConfig;
 import com.seventythousand.wasteland.items.LootStack;
 import com.seventythousand.wasteland.ruin.code.BuildingCode;
-import com.seventythousand.wasteland.utils.CustomItemStack;
 import com.seventythousand.wasteland.utils.Sphere;
 import com.seventythousand.wasteland.utils.Vector;
 import com.seventythousand.wasteland.world.WorldChunkManagerWasteland;
@@ -150,7 +149,7 @@ public class Building {
               RuinGenHelper.setBlock(pos.X + x, pos.Y + j, pos.Z + z, (Block)Blocks.chest);
               TileEntityChest chest = (TileEntityChest)world.getTileEntity(pos.X + x, pos.Y + j, pos.Z + z);
               LootStack loot = setItems(random);
-              CustomItemStack.placeLoot(random, chest, CustomItemStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+              LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
             } else {
               RuinGenHelper.setBlock(pos.X + x, pos.Y + j, pos.Z + z, Block.getBlockById(this.blocks[count]), this.data[count]);
             }
