@@ -63,9 +63,8 @@ public class CityGenerator implements IWorldGenerator {
         if (chunks.size() > 0 && center != null) {
           System.out.println("Generating City at X:" + center.X + " Z:" + center.Z + " Size: " + chunks.size());
           List<SchematicBuilding> buildingSchematics = SchematicBuilding.loadAllBuildings();
-          LootStack[] loot = LootStack.loadCityLoot();
           RuinedCity city = new RuinedCity(world, center, chunks, random);
-          city.generate(world, random, buildingSchematics, loot);
+          city.generate(world, random, buildingSchematics);
           buildingSchematics.clear();
           cityLocation.add(center);
           cityNum++;

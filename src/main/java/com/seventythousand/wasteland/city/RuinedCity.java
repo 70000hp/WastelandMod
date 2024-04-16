@@ -24,7 +24,7 @@ public class RuinedCity {
     this.layout = new CityBlockLayout(chunks, center, random, world);
   }
 
-  public void generate(World world, Random random, List<SchematicBuilding> buildingSchematics, LootStack[] loot) {
+  public void generate(World world, Random random, List<SchematicBuilding> buildingSchematics) {
     this.generateCityRoads(world, random);
     int cityColour = random.nextInt(16);
     int citySize = this.layout.block.size();
@@ -32,7 +32,7 @@ public class RuinedCity {
     for(int i = 0; i < citySize; ++i) {
       CityBlock generatingBlock = (CityBlock)this.layout.block.get(i);
       if (generatingBlock.doGenerate) {
-        generatingBlock.generate(world, random, buildingSchematics, loot, cityColour);
+        generatingBlock.generate(world, random, buildingSchematics, cityColour);
       } else {
         boolean large = generatingBlock.area.length == 32 && generatingBlock.area.width == 32;
         boolean genLake = large ? random.nextInt(4) > 0 : random.nextInt(4) == 0;
