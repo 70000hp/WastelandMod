@@ -56,7 +56,6 @@ public class RuinVillageGenerator implements IWorldGenerator {
       this.generating = true;
       int villageSize = random.nextInt(3);
       int villageDim = (villageSize + 8) * 16;
-      int[][] heightMap = getTerrainLevelMap(world, currentLoc, villageDim);
       if (true) {
         System.out.println("Generating Village at X:" + chunkX * 16 + " Z:" + chunkZ * 16);
         villageLocation.add(currentLoc);

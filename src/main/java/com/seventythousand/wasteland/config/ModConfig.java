@@ -60,7 +60,7 @@ public class ModConfig {
 
   public static int[][] woodTypes;
 
-  public static void load(Configuration config) {
+  public static void loadConfig(Configuration config) {
     config.load();
     config.setCategoryComment("IDs", "Biome IDs config");
     apocalypseBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland Biome ID", 43);

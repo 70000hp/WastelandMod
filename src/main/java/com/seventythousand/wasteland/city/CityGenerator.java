@@ -77,15 +77,15 @@ public class CityGenerator implements IWorldGenerator {
   }
 
   private MultiVector getCenterChunk(List<MultiVector> chunks, World world) {
-    int maxX = ((MultiVector)chunks.get(0)).X;
+    int maxX = chunks.get(0).X;
     int minX = maxX;
-    int maxZ = ((MultiVector)chunks.get(0)).Z;
+    int maxZ = chunks.get(0).Z;
     int minZ = maxZ;
     for (int i = 1; i < chunks.size(); i++) {
-      maxX = (((MultiVector)chunks.get(i)).X > maxX) ? ((MultiVector)chunks.get(i)).X : maxX;
-      minX = (((MultiVector)chunks.get(i)).X < minX) ? ((MultiVector)chunks.get(i)).X : minX;
-      maxZ = (((MultiVector)chunks.get(i)).Z > maxZ) ? ((MultiVector)chunks.get(i)).Z : maxZ;
-      minZ = (((MultiVector)chunks.get(i)).Z < minZ) ? ((MultiVector)chunks.get(i)).Z : minZ;
+      maxX = Math.max(chunks.get(i).X, maxX);
+      minX = Math.min(chunks.get(i).X, minX);
+      maxZ = Math.max(chunks.get(i).Z, maxZ);
+      minZ = Math.min(chunks.get(i).Z, minZ);
     }
     int cX = (maxX - minX) / 2 + minX & 0xFFFFFFF0;
     int cZ = (maxZ - minZ) / 2 + minZ & 0xFFFFFFF0;
@@ -99,7 +99,7 @@ public class CityGenerator implements IWorldGenerator {
 
   private void addConnectedBiomeChunks(List<MultiVector> chunks, MultiVector position, World world, int maxSize) {
     if(chunks.size() > maxSize) return;
-    int biomeID = (world.getBiomeGenForCoords(position.X, position.Z)).biomeID;
+    int biomeID = world.getBiomeGenForCoords(position.X, position.Z).biomeID;
     MultiVector[] newChunks = { null, null, null, null };
     boolean containsChunk = false;
     int i;
@@ -107,7 +107,7 @@ public class CityGenerator implements IWorldGenerator {
       MultiVector current = chooseChunk(i, position);
       if ((world.getBiomeGenForCoords(current.X, current.Z)).biomeID == biomeID) {
         for (int j = 0; j < chunks.size() && !containsChunk; j++) {
-          if (((MultiVector)chunks.get(j)).equalsXZ(current))
+          if (chunks.get(j).equalsXZ(current))
             containsChunk = true;
         }
         if (!containsChunk) {

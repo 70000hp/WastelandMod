@@ -27,7 +27,7 @@ import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
 
-@Mod(modid = "WLM", name = "The Wasteland Mod", version = Info.VERSION, useMetadata = true)
+@Mod(modid = "WLM", name = "The Wasteland Mod", version = Info.VERSION, useMetadata = true, dependencies = "required-after:hbm")
 public class Wasteland {
   public static WorldType wastelandWorldType;
 
@@ -54,11 +54,11 @@ public class Wasteland {
     NETWORK.registerMessage(Message.HandlerClient.class, Message.class, 0, Side.CLIENT);
     NETWORK.registerMessage(Message.HandlerServer.class, Message.class, 0, Side.SERVER);
     Configuration config = new Configuration(new File("config/Wasteland/TerrainGen.cfg"));
-    Configuration ruinConfig = new Configuration(new File("config/Wasteland/ChestLoot.cfg"));
-    Configuration cityConfig = new Configuration(new File("config/Wasteland/CityLoot.cfg"));
-    ModConfig.load(config);
-    RuinConfig.load(ruinConfig);
-    CityLootConfig.load(cityConfig);
+
+    config.load();
+    ModConfig.loadConfig(config);
+    config.save();
+
     items = new ItemRegistry();
     if (event.getSide().isClient()) {
       MinecraftForge.EVENT_BUS.register(new GuiEventHandler());
@@ -78,9 +78,20 @@ public class Wasteland {
 
   @EventHandler
   public static void postInit(FMLPostInitializationEvent event) {
+      Configuration ruinConfig = new Configuration(new File("config/Wasteland/ChestLoot.cfg"));
+      Configuration cityConfig = new Configuration(new File("config/Wasteland/CityLoot.cfg"));
+
+      ruinConfig.load();
+      cityConfig.load();
+      RuinConfig.loadConfig(ruinConfig);
+      CityLootConfig.loadConfig(cityConfig);
+      ruinConfig.save();
+      cityConfig.save();
+
     Configuration spawnConfig = new Configuration(new File("config/Wasteland/CreatureSpawns.cfg"));
     EntitySpawnConfig.load(spawnConfig);
     BiomeGenWastelandBase.load();
+
     //GameRegistry.registerWorldGenerator((new PostModWorldGenerator()).toIWorldGenerator(), 7);
   }
 

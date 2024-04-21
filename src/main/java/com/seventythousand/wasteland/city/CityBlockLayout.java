@@ -26,67 +26,33 @@ public class CityBlockLayout {
       for (CityBlock current : this.block) {
         if (current.area.width == 32 && current.area.length == 32) {
           int r = random.nextInt(6);
-          switch (r) {
-            case 0:
-              current.buildingName = "LTA";
-              break;
-            case 1:
-              current.buildingName = "LTB";
-              break;
-            case 2:
-              current.buildingName = "LTC";
-              break;
-            case 3:
-              current.buildingName = "LTD";
-              break;
-            case 4:
-              current.buildingName = "LTE";
-              break;
-            case 5:
-              current.buildingName = "LTF";
-              break;
-          }
+            switch (r) {
+                case 0 -> current.buildingName = "LTA";
+                case 1 -> current.buildingName = "LTB";
+                case 2 -> current.buildingName = "LTC";
+                case 3 -> current.buildingName = "LTD";
+                case 4 -> current.buildingName = "LTE";
+                case 5 -> current.buildingName = "LTF";
+            }
         } else if (current.area.width == 16 && current.area.length == 16) {
           int r = random.nextInt(5);
-          switch (r) {
-            case 0:
-              current.buildingName = "STA";
-              break;
-            case 1:
-              current.buildingName = "STB";
-              break;
-            case 2:
-              current.buildingName = "STC";
-              break;
-            case 3:
-              current.buildingName = "SSA";
-              break;
-            case 4:
-              current.buildingName = "SSB";
-              break;
-          }
+            switch (r) {
+                case 0 -> current.buildingName = "STA";
+                case 1 -> current.buildingName = "STB";
+                case 2 -> current.buildingName = "STC";
+                case 3 -> current.buildingName = "SSA";
+                case 4 -> current.buildingName = "SSB";
+            }
         } else {
           int r = random.nextInt(6);
-          switch (r) {
-            case 0:
-              current.buildingName = "MAA";
-              break;
-            case 1:
-              current.buildingName = "MAB";
-              break;
-            case 2:
-              current.buildingName = "MAC";
-              break;
-            case 3:
-              current.buildingName = "MAD";
-              break;
-            case 4:
-              current.buildingName = "MAE";
-              break;
-            case 5:
-              current.buildingName = "MCA";
-              break;
-          }
+            switch (r) {
+                case 0 -> current.buildingName = "MAA";
+                case 1 -> current.buildingName = "MAB";
+                case 2 -> current.buildingName = "MAC";
+                case 3 -> current.buildingName = "MAD";
+                case 4 -> current.buildingName = "MAE";
+                case 5 -> current.buildingName = "MCA";
+            }
         }
       }
   }
@@ -242,6 +208,7 @@ public class CityBlockLayout {
 
   private CityBlock largeBlock(MultiVector p, List<MultiVector> c, int id) {
     int[] chunkID = getAdjChunksInd(p, c);
+
     if (chunkID[0] >= 0) {
       int[] northChunkIDs = getAdjChunksInd(new MultiVector(p.X, p.Y, p.Z + 16), c);
       if (chunkID[1] >= 0 && northChunkIDs[1] >= 0) {
@@ -375,8 +342,8 @@ public class CityBlockLayout {
   private int[] getAdjChunksInd(MultiVector p, List<MultiVector> c) {
     int[] ind = { -1, -1, -1, -1 };
     for (int i = 0; i < c.size(); i++) {
-      int xD = p.X - ((MultiVector)c.get(i)).X;
-      int zD = p.Z - ((MultiVector)c.get(i)).Z;
+      int xD = p.X - c.get(i).X;
+      int zD = p.Z - c.get(i).Z;
       if (xD == 0 && zD == -16) {
         ind[0] = i;
       } else if (xD == -16 && zD == 0) {

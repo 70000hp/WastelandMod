@@ -2,6 +2,12 @@
 
 package com.seventythousand.wasteland.ruin;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.itempool.ItemPool;
+import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
+import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
+import com.hbm.tileentity.machine.storage.TileEntitySafe;
+import com.seventythousand.wasteland.config.CityLootConfig;
 import com.seventythousand.wasteland.config.RuinConfig;
 import com.seventythousand.wasteland.items.LootStack;
 import com.seventythousand.wasteland.ruin.code.BuildingCode;
@@ -146,10 +152,7 @@ public class Building {
             RuinGenHelper.setBlock(pos.X + x, pos.Y + j, pos.Z + z, top);
           } else if (this.blocks[count] != 2) {
             if (this.blocks[count] == 54) {
-              RuinGenHelper.setBlock(pos.X + x, pos.Y + j, pos.Z + z, (Block)Blocks.chest);
-              TileEntityChest chest = (TileEntityChest)world.getTileEntity(pos.X + x, pos.Y + j, pos.Z + z);
-              LootStack loot = setItems(random);
-              LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+              handleLoot(world, random,pos.X + x, pos.Y + j, pos.Z + z);
             } else {
               RuinGenHelper.setBlock(pos.X + x, pos.Y + j, pos.Z + z, Block.getBlockById(this.blocks[count]), this.data[count]);
             }
@@ -164,15 +167,35 @@ public class Building {
     return true;
   }
 
-  private LootStack setItems(Random random) {
-    if (random.nextInt(RuinConfig.hardLootChance) == 0) {
-      return hardLoot;
+    private void handleLoot(World world, Random random, int x, int y, int z) {
+
+        if (random.nextInt(CityLootConfig.hardLootChance) == 0) {
+            RuinGenHelper.setBlock(x, y, z, ModBlocks.safe, 0);
+            TileEntitySafe safe = (TileEntitySafe) world.getTileEntity(x, y, z);
+            safe.setMod(1);
+            safe.setPins(random.nextInt(999) + 1);
+            safe.lock();
+            LootStack.placeLoot(random, safe,
+                hardLoot.items,
+                CityLootConfig.hardLootMin,
+                CityLootConfig.hardLootMax, CityLootConfig.hardLootRepeat);
+
+        } else if (random.nextInt(CityLootConfig.midLootChance) == 0) {
+            RuinGenHelper.setBlock(x, y, z, ModBlocks.crate_steel, 0);
+            TileEntityCrateSteel chest = (TileEntityCrateSteel) world.getTileEntity(x, y, z);
+            LootStack.placeLoot(random, chest,
+                midLoot.items,
+                CityLootConfig.midLootMin,
+                CityLootConfig.midLootMax, CityLootConfig.midLootRepeat);
+        } else {
+            RuinGenHelper.setBlock(x, y, z, Blocks.chest, 0);
+            TileEntityChest chest = (TileEntityChest)world.getTileEntity(x, y, z);
+            LootStack.placeLoot(random, chest,
+                easyLoot.items,
+                CityLootConfig.easyLootMin,
+                CityLootConfig.easyLootMax, CityLootConfig.easyLootRepeat);
+        }
     }
-    if (random.nextInt(RuinConfig.midLootChance) == 0) {
-      return midLoot;
-    }
-    return easyLoot;
-  }
 
   private void ruinBuilding(int nodes, int maxRuinRad, int minRuinRad, Random rand) {
     int bottom = (int)(this.blocks.length / 3.0F);
