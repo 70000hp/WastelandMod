@@ -18,9 +18,11 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
     super(par1ID, par2Name, par3BiomeHeight);
     this.smallLakeSpawnRate = 1000;
     this.ruinSpawnRate /= 4;
+    this.treesPerChunk = 6;
+    this.treeSpawnRate /= 5;
     flowers.clear();
     addFlower(ModBlocks.mush, 0, 1000);
-    setTopBlock(ModBlocks.waste_mycelium);
+    setTopBlock(ModBlocks.sellafield);
     wFlowers.clear();
     wFlowers.put(ModBlocks.mush, 0);
     this.wasteTerrain = true;
@@ -32,6 +34,19 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
     {
         return BiomeGenBase.TempCategory.OCEAN;
     }
+    public void genTerrainBlocks(World p_150573_1_, Random p_150573_2_, Block[] p_150573_3_, byte[] p_150573_4_, int p_150573_5_, int p_150573_6_, double p_150573_7_)
+    {
+        this.topBlock = ModBlocks.waste_mycelium;
+        this.field_150604_aj = 0;
+        this.fillerBlock = Blocks.dirt;
+
+        if ((p_150573_7_ < 1.5D || p_150573_7_ > 2.0D)) {
+            this.topBlock = ModBlocks.sellafield_slaked;
+            this.fillerBlock = ModBlocks.sellafield_slaked;
+        }
+        this.genBiomeWastelandTerrain(p_150573_1_, p_150573_2_, p_150573_3_, p_150573_4_, p_150573_5_, p_150573_6_, p_150573_7_);
+    }
+    @Override
     public void genBiomeWastelandTerrain(World world, Random random, Block[] blocks, byte[] meta, int x, int y, double p_150560_7_)
     {
         Block block = this.topBlock;
@@ -67,18 +82,8 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
                                 b0 = 0;
                                 block1 = Blocks.stone;
                             }
-                            else if (l1 >= 59 && l1 <= 70)
-                            {
-                                if(wasteTerrain){
-                                    int type = random.nextInt(3);
-                                    block = type == 0 ? Blocks.hardened_clay : this.topBlock;
-                                    if (type == 2){
-                                        b0 = 2;
-                                    }
-                                } else {
-                                    block = this.topBlock;
-                                    b0 = (byte) (this.field_150604_aj & 255);
-                                }
+                            else if (l1 >= 59 && l1 <= 70) {
+                                block = this.topBlock;
                             }
 
                             if (l1 < 63)

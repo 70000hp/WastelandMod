@@ -8,6 +8,7 @@ import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import com.seventythousand.wasteland.config.CityLootConfig;
+import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.config.RuinConfig;
 import com.seventythousand.wasteland.items.LootStack;
 import com.seventythousand.wasteland.ruin.code.BuildingCode;
@@ -32,7 +33,9 @@ public class Building {
   public int length;
 
   public String name;
+    private Vector[] damageLoc;
 
+    private int[] damageSize;
   public boolean duplicate;
 
   private byte[] blocks;
@@ -99,23 +102,11 @@ public class Building {
     int maxSize, minSize, numHoles;
     Block top = world.getWorldChunkManager() instanceof WorldChunkManagerWasteland ?  world.getBiomeGenForCoords(pos.X, pos.Z).topBlock : Blocks.grass;
     RuinGenHelper.setWorld(world);
-    if (this.blocks.length < 100) {
-      numHoles = 1;
-      maxSize = 5;
-      minSize = 4;
-    } else if (this.blocks.length >= 100 && this.blocks.length < 500) {
-      numHoles = random.nextInt(2) + 2;
-      maxSize = 2;
-      minSize = 1;
-    } else if (this.blocks.length >= 500 && this.blocks.length < 1500) {
-      numHoles = random.nextInt(2) + 1;
-      maxSize = 3;
-      minSize = 2;
-    } else {
-      numHoles = random.nextInt(4) + 2;
-      maxSize = 4;
-      minSize = 2;
-    }
+    byte[] blockArray = blocks.clone();
+      int damageNodes = height / 15;
+      damageNodes = (damageNodes > 0) ? (random.nextInt(damageNodes) + 1) : 1;
+      int damageMaxRad = (width + length) / 16;
+      int damageMinRad = (width + length) / 24;
     if (this.name.equals((create(14)).name)) {
       int waterHeight = random.nextInt(7) + 10;
       for (int i = 0; i < waterHeight; i++) {
@@ -125,41 +116,46 @@ public class Building {
         world.setBlock(pos.X + 1, pos.Y - 1 - i, pos.Z + 2, Blocks.water);
       }
     } else {
-      ruinBuilding(numHoles, maxSize, minSize, random);
+      ruinBuilding(damageNodes, damageMaxRad, damageMinRad, random);
     }
     int count = 0;
     short j;
+    boolean doGen = true;
+    Vector p = new Vector(0, 0, 0);
     for (j = 0; j < this.height; j = (short)(j + 1)) {
+      p.Y = j;
       short k;
       for (k = 0; k < this.length; k = (short)(k + 1)) {
         short i;
         for (i = 0; i < this.width; i = (short)(i + 1)) {
-          int x, z;
-          if (rot == 0) {
-            x = i;
-            z = k;
-          } else if (rot == 1) {
-            x = this.width - i - 1;
-            z = k;
-          } else if (rot == 2) {
-            x = this.width - i - 1;
-            z = this.width - k - 1;
-          } else {
-            x = i;
-            z = this.width - k - 1;
+          rotateVector(p, rot, i, k, this.width, this.length);
+
+          for (int c = 0; damageLoc != null && c < this.damageLoc.length; c++)
+                doGen = (doGen && Vector.VtoVlength(p, this.damageLoc[c]) > this.damageSize[c]);
+          if(doGen) {
+              if (blockArray[count] == 7) {
+                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + j, pos.Z + p.Z, top);
+              } else if (blockArray[count] == 54) {
+                  handleLoot(world, random, pos.X + p.X, pos.Y + j, pos.Z + p.Z);
+              } else if (blockArray[count] != 2) {
+                  if (world.getBiomeGenForCoords(pos.X + p.X, pos.Z + p.Z).biomeID != ModConfig.radioactiveBiomeID) {
+                      RuinGenHelper.setBlock(pos.X + p.X, pos.Y + j, pos.Z + p.Z, Block.getBlockById(blockArray[count]), this.data[count]);
+                  } else {
+                      Block block;
+                      switch (blockArray[count]) {
+                          case 5 -> block = ModBlocks.waste_planks;
+                          case 17 -> block = ModBlocks.waste_log;
+                          case 53, 47, 65, 72, 109, 85, 96, 106 -> block = Blocks.air;
+                          default -> block = Block.getBlockById(this.blocks[count]);
+
+                      }
+                      RuinGenHelper.setBlock(pos.X + p.X, pos.Y + j, pos.Z + p.Z, block, this.data[count]);
+                  }
+              }
           }
-          if (this.blocks[count] == 7) {
-            RuinGenHelper.setBlock(pos.X + x, pos.Y + j, pos.Z + z, top);
-          } else if (this.blocks[count] != 2) {
-            if (this.blocks[count] == 54) {
-              handleLoot(world, random,pos.X + x, pos.Y + j, pos.Z + z);
-            } else {
-              RuinGenHelper.setBlock(pos.X + x, pos.Y + j, pos.Z + z, Block.getBlockById(this.blocks[count]), this.data[count]);
-            }
-          }
-          int var3 = world.getPrecipitationHeight(x + pos.X, z + pos.Z );
-          if (world.func_147478_e(x + pos.X, var3, z + pos.Z , true))
-            world.setBlock(x + pos.X, var3, z + pos.Z , Blocks.snow_layer, 0, 2);
+          int var3 = world.getPrecipitationHeight(p.X + pos.X, p.Z + pos.Z );
+          if (world.func_147478_e(p.X + pos.X, var3, p.Z + pos.Z , true))
+            world.setBlock(p.X + pos.X, var3, p.Z + pos.Z , Blocks.snow_layer, 0, 2);
           count++;
         }
       }
@@ -197,21 +193,33 @@ public class Building {
         }
     }
 
-  private void ruinBuilding(int nodes, int maxRuinRad, int minRuinRad, Random rand) {
-    int bottom = (int)(this.blocks.length / 3.0F);
-    int rad = rand.nextInt(maxRuinRad - minRuinRad) + minRuinRad;
-    for (int i = 0; i < nodes; i++) {
-      int node = rand.nextInt(this.blocks.length - bottom) + bottom - 1;
-      while (this.blocks[node] == 0 || this.blocks[node] == 2)
-        node = rand.nextInt(this.blocks.length - bottom) + bottom - 1;
-      int y = node / this.width * this.length;
-      int mod = node - this.width * this.length * y;
-      int z = mod / this.width;
-      int x = mod - z * this.width;
-      Sphere hole = new Sphere(new Vector(x, y, z), rad);
-      this.blocks = hole.makeSphereOf(this.blocks, this.width, this.length, this.height, (byte)0);
-    }
+  private void ruinBuilding(int num, int maxSize, int minSize, Random rand) {
+      int inc = this.height / num;
+      int maxR = this.width / 2 + 1;
+      int minR = this.width / 2 - 1;
+      this.damageLoc = new Vector[num];
+      this.damageSize = new int[num];
+      for (int i = 0; i < num; i++) {
+          this.damageLoc[i] = Vector.randomVector2D(rand, maxR, minR).add(new Vector(this.width / 2, 0, this.length / 2));
+          (this.damageLoc[i]).Y = rand.nextInt(inc) + inc * i;
+          this.damageSize[i] = rand.nextInt(maxSize - minSize + 1) + minSize;
+      }
   }
+    private void rotateVector(Vector p, int rot, short i, short k, int width, int length) {
+        if (rot == 1) {
+            p.X = k;
+            p.Z = width - i - 1;
+        } else if (rot == 2) {
+            p.X = width - i - 1;
+            p.Z = length - k - 1;
+        } else if (rot == 3) {
+            p.X = length - k - 1;
+            p.Z = i;
+        } else {
+            p.X = i;
+            p.Z = k;
+        }
+    }
 
   private static Tag getChildTag(Map<String, Tag> items, String key, Class<? extends Tag> expected) {
       return items.get(key);

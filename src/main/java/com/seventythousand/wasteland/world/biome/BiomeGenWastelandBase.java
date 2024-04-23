@@ -38,7 +38,6 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
         for (int i = 0; i < BlockDeadPlant.EnumDeadPlantType.values().length; i++) {
             wFlowers.put(ModBlocks.plant_dead, i);
         }
-        wFlowers.put(ModBlocks.mine_he, 0);
         setHeight(biomeHeight);
         this.theBiomeDecorator = new BiomeDecoratorWasteland();
         this.waterColorMultiplier = 3376435;
@@ -70,6 +69,7 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
         BiomeDictionary.registerBiomeType(mesa, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
         BiomeDictionary.registerBiomeType(mesa.createMutation(), BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
         BiomeDictionary.registerBiomeType(bryce, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
+
         BiomeManager.addSpawnBiome(apocalypse);
         BiomeManager.addSpawnBiome(desert);
         BiomeManager.addSpawnBiome(mesa);

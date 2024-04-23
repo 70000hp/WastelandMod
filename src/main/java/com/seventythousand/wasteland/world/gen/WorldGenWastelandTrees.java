@@ -1,5 +1,7 @@
 package com.seventythousand.wasteland.world.gen;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockMush;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
@@ -70,7 +72,8 @@ public class WorldGenWastelandTrees extends WorldGenAbstractTree
             } else {
                 Block block2 = world.getBlock(x, y - 1, z);
 
-                boolean isSoil = block2.canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, (BlockSapling) Blocks.sapling);
+                boolean isSoil = block2.canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, (BlockSapling) Blocks.sapling)
+                    || (log == ModBlocks.waste_log  &&  block2 != ModBlocks.waste_log && block2 != ModBlocks.mush_block);
                 if (isSoil && y < 256 - l - 1) {
                     block2.onPlantGrow(world, x, y - 1, z, x, y, z);
                     b0 = 3;
@@ -79,7 +82,7 @@ public class WorldGenWastelandTrees extends WorldGenAbstractTree
                     int i2;
                     int j2;
                     int i3;
-                    if (leaves) {
+                    if (leaves && !(log == ModBlocks.waste_log)) {
                         for (k1 = y - b0 + l; k1 <= y + l; ++k1) {
                             i3 = k1 - (y + l);
                             l1 = b1 + 1 - i3 / 2;
@@ -102,12 +105,18 @@ public class WorldGenWastelandTrees extends WorldGenAbstractTree
                         }
 
                     }
-                    for (k1 = 0; k1 < l; ++k1) {
-                        block = world.getBlock(x, y + k1, z);
+                    if (block2 != ModBlocks.waste_mycelium)
+                        for (k1 = 0;k1 < l; ++k1) {
+                            block = world.getBlock(x, y + k1, z);
 
-                        if (block.isAir(world, x, y + k1, z) || block.isLeaves(world, x, y + k1, z)) {
-                            this.setBlockAndNotifyAdequately(world, x, y + k1, z, log, this.metaWood);
+                            if (block.isAir(world, x, y + k1, z) || block.isLeaves(world, x, y + k1, z)) {
+                                this.setBlockAndNotifyAdequately(world, x, y + k1, z, log, this.metaWood);
+                            }
                         }
+                    else {
+                        BlockMush mushroom = (BlockMush) ModBlocks.mush;
+                        this.setBlockAndNotifyAdequately(world, x, y, z, mushroom, this.metaWood);
+                        mushroom.growHuge(world, x, y, z, rand);
                     }
 
                     return true;

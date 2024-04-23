@@ -3,6 +3,7 @@
 package com.seventythousand.wasteland.world.biome;
 
 import com.seventythousand.wasteland.config.EntitySpawnConfig;
+import com.seventythousand.wasteland.config.ModConfig;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -28,7 +29,7 @@ public class BiomeGenForest extends BiomeGenWastelandBase {
   }
   public BiomeGenBase createMutation()
   {
-    BiomeGenForest biomegenforest = new BiomeGenForest(this.biomeID + 128, "Mountainous Forest", new BiomeGenBase.Height(1.2F, 0.02F), true);
+    BiomeGenForest biomegenforest = new BiomeGenForest(ModConfig.coldForestBiomeID, "Mountainous Forest", new BiomeGenBase.Height(1.2F, 0.02F), true);
     biomegenforest.cold = true;
     biomegenforest.setColor(9286496);
     biomegenforest.setTemperatureRainfall(0.3F, 0.4F);

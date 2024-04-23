@@ -2,9 +2,7 @@
 
 package com.seventythousand.wasteland.config;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.config.Configuration;
 
@@ -71,7 +69,7 @@ public class RuinConfig {
 
     public static int rareRuinLootChance;
 
-    public static void loadConfig(Configuration config) {
+    public static void load(Configuration config) {
         config.load();
         config.setCategoryComment("Loot Amount", "Total itemstacks in chests. Randomized between max and min");
         easyLootMax = config.getInt("Common village chest items MAX", "Loot Amount", 25, 0, 27, "");

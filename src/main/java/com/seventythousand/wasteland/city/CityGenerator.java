@@ -49,6 +49,7 @@ public class CityGenerator implements IWorldGenerator {
     MultiVector currentLoc = new MultiVector(chunkX * 16, Layout.getWorldHeight(world, chunkX * 16, chunkZ * 16), chunkZ * 16);
     if (random.nextInt(ModConfig.cityChance) == 0
             && checkDist(currentLoc, (ModConfig.minCityDistance * 16))
+            && world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16).biomeID != ModConfig.radioactiveBiomeID
             && !BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16), BiomeDictionary.Type.WATER)
     ) {
 

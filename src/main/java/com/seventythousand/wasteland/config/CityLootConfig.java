@@ -42,7 +42,7 @@ public class CityLootConfig {
 
   public static int ultraLootChance;
 
-  public static void loadConfig(Configuration config) {
+  public static void load(Configuration config) {
     config.load();
     config.setCategoryComment("Loot Amount", "Total itemstacks in chests. Randomized between max and min");
     easyLootMax = config.getInt("Common village chest items MAX", "Loot Amount", 26, 0, 27, "");

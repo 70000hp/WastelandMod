@@ -81,12 +81,8 @@ public class Wasteland {
       Configuration ruinConfig = new Configuration(new File("config/Wasteland/ChestLoot.cfg"));
       Configuration cityConfig = new Configuration(new File("config/Wasteland/CityLoot.cfg"));
 
-      ruinConfig.load();
-      cityConfig.load();
-      RuinConfig.loadConfig(ruinConfig);
-      CityLootConfig.loadConfig(cityConfig);
-      ruinConfig.save();
-      cityConfig.save();
+      RuinConfig.load(ruinConfig);
+      CityLootConfig.load(cityConfig);
 
     Configuration spawnConfig = new Configuration(new File("config/Wasteland/CreatureSpawns.cfg"));
     EntitySpawnConfig.load(spawnConfig);

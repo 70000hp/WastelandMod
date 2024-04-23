@@ -34,15 +34,15 @@ public class WastelandGenLayerBiome extends GenLayer {
 
     this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.bryceBiomeID), 9));
     this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mesaBiomeID), 9));
-    this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mesaBiomeID + 128), 8));
+    this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mesaPlateauBiomeID), 8));
     this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.desertBiomeID), 10));
 
     this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.tundraBiomeID), 7));
     this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID), 7));
     this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mountainBiomeID), 8));
-    this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID + 128), 9));
+    this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.coldForestBiomeID), 9));
 
-    this.biomes[BiomeManager.BiomeType.ICY.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID + 128), 7));
+    this.biomes[BiomeManager.BiomeType.ICY.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.coldForestBiomeID), 7));
     this.biomes[BiomeManager.BiomeType.ICY.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.tundraHillsBiomeID), 8));
     this.biomes[BiomeManager.BiomeType.ICY.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.taigaBiomeID), 9));
     this.biomes[BiomeManager.BiomeType.ICY.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.tundraBiomeID), 10));

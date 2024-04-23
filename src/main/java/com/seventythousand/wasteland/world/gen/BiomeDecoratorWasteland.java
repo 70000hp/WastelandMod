@@ -2,12 +2,15 @@
 
 package com.seventythousand.wasteland.world.gen;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockDeadPlant;
+import com.hbm.blocks.generic.BlockMush;
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.ruin.RuinRuined;
 import com.seventythousand.wasteland.ruin.RuinRuinedCiv1;
 import com.seventythousand.wasteland.ruin.RuinSurvivorTent;
 import com.seventythousand.wasteland.ruin.RuinTreeHouse;
+import com.seventythousand.wasteland.world.biome.BiomeGenRadioactive;
 import com.seventythousand.wasteland.world.biome.BiomeGenWastelandBase;
 
 import java.util.Random;
@@ -69,6 +72,7 @@ public class BiomeDecoratorWasteland extends BiomeDecorator {
 
 
         boolean coniferous = BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.CONIFEROUS);
+        boolean rad = biome instanceof BiomeGenRadioactive;
         for (int i = 0; rand.nextInt(wBiome.smallLakeSpawnRate) == 0 && i < 3; i++) {
 
             x += this.randomGenerator.nextInt(16) + 8;
@@ -126,10 +130,17 @@ public class BiomeDecoratorWasteland extends BiomeDecorator {
                     if (coniferous) {
                         bigSpruce.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getHeightValue(x, z), z);
                     }
-                    bigTree.setTreeType(Blocks.log, meta);
+                    if(!rad)
+                        tree.setTreeType(Blocks.log, meta);
+                    else
+                        tree.setTreeType(ModBlocks.waste_log, 0);
                     bigTree.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getHeightValue(x, z), z);
                 } else {
-                    tree.setTreeType(Blocks.log, meta);
+                    if(!rad)
+                        tree.setTreeType(Blocks.log, meta);
+                    else
+                        tree.setTreeType(ModBlocks.waste_log, 0);
+
                     tree.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getHeightValue(x, z), z);
                 }
 

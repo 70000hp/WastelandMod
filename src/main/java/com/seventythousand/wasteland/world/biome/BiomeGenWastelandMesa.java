@@ -2,6 +2,7 @@
 
 package com.seventythousand.wasteland.world.biome;
 
+import com.seventythousand.wasteland.config.ConfigHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import com.seventythousand.wasteland.config.ModConfig;
@@ -340,7 +341,7 @@ public class BiomeGenWastelandMesa extends BiomeGenWastelandBase {
   }
   public BiomeGenBase createMutation()
   {
-    BiomeGenWastelandMesa biomegenmesa = new BiomeGenWastelandMesa(this.biomeID + 128,this.biomeName + " Plateau" ,height_HighPlateaus, false);
+    BiomeGenWastelandMesa biomegenmesa = new BiomeGenWastelandMesa(ModConfig.mesaPlateauBiomeID,this.biomeName + " Plateau" ,height_HighPlateaus, false);
     biomegenmesa.setBiomeName(this.biomeName + " Plateau");
     return biomegenmesa;
   }
