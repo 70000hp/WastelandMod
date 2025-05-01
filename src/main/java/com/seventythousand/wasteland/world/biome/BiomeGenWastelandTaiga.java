@@ -2,6 +2,7 @@ package com.seventythousand.wasteland.world.biome;
 
 import java.util.Random;
 
+import com.seventythousand.wasteland.config.EntitySpawnConfig;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -20,7 +21,9 @@ public class BiomeGenWastelandTaiga extends BiomeGenWastelandBase
         this.theBiomeDecorator.grassPerChunk = 2;
         this.theBiomeDecorator.deadBushPerChunk = 6;
         this.theBiomeDecorator.mushroomsPerChunk = 6;
-
+        setCreatureSpawns(EntitySpawnConfig.wastelandCreatures.get(0), this.spawnableMonsterList, EntitySpawnConfig.enableHostileSpawn);
+        setCreatureSpawns(EntitySpawnConfig.wastelandCreatures.get(1), this.spawnableCreatureList, EntitySpawnConfig.enablePassiveSpawn);
+        setCreatureSpawns(EntitySpawnConfig.wastelandCreatures.get(2), this.spawnableWaterCreatureList, EntitySpawnConfig.enableWaterSpawn);
     }
 
     /**

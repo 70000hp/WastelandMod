@@ -14,8 +14,8 @@ public class BiomeGenWastelandDesert extends BiomeGenWastelandBase {
   public BiomeGenWastelandDesert(int par1ID, String par2Name, Height par3BiomeHeight) {
     super(par1ID, par2Name, par3BiomeHeight);
     this.theBiomeDecorator.deadBushPerChunk = 10;
-    this.theBiomeDecorator.cactiPerChunk = 5;
     wasteTerrain = false;
+    temples = true;
     setCreatureSpawns(EntitySpawnConfig.wastelandCreatures.get(0), this.spawnableMonsterList, EntitySpawnConfig.enableHostileSpawn);
     setCreatureSpawns(EntitySpawnConfig.wastelandCreatures.get(1), this.spawnableCreatureList, EntitySpawnConfig.enablePassiveSpawn);
     setCreatureSpawns(EntitySpawnConfig.wastelandCreatures.get(2), this.spawnableWaterCreatureList, EntitySpawnConfig.enableWaterSpawn);

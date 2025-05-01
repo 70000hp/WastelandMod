@@ -28,17 +28,16 @@ public class Ruin {
 
   protected ItemStack[] loot;
 
-  public static LootStack normalLoot;
+  public static LootStack normalLoot = new LootStack(RuinConfig.getLoot(RuinConfig.ruinEasyLoot), RuinConfig.ruinEasyLootMax, RuinConfig.ruinEasyLootMin, RuinConfig.ruinEasyLootRepeat);
 
-  public static LootStack rareLoot;
+  public static LootStack rareLoot = new LootStack(RuinConfig.getLoot(RuinConfig.ruinRareLoot), RuinConfig.ruinRareLootMax, RuinConfig.ruinRareLootMin, RuinConfig.ruinRareLootRepeat);
 
-  public static LootStack seedLoot;
+  public static LootStack hardLoot = new LootStack(RuinConfig.getLoot(RuinConfig.hardLoot), RuinConfig.hardLootMax, RuinConfig.hardLootMin, RuinConfig.hardLootRepeat);
+
+  public static LootStack seedLoot = new LootStack(RuinConfig.getLoot(RuinConfig.seedLoot), RuinConfig.seedLootMax, RuinConfig.seedLootMin, RuinConfig.seedLootRepeat);
 
   public Ruin(String par1Name) {
     this.name = par1Name;
-    normalLoot = new LootStack(RuinConfig.getLoot(RuinConfig.ruinEasyLoot), RuinConfig.ruinEasyLootMax, RuinConfig.ruinEasyLootMin, RuinConfig.ruinEasyLootRepeat);
-    rareLoot = new LootStack(RuinConfig.getLoot(RuinConfig.ruinRareLoot), RuinConfig.ruinRareLootMax, RuinConfig.ruinRareLootMin, RuinConfig.ruinRareLootRepeat);
-    seedLoot = new LootStack(RuinConfig.getLoot(RuinConfig.seedLoot), RuinConfig.seedLootMax, RuinConfig.seedLootMin, RuinConfig.seedLootRepeat);
   }
 
   public String getLocalizedName() {
@@ -50,6 +49,9 @@ public class Ruin {
   }
 
   protected LootStack setItems(Random random) {
+    if (random.nextInt(RuinConfig.hardLootChance) == 0) {
+      return hardLoot;
+    }
     if (random.nextInt(RuinConfig.rareRuinLootChance) == 0) {
       return rareLoot;
     }

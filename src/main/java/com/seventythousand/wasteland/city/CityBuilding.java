@@ -21,9 +21,11 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityMobSpawner;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
 public class CityBuilding {
@@ -38,6 +40,7 @@ public class CityBuilding {
 
     private byte[] data;
 
+    WeightedRandomChestContent[] medCabinet = ItemPool.getPool("POOL_PILE_MED_PILLS");
 
 
     private Vector[] damageLoc;
@@ -74,21 +77,26 @@ public class CityBuilding {
         Block top = !(world.getWorldChunkManager() instanceof WorldChunkManagerWasteland) ? world.getBiomeGenForCoords(pos.X, pos.Z).topBlock : Blocks.grass;
         int count = 0;
         boolean doGen = true;
+        boolean sellafite = false;
         int flavor = random.nextInt(3);
         Vector p = new Vector(0, 0, 0);
         short j;
+        int layerHeight = Math.max(30, height);
         //TODO: rip up this disgusting fucking thing
         for (j = 0; j < this.height; j = (short) (j + 1)) {
             p.Y = j;
             short k;
+            int layer = Math.round((float) 2*j/layerHeight + 1);
             for (k = 0; k < this.length; k = (short) (k + 1)) {
                 short i;
                 for (i = 0; i < this.width; i = (short) (i + 1)) {
                     rotateVector(p, rot, i, k, this.width, this.length);
                     rotateBlock(this.blocks, this.data, count, rot);
                     if (this.damageLoc != null)
-                        for (int c = 0; c < this.damageLoc.length; c++)
+                        for (int c = 0; c < this.damageLoc.length; c++) {
                             doGen = (doGen && Vector.VtoVlength(p, this.damageLoc[c]) > this.damageSize[c]);
+                            sellafite =  Math.floor(Vector.VtoVlength(p, this.damageLoc[c])) == this.damageSize[c];
+                        }
                     if (doGen)
                         if (this.blocks[count] == bedrockID) {
                             RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, top);
@@ -96,7 +104,7 @@ public class CityBuilding {
                             if (p.Y > 0 && p.Y < 3)
                                 RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.air);
                         } else if (this.blocks[count] == chestID) {
-                            handleLoot(world, random, pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, data[count]);
+                            handleLoot(world, random, pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, layer);
                         } else if (this.blocks[count] == spawnerID) {
                             if (random.nextInt(12) != 0) {
                                 String mobName = ModConfig.getSpawnerCreature(random);
@@ -125,7 +133,8 @@ public class CityBuilding {
                             }
                         } else if (this.blocks[count] == stoneSlabID) {
                             if (random.nextInt(75) != 0) {
-                                RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_pillar);
+                                    RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_pillar);
+
                             }
                         } else if (this.blocks[count] == stoneBrickID) {
                             if (random.nextInt(75) != 0) {
@@ -158,9 +167,9 @@ public class CityBuilding {
                                     case 4 ->
                                         RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.stone_slab, data[count]);
                                     case 5 ->
-                                        RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_brick_slab);
+                                        RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_brick_slab, data[count]);
                                     default ->
-                                        RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_slab);
+                                        RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_slab, data[count]);
                                 }
                             }
                         } else if (this.blocks[count] == Block.getIdFromBlock(Blocks.stone_brick_stairs)) {
@@ -176,30 +185,51 @@ public class CityBuilding {
                                     } else {
                                         RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.reinforced_sand);
                                     }
-                                } else {
+                                } else if (flavor == 1){
                                     if (randomNumber == 0) {
                                         RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_super_broken);
                                     } else {
-                                        RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_super);
+                                        RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_super, random.nextInt(4));
+                                    }
+                                } else {
+                                    if (randomNumber == 0) {
+                                        RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.stone_gneiss);
+                                    } else {
+                                        RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.gneiss_brick);
                                     }
                                 }
                             }
                         } else if (this.blocks[count] == glassID || this.blocks[count] == glassPaneID) {
                             if (random.nextInt(20) != 0)
-                                RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Block.getBlockById(this.blocks[count]), this.data[count]);
-                        } else if (this.blocks[count] == woolID || this.blocks[count] == stainedGlassID) {
+                                    RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.glass_boron, 0);
+
+                        } else if (this.blocks[count] == stainedGlassID) {
                             if (random.nextInt(40) != 0)
                                 if (this.data[count] == 0 || this.data[count] == 15 || this.data[count] == 8) {
                                     RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Block.getBlockById(this.blocks[count]), this.data[count]);
                                 } else {
                                     RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Block.getBlockById(this.blocks[count]), cityColour);
                                 }
-                        } else if (this.blocks[count] == woodPlankID) {
+                        } else if (this.blocks[count] == woolID) {
                             if (random.nextInt(40) != 0)
-                                RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.planks, this.data[count]);
+                                if (this.data[count] == 0 || this.data[count] == 15 || this.data[count] == 8) {
+                                    RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Block.getBlockById(this.blocks[count]), this.data[count]);
+                                } else {
+                                    RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.concrete_colored, cityColour);
+                                }
+                        } else if (this.blocks[count] == woodPlankID) {
+                            if (random.nextInt(40) != 0) {
+                                if(flavor == 0) RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.brick_light, 0);
+                                else if(flavor == 1) RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.vinyl_tile, 0);
+                                else RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.planks, this.data[count]);
+                            }
                         } else {
                             RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Block.getBlockById(this.blocks[count]), this.data[count]);
                         }
+                    else if (sellafite && this.blocks[count] != airID && Block.getBlockById(this.blocks[count]).isNormalCube()) {
+                        if(Block.getBlockById(this.blocks[count]).getMaterial() == Material.wood && flavor > 1) RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.waste_planks);
+                        else RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, ModBlocks.sellafield_slaked);
+                    }
                     doGen = true;
                     count++;
                     if (j == height - 1) {
@@ -326,44 +356,55 @@ public class CityBuilding {
         }
     }
 
-    private void handleLoot(World world, Random random, int x, int y, int z, byte data) {
+    private void handleLoot(World world, Random random, int x, int y, int z, int layer) {
 
-        if (random.nextInt(CityLootConfig.ultraLootChance) == 0) {
-            RuinGenHelper.setBlock(x, y, z, ModBlocks.safe, 0);
-            TileEntitySafe safe = (TileEntitySafe) world.getTileEntity(x, y, z);
-            safe.setMod(0.5);
-            safe.setPins(random.nextInt(999) + 1);
-            safe.lock();
-            LootStack.placeLoot(random, safe,
-                RuinConfig.getLoot(RuinConfig.hardLoot),
-                CityLootConfig.ultraLootMin,
-                CityLootConfig.ultraLootMax, CityLootConfig.ultraLootRepeat);
-        } else if (random.nextInt(CityLootConfig.hardLootChance) == 0) {
-            RuinGenHelper.setBlock(x, y, z, ModBlocks.safe, 0);
-            TileEntitySafe safe = (TileEntitySafe) world.getTileEntity(x, y, z);
-            safe.setMod(1);
-            safe.setPins(random.nextInt(999) + 1);
-            safe.lock();
-            LootStack.placeLoot(random, safe,
-                random.nextBoolean() ? ItemPool.getPool("POOL_PILE_HIVE") : ItemPool.getPool("POOL_MACHINE_PARTS"),
-                CityLootConfig.hardLootMin,
-                CityLootConfig.hardLootMax, CityLootConfig.hardLootRepeat);
 
-        } else if (random.nextInt(CityLootConfig.midLootChance) == 0) {
-            RuinGenHelper.setBlock(x, y, z, ModBlocks.crate_steel, 0);
-            TileEntityCrateSteel chest = (TileEntityCrateSteel) world.getTileEntity(x, y, z);
-            LootStack.placeLoot(random, chest,
-                random.nextBoolean() ? ItemPool.getPool("POOL_VAULT_LOCKERS") : RuinConfig.getLoot(RuinConfig.hardLoot),
-                CityLootConfig.midLootMin,
-                CityLootConfig.midLootMax, CityLootConfig.midLootRepeat);
-        } else {
-            RuinGenHelper.setBlock(x, y, z, Blocks.chest, 0);
-            TileEntityChest chest = (TileEntityChest)world.getTileEntity(x, y, z);
-            LootStack.placeLoot(random, chest,
-                random.nextBoolean() ? ItemPool.getPool("POOL_OFFICE_TRASH") : RuinConfig.getLoot(RuinConfig.easyLoot),
-                CityLootConfig.easyLootMin,
-                CityLootConfig.easyLootMax, CityLootConfig.easyLootRepeat);
-        }
+            if (random.nextInt(CityLootConfig.ultraLootChance / layer) == 0) {
+                RuinGenHelper.setBlock(x, y, z, ModBlocks.safe, 0);
+                TileEntitySafe safe = (TileEntitySafe) world.getTileEntity(x, y, z);
+                safe.setMod(0.5);
+                safe.setPins(random.nextInt(999) + 1);
+                safe.lock();
+                LootStack.placeLoot(random, safe,
+                    RuinConfig.getLoot(RuinConfig.hardLoot),
+                    CityLootConfig.ultraLootMin,
+                    CityLootConfig.ultraLootMax, CityLootConfig.ultraLootRepeat);
+            } else if (random.nextInt(CityLootConfig.hardLootChance / layer) == 0) {
+                RuinGenHelper.setBlock(x, y, z, ModBlocks.filing_cabinet, 1);
+                TileEntityCrateBase safe = (TileEntityCrateBase) world.getTileEntity(x, y, z);
+                safe.setMod(1);
+                safe.setPins(random.nextInt(999) + 1);
+                safe.lock();
+                LootStack.placeLoot(random, safe,
+                    RuinConfig.getLoot(RuinConfig.hardLoot),
+                    26,
+                    27, CityLootConfig.easyLootRepeat);
+            } else if (random.nextInt(CityLootConfig.midLootChance) == 0) {
+                RuinGenHelper.setBlock(x, y, z, ModBlocks.crate_steel, 0);
+                TileEntityCrateSteel chest = (TileEntityCrateSteel) world.getTileEntity(x, y, z);
+                LootStack.placeLoot(random, chest,
+                    random.nextBoolean() ? ItemPool.getPool("POOL_VAULT_LOCKERS") : RuinConfig.getLoot(RuinConfig.midLoot),
+                    CityLootConfig.midLootMin,
+                    CityLootConfig.midLootMax, CityLootConfig.midLootRepeat);
+            } else {
+                RuinGenHelper.setBlock(x, y, z, ModBlocks.filing_cabinet, 0);
+                RuinGenHelper.setBlock(x, y + 1, z, ModBlocks.filing_cabinet, 0);
+
+                TileEntityCrateBase chest = (TileEntityCrateBase)world.getTileEntity(x, y, z);
+                LootStack.placeLoot(random, chest,
+                    random.nextInt(3) == 0 ? ItemPool.getPool("POOL_OFFICE_TRASH") : RuinConfig.getLoot(CityLootConfig.easyLoot),
+                    CityLootConfig.easyLootMin,
+                    CityLootConfig.easyLootMax, CityLootConfig.easyLootRepeat);
+
+                TileEntityCrateBase chest2 = (TileEntityCrateBase)world.getTileEntity(x, y + 1, z);
+                if(random.nextInt(3) != 0)
+                    LootStack.placeLoot(random, chest2,
+                        random.nextInt(3) == 0 ? ItemPool.getPool("POOL_FILING_CABINET") : RuinConfig.getLoot(CityLootConfig.easyLoot),
+                        CityLootConfig.easyLootMin,
+                        CityLootConfig.easyLootMax, CityLootConfig.easyLootRepeat);
+
+            }
+
     }
 
     public static CityBuilding create(String name, int floors, Random random, List<SchematicBuilding> buildingSchematics) {
@@ -410,7 +451,6 @@ public class CityBuilding {
                 if (!singleFloor) {
                     int offset = bottom.blocks.length;
                     h = middle.blocks.length;
-                    chestCount = 0;
                     for (int k = 0; k < floors; k++) {
                         chestIndx = (middle.chestNum == 0) ? -1 : random.nextInt(middle.chestNum);
                         chestCount = 0;

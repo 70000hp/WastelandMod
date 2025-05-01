@@ -34,8 +34,6 @@ public class WorldTypeWasteland extends WorldType {
     return true;
   }
 
-  @SideOnly(Side.CLIENT)
-  public void onCustomizeButton(Minecraft instance, GuiCreateWorld guiCreateWorld) {}
 
   public GenLayer getBiomeLayer(long worldSeed, GenLayer parentLayer) {
     GenLayer ret = new WastelandGenLayerBiome(200L, parentLayer);

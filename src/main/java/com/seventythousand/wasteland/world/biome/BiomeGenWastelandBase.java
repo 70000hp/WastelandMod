@@ -10,6 +10,8 @@ import com.seventythousand.wasteland.world.gen.BiomeDecoratorWasteland;
 
 import java.util.*;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -29,6 +31,8 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
     public boolean wasteTerrain = false;
     private static int lastID = 0;
 
+    public static ArrayList<BiomeGenBase> biomesForSpawn = new ArrayList<>();
+
     public ArrayListMultimap<Block, Integer> wFlowers =  ArrayListMultimap.create(6, 10);
 
     public BiomeGenWastelandBase(int par1ID, String par2Name, BiomeGenBase.Height biomeHeight) {
@@ -45,15 +49,18 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
         loadBiome();
     }
 
+    @Override @SideOnly(Side.CLIENT)
+    public int getSkyColorByTemp(float temp) { return 0x6B9189; }
+
     public static void load() {
         BiomeGenBase apocalypse = (new BiomeGenApocalypse(ModConfig.apocalypseBiomeID, "Wasteland", BiomeGenBase.height_LowPlains)).setColor(14728553).setTemperatureRainfall(0.8F, 0.2F);
-        BiomeGenBase apocMountains = (new BiomeGenMountains(ModConfig.mountainBiomeID, "Wasteland Mountains", height_WastelandMountains)).setColor(10255379).setTemperatureRainfall(0.7F, 0.3F);
+        BiomeGenBase apocMountains = (new BiomeGenMountains(ModConfig.mountainBiomeID, "Wasteland Mountains", height_MidPlains)).setColor(10255379).setTemperatureRainfall(0.2F, 0.3F);
         BiomeGenBase apocForest = (new BiomeGenForest(ModConfig.forestBiomeID, "Wasteland Forest", BiomeGenBase.height_MidPlains, false)).setColor(10793807).setTemperatureRainfall(0.7F, 0.6F);
         BiomeGenBase radioactive = (new BiomeGenRadioactive(ModConfig.radioactiveBiomeID, "Radioactive Wasteland", BiomeGenBase.height_Shores)).setColor(6088238).setTemperatureRainfall(0.5F, 0.5F);
         BiomeGenBase tundra = (new BiomeGenWastelandTundra(ModConfig.tundraBiomeID, "Wasteland Tundra", BiomeGenBase.height_LowPlains)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(10526880);
         BiomeGenBase tundraHills = (new BiomeGenWastelandTundra(ModConfig.tundraHillsBiomeID, "Tundra Mountains", height_WastelandMountains)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(10526880);
         BiomeGenBase tundraForest = (new BiomeGenWastelandTaiga(ModConfig.taigaBiomeID, "Wasteland Taiga", BiomeGenBase.height_MidPlains)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(747097);
-        BiomeGenBase desert = (new BiomeGenWastelandDesert(ModConfig.desertBiomeID, "Wasteland Desert", BiomeGenBase.height_LowHills)).setColor(747097).setTemperatureRainfall(1.5F, 0.0F);
+        BiomeGenBase desert = (new BiomeGenWastelandDesert(ModConfig.desertBiomeID, "Wasteland Desert", BiomeGenBase.height_LowPlains)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
         BiomeGenBase mesa = (new BiomeGenWastelandMesa(ModConfig.mesaBiomeID, "Wasteland Mesa", BiomeGenBase.height_Default, false)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
         BiomeGenBase bryce = (new BiomeGenWastelandMesa(ModConfig.bryceBiomeID, "Wasteland Bryce", BiomeGenBase.height_Default, true)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
 
@@ -65,7 +72,7 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
         BiomeDictionary.registerBiomeType(tundra, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.CONIFEROUS, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SNOWY);
         BiomeDictionary.registerBiomeType(tundraHills, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.MOUNTAIN, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SNOWY);
         BiomeDictionary.registerBiomeType(tundraForest, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.CONIFEROUS, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SNOWY);
-        BiomeDictionary.registerBiomeType(desert, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.DRY);
+        BiomeDictionary.registerBiomeType(desert, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.DRY);
         BiomeDictionary.registerBiomeType(mesa, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
         BiomeDictionary.registerBiomeType(mesa.createMutation(), BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
         BiomeDictionary.registerBiomeType(bryce, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
@@ -77,6 +84,13 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
         BiomeManager.addSpawnBiome(tundraHills);
         BiomeManager.addSpawnBiome(apocMountains);
         BiomeManager.addSpawnBiome(apocForest);
+
+        biomesForSpawn.add(apocalypse);
+        biomesForSpawn.add(desert);
+        biomesForSpawn.add(tundra);
+        biomesForSpawn.add(mesa);
+        biomesForSpawn.add(apocMountains);
+
     }
 
     public void setTopBlock(Block block) {
@@ -128,6 +142,19 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
                                     b0 = (byte) (this.field_150604_aj & 255);
                                 }
                                 block1 = this.fillerBlock;
+                            } else {
+                                block = this.topBlock;
+                                if (wasteTerrain) {
+                                    int type = random.nextInt(5);
+                                    if (type == 0) {
+                                        if (random.nextBoolean()) b0 = 2; else block = ModBlocks.dirt_dead;
+                                    } else {
+                                        b0 = (byte) (this.field_150604_aj & 255);
+                                    }
+                                } else {
+                                    b0 = (byte) (this.field_150604_aj & 255);
+                                }
+
                             }
 
                             if (l1 < 65 && (block == null || block.getMaterial() == Material.air)) {

@@ -2,6 +2,7 @@
 
 package com.seventythousand.wasteland.world;
 
+import com.seventythousand.wasteland.world.biome.BiomeGenWastelandBase;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -48,7 +49,7 @@ public class WorldChunkManagerWasteland extends WorldChunkManager {
   }
 
   public List getBiomesToSpawnIn() {
-    return allowedBiomes;
+    return BiomeGenWastelandBase.biomesForSpawn;
   }
 
   public BiomeGenBase getBiomeGenAt(int p_76935_1_, int p_76935_2_) {

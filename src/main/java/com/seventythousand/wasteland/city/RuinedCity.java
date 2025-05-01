@@ -2,9 +2,12 @@
 
 package com.seventythousand.wasteland.city;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.world.feature.Sellafield;
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.items.LootStack;
+import com.seventythousand.wasteland.ruin.RuinGenHelper;
 import com.seventythousand.wasteland.utils.Message;
 import com.seventythousand.wasteland.world.gen.WorldGenWastelandBigTree;
 import com.seventythousand.wasteland.world.gen.WorldGenWastelandClay;
@@ -19,7 +22,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 public class RuinedCity {
-  CityBlockLayout layout;
+  public CityBlockLayout layout;
+  public int size;
 
   public RuinedCity(World world, MultiVector center, List<MultiVector> chunks, Random random) {
     this.layout = new CityBlockLayout(chunks, center, random, world);
@@ -28,9 +32,9 @@ public class RuinedCity {
   public void generate(World world, Random random, List<SchematicBuilding> buildingSchematics) {
     this.generateCityRoads(world, random);
     int cityColour = random.nextInt(16);
-    int citySize = this.layout.block.size();
+    size = this.layout.block.size();
 
-    for(int i = 0; i < citySize; ++i) {
+    for(int i = 0; i < size; ++i) {
       CityBlock generatingBlock = (CityBlock)this.layout.block.get(i);
       if (generatingBlock.doGenerate) {
         generatingBlock.generate(world, random, buildingSchematics, cityColour);
@@ -67,14 +71,13 @@ public class RuinedCity {
           z = random.nextInt(w + 1) - w / 2 + z + generatingBlock.area.position.Z;
           int y = CityGenerator.getWorldHeight(world, x, z);
           WorldGenWastelandBigTree tree = new WorldGenWastelandBigTree(true);
+
           totalTrees = tree.generate(world, random, x, y, z) ? totalTrees + 1 : totalTrees;
         }
       }
 
-      if (i != citySize) {
-        Wasteland.NETWORK.sendToAll(Message.createProgressMessage(i + 1, citySize + 1));
-      }
     }
+
   }
 
   private void generateCityRoads(World world, Random r) {
@@ -119,6 +122,13 @@ public class RuinedCity {
             generateRoad(world, x + j, z + i * 16 - roadWidth, y1 + hOffset, y2 + hOffset, 16 + roadWidth * 2, false, r);
           }
       }
+      /*if(r.nextInt(5) == 0){
+          RuinGenHelper.setBlock(x, world.getHeightValue(x,z),z, ModBlocks.lantern, 12);
+          BlockDummyable lantern = (BlockDummyable) world.getBlock(x, world.getHeightValue(x,z),z);
+          lantern.transformBlock()
+
+
+      }*/
     }
   }
 

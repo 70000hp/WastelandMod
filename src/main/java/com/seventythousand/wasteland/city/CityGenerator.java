@@ -2,6 +2,7 @@
 
 package com.seventythousand.wasteland.city;
 
+import com.hbm.world.feature.Sellafield;
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.items.LootStack;
 import com.seventythousand.wasteland.ruin.Layout;
@@ -70,6 +71,7 @@ public class CityGenerator implements IWorldGenerator {
           cityLocation.add(center);
           cityNum++;
         }
+
         Wasteland.NETWORK.sendToAll((IMessage)Message.createProgressMessage(1, 1));
         Wasteland.NETWORK.sendToAll((IMessage)Message.createChatMessage("...done"));
         generating = false;

@@ -2,6 +2,8 @@
 
 package com.seventythousand.wasteland.ruin;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
 import com.seventythousand.wasteland.items.LootStack;
 import com.seventythousand.wasteland.utils.Rectangle;
 import com.seventythousand.wasteland.utils.Vector;
@@ -14,7 +16,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
 
 public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
@@ -26,9 +27,9 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
 
   public boolean generate(World world, Random random, int x, int y, int z) {
     RuinGenHelper.setWorld(world);
-    byte byte0 = 3;
-    int l = random.nextInt(2) + 2;
-    int i1 = random.nextInt(2) + 2;
+
+    int floorMeta = 0;
+    int wallMeta = 0;
     boolean flag = false;
     int j1 = 0;
     int k1 = 0;
@@ -38,25 +39,29 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
       boolean flag1 = true;
       if (flag1) {
         Block wallBlock, floorBlock;
-        int i2 = random.nextInt(3);
+        int i2 = random.nextInt(4);
         if (i2 == 0) {
-          wallBlock = Blocks.cobblestone;
+          wallBlock = ModBlocks.brick_concrete_cracked;
         } else if (i2 == 1) {
-          wallBlock = Blocks.mossy_cobblestone;
+          wallBlock = ModBlocks.brick_concrete_mossy;
         } else if (i2 == 2) {
-          wallBlock = Blocks.planks;
+          wallBlock = ModBlocks.concrete_super;
+          wallMeta = random.nextInt(4);
         } else {
-          wallBlock = Blocks.mossy_cobblestone;
+          wallBlock = ModBlocks.lightstone;
+          wallMeta = 2;
+
         }
-        int j2 = random.nextInt(2);
+        int j2 = random.nextInt(4);
         if (j2 == 0) {
-          floorBlock = Blocks.cobblestone;
+          floorBlock = ModBlocks.tile_lab;
         } else if (j2 == 1) {
-          floorBlock = Blocks.mossy_cobblestone;
+          floorBlock = ModBlocks.vinyl_tile;
         } else if (j2 == 2) {
-          floorBlock = Blocks.planks;
+          floorBlock = ModBlocks.brick_light;
         } else {
-          floorBlock = Blocks.planks;
+          floorBlock = ModBlocks.lightstone;
+          floorMeta = 1;
         }
         boolean flag2 = false;
         if (!flag2) {
@@ -72,8 +77,8 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
           }
           int i3 = 0;
           int k3 = 0;
-          for (int l3 = 0; l3 < 49; l3++) {
-            RuinGenHelper.setBlock(x + k3, y, z + i3, floorBlock);
+          for (int l3 = 0; l3 < 49 && random.nextInt(6) != 0; l3++) {
+            RuinGenHelper.setBlock(x + k3, y, z + i3, floorBlock, floorMeta);
             k3++;
             if (k3 == 7) {
               i3++;
@@ -82,8 +87,7 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
           }
           int i4 = 0;
           int j4 = 0;
-          int k4 = random.nextInt(2);
-          if (k4 == 0) {
+          if (random.nextBoolean()) {
             for (int l4 = 1; l4 < 4; l4++) {
               for (int l5 = 0; l5 < 25; l5++) {
                 RuinGenHelper.setBlock(x + i4 + 1, y - l4, z + j4 + 1, Blocks.air);
@@ -96,27 +100,24 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
               j4 = 0;
               i4 = 0;
             }
-            RuinGenHelper.setBlock(x + 3, y - 3, z + 3, Blocks.torch);
-            RuinGenHelper.setBlock(x + 2, y - 3, z + 3, Blocks.stone_pressure_plate);
-            RuinGenHelper.setBlock(x + 2, y - 4, z + 3, Blocks.stone);
-            RuinGenHelper.setBlock(x + 2, y - 5, z + 3, Blocks.tnt);
-            int l6 = random.nextInt(2);
-            if (l6 == 0)
-              for (int k7 = 0; k7 < 25; k7++) {
-                RuinGenHelper.setBlock(x + i4 + 1, y - 3, z + j4 + 1, Blocks.water);
-                i4++;
-                if (i4 == 5) {
-                  j4++;
-                  i4 = 0;
+            if (random.nextBoolean()) {
+                for (int k7 = 0; k7 < 25; k7++) {
+                    RuinGenHelper.setBlock(x + i4 + 1, y - 3, z + j4 + 1, Blocks.water);
+                    i4++;
+                    if (i4 == 5) {
+                        j4++;
+                        i4 = 0;
+                    }
                 }
-              }
-            int l7 = random.nextInt(26);
-            int k8 = l7 / 5;
-            int j9 = l7 % 5;
-            RuinGenHelper.setBlock(x + k8, y - 3, z + j9, (Block)Blocks.chest);
-            TileEntityChest chest = (TileEntityChest)world.getTileEntity(x + k8, y - 3, z + j9);
-            LootStack lootStack = setItems(random);
-            LootStack.placeLoot(random, chest, LootStack.getLootItems(random, lootStack.items, lootStack.minNum, lootStack.maxNum, lootStack.repeat));
+            } else {
+                int l7 = random.nextInt(24);
+                int k8 = l7 / 5;
+                int j9 = l7 % 5;
+                RuinGenHelper.setBlock(x + k8, y - 3, z + j9, ModBlocks.crate_iron);
+                TileEntityCrateBase chest = (TileEntityCrateBase) world.getTileEntity(x + k8, y - 3, z + j9);
+                LootStack lootStack = setItems(random);
+                LootStack.placeLoot(random, chest, LootStack.getLootItems(random, lootStack.items, lootStack.minNum, lootStack.maxNum, lootStack.repeat));
+            }
           }
           k3 = 0;
           i3 = 0;
@@ -132,10 +133,10 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
                     if (random.nextInt(2) == 0) {
                       RuinGenHelper.setBlock(x, y + 1 + j5, z + i7, Blocks.glass);
                     } else {
-                      RuinGenHelper.setBlock(x, y + 1 + j5, z + i7, wallBlock);
+                      RuinGenHelper.setBlock(x, y + 1 + j5, z + i7, wallBlock, wallMeta);
                     }
                   } else {
-                    RuinGenHelper.setBlock(x, y + 1 + j5, z + i7, wallBlock);
+                    RuinGenHelper.setBlock(x, y + 1 + j5, z + i7, wallBlock, wallMeta);
                   }
                 i7++;
               }
@@ -187,7 +188,7 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
               }
             }
           }
-          int k5 = random.nextInt(3);
+          int k5 = random.nextInt(4);
           int k6 = random.nextInt(3);
           int j7 = random.nextInt(2);
           if (k5 == 0) {
@@ -206,7 +207,7 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
             RuinGenHelper.setBlock(x + 2 + k6, y + 1, z + 6, Blocks.air);
             RuinGenHelper.setBlock(x + 2 + k6, y + 2, z + 6, Blocks.air);
           }
-          int j8 = random.nextInt(2);
+          int j8 = random.nextInt(3);
           int i9 = random.nextInt(5) + 1;
           int k9 = 0;
           int l9 = 0;
@@ -222,8 +223,8 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
             k9 = x + 1;
             l9 = z + i9;
           }
-          RuinGenHelper.setBlock(k9, y + 1, l9, (Block)Blocks.chest);
-          TileEntityChest chest1 = (TileEntityChest)world.getTileEntity(k9, y + 1, l9);
+          RuinGenHelper.setBlock(k9, y + 1, l9,  ModBlocks.crate_iron);
+          TileEntityCrateBase chest1 = (TileEntityCrateBase)world.getTileEntity(k9, y + 1, l9);
           LootStack loot = setItems(random);
           LootStack.placeLoot(random, chest1, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
           int i10 = random.nextInt(2);
@@ -232,11 +233,11 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
             int k10 = 0;
             for (int l10 = 0; l10 < 12; l10++) {
               if (k10 == 0)
-                RuinGenHelper.setBlock(x + 2, y + 1, z - 1 - j10, Blocks.fence);
+                RuinGenHelper.setBlock(x + 2, y + 1, z - 1 - j10, ModBlocks.fence_metal);
               if (k10 == 1)
-                RuinGenHelper.setBlock(x + 3 + j10, y + 1, z - 4, Blocks.fence);
+                RuinGenHelper.setBlock(x + 3 + j10, y + 1, z - 4, ModBlocks.fence_metal);
               if (k10 == 2)
-                RuinGenHelper.setBlock(x + 6, y + 1, z - 1 - j10, Blocks.fence);
+                RuinGenHelper.setBlock(x + 6, y + 1, z - 1 - j10, ModBlocks.fence_metal);
               j10++;
               if (j10 == 4) {
                 k10++;
@@ -255,10 +256,7 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
             }
             int k11 = random.nextInt(2);
             if (k11 == 0) {
-              RuinGenHelper.setBlock(x + 3, y + 1, z - 3, (Block)Blocks.chest);
-              TileEntityChest chest2 = (TileEntityChest)world.getTileEntity(x + 3, y + 1, z - 3);
-              LootStack loot1 = setSeedItems();
-              LootStack.placeLoot(random, chest2, LootStack.getLootItems(random, loot1.items, loot1.minNum, loot1.maxNum, loot1.repeat));
+              Building.handleLoot(world, random, x + 3, y + 1, z - 3);
             }
           }
           return true;
@@ -266,24 +264,6 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
       }
     }
     return false;
-  }
-
-  private ItemStack pickCheskLootItem(Random random, ItemStack[] itemStacks) {
-    int i = random.nextInt(itemStacks.length);
-    ItemStack itemStack = new ItemStack(itemStacks[i].getItem(), 1);
-    if (itemStack.getItem() == Items.stick)
-      return new ItemStack(itemStack.getItem(), random.nextInt(8) + 4);
-    if (itemStack.getItem() == Items.wheat)
-      return new ItemStack(itemStack.getItem(), random.nextInt(3) + 1);
-    if (itemStack.getItem() == Items.gunpowder)
-      return new ItemStack(itemStack.getItem(), random.nextInt(4) + 1);
-    if (itemStack.getItem() == Items.string)
-      return new ItemStack(itemStack.getItem(), random.nextInt(1) + 3);
-    if (itemStack.getItem() == Item.getItemFromBlock(Blocks.planks) && random.nextInt(100) == 0)
-      return new ItemStack(itemStack.getItem(), random.nextInt(4) + 8);
-    if (itemStack.getItem() == Items.dye)
-      return new ItemStack(itemStack.getItem(), random.nextInt(1) + 1, itemStack.getItemDamage());
-    return new ItemStack(itemStack.getItem(), 1);
   }
 
   private String pickMobSpawner(Random random) {

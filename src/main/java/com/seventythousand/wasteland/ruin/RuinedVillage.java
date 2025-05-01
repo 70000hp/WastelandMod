@@ -33,22 +33,22 @@ public class RuinedVillage {
     int midStruct;
     int largeStruct;
     if (size == 0) {
-      numStructures = rand.nextInt(8) + 12;
+      numStructures = rand.nextInt(8) + 20;
       centerStruct = rand.nextInt(2) + 2;
       smallStruct = 6;
       largeStruct = rand.nextInt(2) + 7;
       midStruct = numStructures - smallStruct - largeStruct;
     } else if (size == 1) {
-      numStructures = rand.nextInt(8) + 15;
-      centerStruct = rand.nextInt(2) + 3;
+      numStructures = rand.nextInt(12) + 20;
+      centerStruct = rand.nextInt(2) + 5;
       smallStruct = 6;
       largeStruct = rand.nextInt(2) + 9;
       midStruct = numStructures - smallStruct - largeStruct;
     } else {
-      numStructures = rand.nextInt(12) + 25;
-      centerStruct = rand.nextInt(2) + 4;
-      largeStruct = rand.nextInt(3) + 12;
-      midStruct = rand.nextInt(3) + 3;
+      numStructures = rand.nextInt(16) + 30;
+      centerStruct = rand.nextInt(2) + 8;
+      largeStruct = rand.nextInt(6) + 12;
+      midStruct = rand.nextInt(3) + 16;
       smallStruct = numStructures - largeStruct - midStruct;
     }
     System.out.println("Buildings: " + numStructures + " - S:" + smallStruct + " M:" + midStruct + " L:" + largeStruct + " - C:" + centerStruct);
@@ -62,14 +62,13 @@ public class RuinedVillage {
       int build;
       if (i < smallStruct) {
         build = 0;
-      } else if (i >= smallStruct && i < midStruct + smallStruct) {
+      } else if (i < midStruct + smallStruct) {
         build = 1;
       } else {
         build = 2;
       }
-      this.structures[i] = Building.create(pickStruct(rand, build));
-      while (checkDuplicates(this.center, this.structures, i))
-        this.structures[i] = Building.create(pickStruct(rand, build));
+        do this.structures[i] = Building.create(pickStruct(rand, build));
+        while (checkDuplicates(this.center, this.structures, i));
     }
     this.lay = new Layout(world, rand, this.center, this.structures, posX, posZ, dim, size);
   }
@@ -102,13 +101,15 @@ public class RuinedVillage {
         }
         break;
       case 1:
-        switch (rand.nextInt(3)) {
+        switch (rand.nextInt(4)) {
           case 0:
             return 9;
           case 1:
             return 10;
           case 2:
             return 11;
+          case 3:
+            return 15;
         }
         break;
       case 2:

@@ -2,6 +2,9 @@
 
 package com.seventythousand.wasteland.ruin;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
+import com.seventythousand.wasteland.city.CityBuilding;
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.config.RuinConfig;
 import com.seventythousand.wasteland.items.LootStack;
@@ -55,15 +58,13 @@ public class RuinVillageGenerator implements IWorldGenerator {
             && !BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16), BiomeDictionary.Type.WATER)) {
       this.generating = true;
       int villageSize = random.nextInt(3);
-      int villageDim = (villageSize + 8) * 16;
-      if (true) {
+      int villageDim = (villageSize + 10) * 16;
         System.out.println("Generating Village at X:" + chunkX * 16 + " Z:" + chunkZ * 16);
         villageLocation.add(currentLoc);
         villageNum++;
         RuinedVillage village = new RuinedVillage(world, chunkX * 16, chunkZ * 16, villageDim, villageSize, random);
         village.generate(world, random);
-      }
-      this.generating = false;
+        this.generating = false;
     }
   }
 
@@ -76,19 +77,26 @@ public class RuinVillageGenerator implements IWorldGenerator {
     int cX = 3;
     int cZ = 3;
     System.out.println(pos.toCustomString());
+    RuinGenHelper.setWorld(world);
     for (int k = 0; k < 5; k++) {
       for (int j = 0; j < 7; j++) {
         for (int m = 0; m < 7; m++) {
           if (blocks[count] == 54) {
-            world.setBlock(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j, Block.getBlockById(blocks[count]), data[count], 0);
-            TileEntityChest chest = (TileEntityChest)world.getTileEntity(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j);
+            world.setBlock(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j, ModBlocks.crate_steel, data[count], 0);
+            TileEntityCrateBase chest = (TileEntityCrateBase)world.getTileEntity(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j);
             LootStack loot = new LootStack(RuinConfig.getLoot(RuinConfig.startLoot), RuinConfig.startLootMax, RuinConfig.startLootMin, RuinConfig.startLootRepeat);
-            LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
-          } else if (blocks[count] == 98) {
-            int meta = random.nextInt(10);
-            meta = (meta > 6) ? random.nextInt(5) : 0;
-            meta = (meta > 2) ? (random.nextInt(2) + 1) : meta;
-            world.setBlock(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j, Block.getBlockById(blocks[count]), meta, 0);
+            LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum,  RuinConfig.startLootRepeat));
+          } else if (blocks[count] == CityBuilding.stoneBrickID) {
+              int randomNumber = random.nextInt(10);
+              if (randomNumber == 0) {
+                  RuinGenHelper.setBlock(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j, ModBlocks.brick_concrete_broken);
+              } else if (randomNumber < 4) {
+                  RuinGenHelper.setBlock(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j, ModBlocks.brick_concrete_mossy);
+              } else {
+                  RuinGenHelper.setBlock(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j, ModBlocks.brick_concrete);
+              }
+          } else if (blocks[count] == Block.getIdFromBlock(Blocks.wooden_door)) {
+              RuinGenHelper.setBlock(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j, ModBlocks.door_bunker, data[count]);
           } else {
             world.setBlock(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j, Block.getBlockById(blocks[count]), data[count], 0);
           }

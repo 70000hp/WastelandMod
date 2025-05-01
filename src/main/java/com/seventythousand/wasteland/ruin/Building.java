@@ -4,6 +4,7 @@ package com.seventythousand.wasteland.ruin;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.itempool.ItemPool;
+import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 import com.hbm.tileentity.machine.storage.TileEntitySafe;
@@ -94,19 +95,22 @@ public class Building {
         return new Building("smallHouse2", 5, 6, 5, BuildingCode.SmallHouse2.BLOCKS, BuildingCode.SmallHouse2.DATA, true);
       case 14:
         return new Building("well", 4, 5, 4, BuildingCode.Well.BLOCKS, BuildingCode.Well.DATA, false);
+      case 15:
+        return new Building("spawner", BuildingCode.RuinSpawner.WIDTH, BuildingCode.RuinSpawner.HEIGHT, BuildingCode.RuinSpawner.LENGTH, BuildingCode.RuinSpawner.BLOCKS, BuildingCode.RuinSpawner.DATA, false);
+
+
     }
     return null;
   }
 
   public boolean generate(World world, Random random, Vector pos, int rot) {
-    int maxSize, minSize, numHoles;
     Block top = world.getWorldChunkManager() instanceof WorldChunkManagerWasteland ?  world.getBiomeGenForCoords(pos.X, pos.Z).topBlock : Blocks.grass;
     RuinGenHelper.setWorld(world);
     byte[] blockArray = blocks.clone();
       int damageNodes = height / 15;
       damageNodes = (damageNodes > 0) ? (random.nextInt(damageNodes) + 1) : 1;
-      int damageMaxRad = (width + length) / 16;
-      int damageMinRad = (width + length) / 24;
+      int damageMaxRad = (width + length) / 32;
+      int damageMinRad = (width + length) / ((width + length)*4);
     if (this.name.equals((create(14)).name)) {
       int waterHeight = random.nextInt(7) + 10;
       for (int i = 0; i < waterHeight; i++) {
@@ -135,7 +139,7 @@ public class Building {
           if(doGen) {
               if (blockArray[count] == 7) {
                   RuinGenHelper.setBlock(pos.X + p.X, pos.Y + j, pos.Z + p.Z, top);
-              } else if (blockArray[count] == 54) {
+              } else if (blockArray[count] == 54 || (blockArray[count] == Block.getIdFromBlock(Blocks.noteblock) && random.nextInt(3) == 0)) {
                   handleLoot(world, random, pos.X + p.X, pos.Y + j, pos.Z + p.Z);
               } else if (blockArray[count] != 2) {
                   if (world.getBiomeGenForCoords(pos.X + p.X, pos.Z + p.Z).biomeID != ModConfig.radioactiveBiomeID) {
@@ -163,16 +167,25 @@ public class Building {
     return true;
   }
 
-    private void handleLoot(World world, Random random, int x, int y, int z) {
-
-        if (random.nextInt(CityLootConfig.hardLootChance) == 0) {
+    public static void handleLoot(World world, Random random, int x, int y, int z) {
+        if(random.nextInt(CityLootConfig.ultraLootChance) == 0){
+            RuinGenHelper.setBlock(x, y, z, ModBlocks.safe, 0);
+            TileEntitySafe safe = (TileEntitySafe) world.getTileEntity(x, y, z);
+            safe.setMod(0.5);
+            safe.setPins(random.nextInt(999) + 1);
+            safe.lock();
+            LootStack.placeLoot(random, safe,
+                RuinConfig.getLoot(CityLootConfig.ultraLoot),
+                CityLootConfig.ultraLootMin,
+                CityLootConfig.ultraLootMax, CityLootConfig.ultraLootRepeat);
+        } else if (random.nextInt(CityLootConfig.hardLootChance) == 0) {
             RuinGenHelper.setBlock(x, y, z, ModBlocks.safe, 0);
             TileEntitySafe safe = (TileEntitySafe) world.getTileEntity(x, y, z);
             safe.setMod(1);
             safe.setPins(random.nextInt(999) + 1);
             safe.lock();
             LootStack.placeLoot(random, safe,
-                hardLoot.items,
+                RuinConfig.getLoot(RuinConfig.hardLoot),
                 CityLootConfig.hardLootMin,
                 CityLootConfig.hardLootMax, CityLootConfig.hardLootRepeat);
 
@@ -180,14 +193,21 @@ public class Building {
             RuinGenHelper.setBlock(x, y, z, ModBlocks.crate_steel, 0);
             TileEntityCrateSteel chest = (TileEntityCrateSteel) world.getTileEntity(x, y, z);
             LootStack.placeLoot(random, chest,
-                midLoot.items,
+                RuinConfig.getLoot(RuinConfig.midLoot),
+                CityLootConfig.midLootMin,
+                CityLootConfig.midLootMax, CityLootConfig.midLootRepeat);
+        } else if (random.nextInt(CityLootConfig.midLootChance) == 1) {
+            RuinGenHelper.setBlock(x, y, z, ModBlocks.crate_iron, 0);
+            TileEntityCrateBase chest = (TileEntityCrateBase) world.getTileEntity(x, y, z);
+            LootStack.placeLoot(random, chest,
+                RuinConfig.getLoot(RuinConfig.midLoot),
                 CityLootConfig.midLootMin,
                 CityLootConfig.midLootMax, CityLootConfig.midLootRepeat);
         } else {
             RuinGenHelper.setBlock(x, y, z, Blocks.chest, 0);
             TileEntityChest chest = (TileEntityChest)world.getTileEntity(x, y, z);
             LootStack.placeLoot(random, chest,
-                easyLoot.items,
+                random.nextBoolean() ? RuinConfig.getLoot(CityLootConfig.easyLoot) : easyLoot.items,
                 CityLootConfig.easyLootMin,
                 CityLootConfig.easyLootMax, CityLootConfig.easyLootRepeat);
         }

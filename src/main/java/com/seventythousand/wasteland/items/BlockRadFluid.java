@@ -2,6 +2,7 @@
 
 package com.seventythousand.wasteland.items;
 
+import com.hbm.potion.HbmPotion;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -40,7 +41,7 @@ public class BlockRadFluid extends BlockFluidClassic {
 
   public void onEntityCollidedWithBlock(World world, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) {
     if (!world.isRemote && entity instanceof EntityLivingBase && (world.getWorldTime() & 0xAL) == 0L)
-      if (!((EntityLivingBase)entity).isPotionActive(Potion.poison.id))
-        ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id, 205, 0, false));
+      if (!((EntityLivingBase)entity).isPotionActive(HbmPotion.radiation.getId()))
+        ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.getId(), 60, 0, false));
   }
 }

@@ -19,10 +19,6 @@ public class PostModWorldGenerator implements IWorldGenerator {
 
   public static int grassID = Block.getIdFromBlock((Block)Blocks.grass);
 
-  public static int tallGrassID = Block.getIdFromBlock((Block)Blocks.tallgrass);
-
-  public static int deadBushID = Block.getIdFromBlock((Block)Blocks.deadbush);
-
   public static int radius = ModConfig.forceDisableGrassRadius;
 
   private static boolean checkingNearChunks = false;
@@ -66,8 +62,6 @@ public class PostModWorldGenerator implements IWorldGenerator {
           if (blocks[j] == grassID) {
             blocks[j] = (byte)surfaceBlockID;
             blocksExist = true;
-          } else if (blocks[j] == tallGrassID) {
-            blocks[j] = (byte)deadBushID;
           }
         }
       }

@@ -31,11 +31,12 @@ public class WastelandGenLayerBiome extends GenLayer {
     this.biomes[BiomeManager.BiomeType.WARM.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID), 10));
     this.biomes[BiomeManager.BiomeType.WARM.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.apocalypseBiomeID), 10));
     this.biomes[BiomeManager.BiomeType.WARM.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mountainBiomeID), 8));
+    this.biomes[BiomeManager.BiomeType.WARM.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.desertBiomeID), 8));
 
     this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.bryceBiomeID), 9));
     this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mesaBiomeID), 9));
     this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mesaPlateauBiomeID), 8));
-    this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.desertBiomeID), 10));
+    this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.desertBiomeID), 11));
 
     this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.tundraBiomeID), 7));
     this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID), 7));
@@ -84,7 +85,7 @@ public class WastelandGenLayerBiome extends GenLayer {
     genlayer = GenLayerZoom.magnify(1000L, genlayerriverinit, 2);
     genlayer = GenLayerZoom.magnify(1000L, genlayer, b0);
     GenLayerRiver genlayerriver = new GenLayerRiver(1L, genlayer);
-    GenLayerSmooth genlayersmooth = new GenLayerSmooth(1000L, genlayerriver);
+    GenLayerSmooth genlayersmooth = new GenLayerSmooth(3000L, genlayerriver);
     object = new GenLayerRareBiome(1001L, genlayerhills);
 
     for (int j = 0; j < b0; ++j)

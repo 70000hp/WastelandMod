@@ -2,11 +2,18 @@
 
 package com.seventythousand.wasteland.world.gen;
 
+import com.hbm.blocks.ModBlocks;
 import com.seventythousand.wasteland.config.ModConfig;
 import java.util.Random;
+
+import com.seventythousand.wasteland.items.LootStack;
+import com.seventythousand.wasteland.ruin.Building;
+import com.seventythousand.wasteland.ruin.RuinGenHelper;
+import cpw.mods.fml.common.Mod;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -17,12 +24,12 @@ public class WorldGenRandomRubble extends WorldGenerator {
 
   public boolean generate(World world, Random random, int x, int y, int z) {
     byte byte0 = 3;
-    int l = random.nextInt(2) + 2;
+    int l = random.nextInt(10);
     int i1 = random.nextInt(2) + 2;
     boolean flag = false;
     boolean flag1 = false;
     boolean flag2 = false;
-    byte byte1 = 75;
+    int byte1 = random.nextInt(125) +75;
     Material material = world.getBlock(x, y + 1, z).getMaterial();
     Material material1 = world.getBlock(x, y, z).getMaterial();
     Material material2 = world.getBlock(x + 1, y, z).getMaterial();
@@ -36,19 +43,26 @@ public class WorldGenRandomRubble extends WorldGenerator {
         int i2 = z + random.nextInt(8);
         Material material6 = world.getBlock(k1, l1 - 1, i2).getMaterial();
         if (world.getBlock(k1, l1, i2) == Blocks.air && material6.isSolid()) {
-          Block j2 = Blocks.cobblestone;
+          Block j2;
           int k2 = random.nextInt(31);
           if (k2 < 10) {
-            j2 = Blocks.cobblestone;
-          } else if (k2 >= 10 && k2 < 20) {
-            j2 = Blocks.mossy_cobblestone;
-          } else if (k2 >= 20 && k2 < 30) {
-            j2 = Blocks.planks;
+            j2 = ModBlocks.brick_concrete_broken;
+          } else if (k2 < 20) {
+            j2 = ModBlocks.brick_concrete;
+          } else if (k2 < 30) {
+            j2 = ModBlocks.brick_concrete_mossy;
           } else {
-            j2 = Blocks.brick_block;
+            j2 = ModBlocks.deco_steel;
           }
+
           world.setBlock(k1, l1, i2, j2);
         }
+      }
+      if (l == 0){
+          int k1 = x + random.nextInt(8);
+          int l1 = y - 1 + random.nextInt(4);
+          int i2 = z + random.nextInt(8);
+          Building.handleLoot(world, random, k1, l1, i2);
       }
       return true;
     }

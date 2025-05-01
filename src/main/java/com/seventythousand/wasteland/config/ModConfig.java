@@ -58,9 +58,18 @@ public class ModConfig {
 
   public static int[] spawnChance;
 
+  public static int[] spawnLayer;
+
   public static String[] mobName;
 
   public static int[][] woodTypes;
+
+  public static double radBiomeRads;
+
+  public static double hardcoreRads;
+
+  public static boolean hardcoreRadsToggle;
+
 
   public static void loadConfig(Configuration config) {
     config.load();
@@ -96,8 +105,14 @@ public class ModConfig {
     spawnCities = ConfigHelper.createConfigBool(config,"CityGen", "Enable cities", true);
     minCityDistance = ConfigHelper.createConfigInt(config,"CityGen", "Min chunks between abandoned cities", 128);
     cityChance = ConfigHelper.createConfigInt(config,"CityGen", "Chance of a city to spawn where possible, affected by value above, 1 in x format", 3);
-    maxCitySize = config.getInt("Max city size", "CityGen", 8, 2, 24, "Max allowed city size (radius in chunks); Set to lower values for slow processors\nThis only changes maximum allowable size, small city biomes will still spawn small cities");
     citySpawnerList = config.getStringList("City spawner rarity", "CityGen", new String[] { "Zombie,25", "Skeleton,25", "Spider,20", "Creeper,15", "CaveSpider,8", "PigZombie,4", "Blaze,2", "Witch,1" }, "Add or remove spawner types\nMob_name,spawn_chance\nCheck CreatureSpawn.cfg to see names of spawnable creatures. Higher spawn_chance means higher probablily of spawner choosing to be that mob/creature");
+    maxCitySize = config.getInt("Max city size", "CityGen", 8, 2, 24, "Max allowed city size (radius in chunks); Set to lower values for slow processors");
+    //TODO: work out wave spawner system via bob's fnacy dungeone blocks
+
+    radBiomeRads = ConfigHelper.createConfigDouble(config, "Worldgen", "Radioactive biome enviromental radiation",  "The amount of enviromental rads in the radioactive biome, set to 0 to disable entirely", 0.3);
+    hardcoreRadsToggle = ConfigHelper.createConfigBool(config, "Worldgen", "Hardcore biome enviromental radiation toggle",  false);
+    hardcoreRads = ConfigHelper.createConfigDouble(config, "Worldgen", "Hardcore radiation amount",  "The amount of enviromental rads on any biome when hardcore radiation is enabled", 0.01);
+
     config.save();
     setSpawnerCreatures(citySpawnerList);
     convertWoodTypes(woodBlockStringList);

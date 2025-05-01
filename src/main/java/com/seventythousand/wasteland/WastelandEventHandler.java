@@ -2,6 +2,10 @@
 
 package com.seventythousand.wasteland;
 
+import com.hbm.config.WorldConfig;
+import com.hbm.main.MainRegistry;
+import com.hbm.util.ContaminationUtil;
+import com.hbm.world.biome.BiomeGenCraterBase;
 import com.seventythousand.wasteland.city.CityGenerator;
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.gui.ProgressGui;
@@ -10,14 +14,19 @@ import com.seventythousand.wasteland.items.ItemRegistry;
 import com.seventythousand.wasteland.ruin.RuinVillageGenerator;
 import com.seventythousand.wasteland.utils.Vector;
 import com.seventythousand.wasteland.world.WastelandWorldData;
+import com.seventythousand.wasteland.world.biome.BiomeGenRadioactive;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ServerCommandManager;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -28,7 +37,9 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -90,7 +101,7 @@ public class WastelandEventHandler {
       for (int i = 0; i < 2 * rad + 1; i++) {
         int height = RuinVillageGenerator.getWorldHeight(world, spawn.X - rad + i, spawn.Z - rad + i);
         if (height != 0)
-          min = (height < min) ? height : min;
+          min = Math.min(height, min);
       }
     }
     return min;
@@ -189,5 +200,37 @@ public class WastelandEventHandler {
       return new ItemStack((Item) ItemRegistry.radiationWasteBucket);
     }
     return null;
+  }
+  @SubscribeEvent
+  public void onLivingUpdate(LivingEvent.LivingUpdateEvent event){
+      EntityLivingBase entity = event.entityLiving;
+      //borrowed from HBM's NTM, again, sorgy
+      if(entity instanceof EntityPlayer) {
+          if(entity == MainRegistry.proxy.me()) {
+              EntityPlayer player = MainRegistry.proxy.me();
+              if (player != null) {
+                  BiomeGenBase biome = player.worldObj.getBiomeGenForCoords((int) Math.floor(player.posX), (int) Math.floor(player.posZ));
+                  if (biome instanceof BiomeGenRadioactive) {
+                      Random rand = player.getRNG();
+                      for (int i = 0; i < 3; i++)
+                          player.worldObj.spawnParticle("townaura", player.posX + rand.nextGaussian() * 3, player.posY + rand.nextGaussian() * 2, player.posZ + rand.nextGaussian() * 3, 0, 0, 0);
+                  }
+
+              }
+          } else if (!entity.worldObj.isRemote){
+              BiomeGenBase biome = entity.worldObj.getBiomeGenForCoords((int) Math.floor(entity.posX), (int) Math.floor(entity.posZ));
+              float radiation = 0;
+              if(ModConfig.radBiomeRads != 0 && biome.biomeID == ModConfig.radioactiveBiomeID) radiation = (float) ModConfig.radBiomeRads;
+              if(ModConfig.hardcoreRadsToggle) radiation += (float) ModConfig.hardcoreRads;
+
+              if(radiation > 0) {
+                  ContaminationUtil.contaminate(entity, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.CREATIVE, radiation / 20F);
+              }
+          }
+
+
+      }
+
+
   }
 }

@@ -28,7 +28,8 @@ public class LootStack {
 
 
     public static ItemStack[] getLootItems(Random rand, WeightedRandomChestContent[] possibleItems, int minItems, int maxItems, boolean repeat) {
-        int numofItems = minItems + rand.nextInt(maxItems - minItems + 1);
+      int x;
+      int numofItems = minItems + rand.nextInt(maxItems - minItems + 1);
         numofItems = (numofItems < 0) ? 0 : (Math.min(numofItems, possibleItems.length));
         ItemStack[] returned_itemStack = new ItemStack[numofItems];
 
@@ -44,6 +45,17 @@ public class LootStack {
     }
 
     public static void placeLoot(Random rand, TileEntityChest chest, ItemStack[] loot) {
+        for (ItemStack itemStack : loot) {
+            if(chest != null) {
+                int slot = rand.nextInt(chest.getSizeInventory());
+                for (int i = 0; i < chest.getSizeInventory(); i++)
+                    slot = (slot >= chest.getSizeInventory() - 1) ? 0 : (slot + 1);
+                if (itemStack != null)
+                    chest.setInventorySlotContents(slot, itemStack);
+            }
+        }
+    }
+    public static void placeLoot(Random rand, TileEntityCrateBase chest, ItemStack[] loot) {
         for (ItemStack itemStack : loot) {
             if(chest != null) {
                 int slot = rand.nextInt(chest.getSizeInventory());

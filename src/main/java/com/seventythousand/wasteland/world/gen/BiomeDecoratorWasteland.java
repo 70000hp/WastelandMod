@@ -15,6 +15,7 @@ import com.seventythousand.wasteland.world.biome.BiomeGenWastelandBase;
 
 import java.util.Random;
 
+import com.seventythousand.wasteland.world.biome.BiomeGenWastelandTundra;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -29,7 +30,6 @@ import net.minecraftforge.common.BiomeDictionary;
 
 public class BiomeDecoratorWasteland extends BiomeDecorator {
     public static WorldGenerator randomRubbleGen = new WorldGenRandomRubble();
-    private static final WorldGenTaiga2 smallSpruce = new WorldGenTaiga2(false);
     private static final WorldGenMegaPineTree bigSpruce = new WorldGenMegaPineTree(true, true);
 
     public static WorldGenWastelandBigTree bigTree = new WorldGenWastelandBigTree(true);
@@ -73,6 +73,7 @@ public class BiomeDecoratorWasteland extends BiomeDecorator {
 
         boolean coniferous = BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.CONIFEROUS);
         boolean rad = biome instanceof BiomeGenRadioactive;
+        boolean tundra = biome instanceof BiomeGenWastelandTundra;
         for (int i = 0; rand.nextInt(wBiome.smallLakeSpawnRate) == 0 && i < 3; i++) {
 
             x += this.randomGenerator.nextInt(16) + 8;
@@ -127,19 +128,21 @@ public class BiomeDecoratorWasteland extends BiomeDecorator {
                 int meta = coniferous ? 1 : rand.nextInt(3);
 
                 if (rand.nextInt(4) == 0 || coniferous) {
-                    if (coniferous) {
-                        bigSpruce.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getHeightValue(x, z), z);
+                    if(rad)
+                        bigTree.setTreeType(ModBlocks.waste_log, 0);
+                    else if (tundra){
+                        bigTree.setTreeType(ModBlocks.frozen_log, 0);
                     }
-                    if(!rad)
-                        tree.setTreeType(Blocks.log, meta);
                     else
-                        tree.setTreeType(ModBlocks.waste_log, 0);
+                        bigTree.setTreeType(Blocks.log, meta);
                     bigTree.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getHeightValue(x, z), z);
                 } else {
-                    if(!rad)
-                        tree.setTreeType(Blocks.log, meta);
-                    else
+                    if(rad)
                         tree.setTreeType(ModBlocks.waste_log, 0);
+                    else if (tundra)
+                        tree.setTreeType(ModBlocks.frozen_log, 0);
+                    else
+                        tree.setTreeType(Blocks.log, meta);
 
                     tree.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getHeightValue(x, z), z);
                 }

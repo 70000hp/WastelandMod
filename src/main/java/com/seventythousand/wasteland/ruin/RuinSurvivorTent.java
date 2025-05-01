@@ -2,6 +2,8 @@
 
 package com.seventythousand.wasteland.ruin;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.items.LootStack;
 import com.seventythousand.wasteland.utils.Rectangle;
@@ -25,6 +27,7 @@ public class RuinSurvivorTent extends Ruin implements IWorldGenerator {
     RuinGenHelper.setWorld(world);
     Rectangle pos = new Rectangle(new Vector(x - 2, y, z - 3), 5, 6);
     Block biomeBlock = ModConfig.getSurfaceBlock();
+    boolean deluxe = random.nextInt(5) == 0;
     int[] levels = Layout.getLevels(world, pos);
     if (Layout.checkLevel(levels, 0)) {
         int yCoord = Layout.getAverageLevel(levels) - 1;
@@ -37,18 +40,14 @@ public class RuinSurvivorTent extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(x - 1, yCoord, z - 3, biomeBlock);
       RuinGenHelper.setBlock(x - 1, yCoord, z - 2, biomeBlock);
       RuinGenHelper.setBlock(x - 1, yCoord, z - 1, biomeBlock);
-      RuinGenHelper.setBlock(x - 1, yCoord, z + 0, (Block)Blocks.chest);
-      TileEntityChest chest = (TileEntityChest)world.getTileEntity(x - 1, yCoord, z);
-      LootStack loot = setItems(random);
-      LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+      Building.handleLoot(world, random, x - 1, y, z);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 1, biomeBlock);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 2, biomeBlock);
       RuinGenHelper.setBlock(x, yCoord, z - 3, biomeBlock);
       RuinGenHelper.setBlock(x, yCoord, z - 2, biomeBlock);
-      RuinGenHelper.setBlock(x, yCoord, z - 1, Blocks.planks);
+      RuinGenHelper.setBlock(x, yCoord, z - 1, deluxe ? ModBlocks.machine_diesel : Blocks.planks);
       RuinGenHelper.setBlock(x, yCoord, z + 0, Blocks.planks);
-      RuinGenHelper.setBlock(x, yCoord - 1, z + 0, Blocks.tnt);
-      RuinGenHelper.setBlock(x, yCoord, z + 1, Blocks.planks);
+      RuinGenHelper.setBlock(x, yCoord, z + 1, deluxe ? ModBlocks.red_barrel : Blocks.planks);
       RuinGenHelper.setBlock(x, yCoord, z + 2, biomeBlock);
       RuinGenHelper.setBlock(x + 1, yCoord, z - 3, biomeBlock);
       RuinGenHelper.setBlock(x + 1, yCoord, z - 2, biomeBlock);
@@ -70,7 +69,7 @@ public class RuinSurvivorTent extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(x - 2, yCoord, z + 1, Blocks.wool);
       RuinGenHelper.setBlock(x - 2, yCoord, z + 2, Blocks.wool);
       RuinGenHelper.setBlock(x - 1, yCoord, z - 3, Blocks.air);
-      RuinGenHelper.setBlock(x - 1, yCoord, z - 2, Blocks.air);
+      RuinGenHelper.setBlock(x - 1, yCoord, z - 2, ModBlocks.radiorec);
       RuinGenHelper.setBlock(x - 1, yCoord, z - 1, Blocks.air);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 0, Blocks.air);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 1, Blocks.air);
@@ -78,7 +77,7 @@ public class RuinSurvivorTent extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(x, yCoord, z - 3, Blocks.air);
       RuinGenHelper.setBlock(x, yCoord, z - 2, Blocks.air);
       RuinGenHelper.setBlock(x, yCoord, z - 1, Blocks.air);
-      RuinGenHelper.setBlock(x, yCoord, z + 0, Blocks.wooden_pressure_plate);
+      RuinGenHelper.setBlock(x, yCoord, z + 0, deluxe ? ModBlocks.mine_he : ModBlocks.mine_ap);
       RuinGenHelper.setBlock(x, yCoord, z + 1, Blocks.air);
       RuinGenHelper.setBlock(x, yCoord, z + 2, Blocks.air);
       RuinGenHelper.setBlock(x + 1, yCoord, z - 3, Blocks.air);

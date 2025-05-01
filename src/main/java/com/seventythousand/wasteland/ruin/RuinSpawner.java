@@ -2,6 +2,8 @@
 
 package com.seventythousand.wasteland.ruin;
 
+import com.hbm.blocks.ModBlocks;
+import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.items.LootStack;
 import cpw.mods.fml.common.IWorldGenerator;
 import com.seventythousand.wasteland.ModHelper;
@@ -12,6 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.world.World;
 
 public class RuinSpawner extends Ruin implements IWorldGenerator {
@@ -28,10 +31,7 @@ public class RuinSpawner extends Ruin implements IWorldGenerator {
       yCoord--;
       RuinGenHelper.setBlock(xCoord + 4, yCoord, zCoord + 0, Blocks.air);
       RuinGenHelper.setBlock(xCoord + 4, yCoord, zCoord + 3, Blocks.stonebrick, 2);
-      RuinGenHelper.setBlock(xCoord + 4, yCoord, zCoord + 4, (Block)Blocks.chest);
-      TileEntityChest chest = (TileEntityChest)world.getTileEntity(xCoord + 4, yCoord, zCoord + 4);
-      LootStack loot = setItems(random);
-      LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+      Building.handleLoot(world, random, xCoord + 4, yCoord, zCoord + 4);
       RuinGenHelper.setBlock(xCoord + 3, yCoord, zCoord + 0, Blocks.stonebrick, 2);
       RuinGenHelper.setBlock(xCoord + 3, yCoord, zCoord + 1, Blocks.air);
       RuinGenHelper.setBlock(xCoord + 3, yCoord, zCoord + 2, Blocks.air);
@@ -90,7 +90,7 @@ public class RuinSpawner extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(xCoord + 4, yCoord, zCoord - 2, Blocks.stonebrick, 2);
       RuinGenHelper.setBlock(xCoord + 4, yCoord, zCoord + 2, Blocks.stonebrick, 2);
       RuinGenHelper.setBlock(xCoord + 4, yCoord, zCoord + 5, Blocks.stonebrick);
-      RuinGenHelper.setBlock(xCoord + 3, world.getHeightValue(xCoord + 3, zCoord - 4), zCoord - 4, Blocks.stonebrick, 2);
+      RuinGenHelper.setBlock(xCoord + 3, world.getHeightValue(xCoord + 3, zCoord - 4), zCoord - 4, ModBlocks.mine_ap, 2);
       RuinGenHelper.setBlock(xCoord + 3, yCoord, zCoord - 2, Blocks.cobblestone);
       RuinGenHelper.setBlock(xCoord + 3, yCoord, zCoord + 5, Blocks.stonebrick);
       RuinGenHelper.setBlock(xCoord + 2, yCoord, zCoord - 3, Blocks.stonebrick);
@@ -218,6 +218,11 @@ public class RuinSpawner extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(xCoord + 5, yCoord, zCoord + 4, Blocks.stonebrick);
       RuinGenHelper.setBlock(xCoord + 5, yCoord, zCoord + 5, Blocks.stonebrick, 2);
       RuinGenHelper.setBlock(xCoord + 4, yCoord, zCoord - 3, Blocks.stonebrick);
+        String mobName = ModConfig.getSpawnerCreature(random);
+        RuinGenHelper.setBlock(xCoord + 4, yCoord, zCoord - 3, Blocks.mob_spawner);
+        TileEntityMobSpawner mobSpawner = (TileEntityMobSpawner) world.getTileEntity(xCoord + 4, yCoord, zCoord - 3);
+        if (mobName != null)
+            mobSpawner.func_145881_a().setEntityName(mobName);
       RuinGenHelper.setBlock(xCoord + 4, yCoord, zCoord + 0, Blocks.stonebrick);
       RuinGenHelper.setBlock(xCoord + 4, yCoord, zCoord + 1, Blocks.stonebrick);
       RuinGenHelper.setBlock(xCoord + 4, yCoord, zCoord + 3, Blocks.stonebrick, 2);
@@ -402,6 +407,7 @@ public class RuinSpawner extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(xCoord - 3, yCoord, zCoord + 0, Blocks.stonebrick, 2);
       RuinGenHelper.setBlock(xCoord - 3, yCoord, zCoord + 1, Blocks.stonebrick, 2);
       RuinGenHelper.setBlock(xCoord - 3, yCoord, zCoord + 2, Blocks.stonebrick, 2);
+      Building.handleLoot(world, random, xCoord + 1, world.getHeightValue(xCoord, zCoord), zCoord + 3);
       return true;
     }
     return false;
