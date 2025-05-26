@@ -35,6 +35,7 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
     flowers.clear();
     addFlower(ModBlocks.mush, 0, 1000);
     setTopBlock(ModBlocks.sellafield_slaked);
+    setFillerBlock(ModBlocks.sellafield_slaked);
     wFlowers.clear();
     wFlowers.put(ModBlocks.mush, 0);
     this.wasteTerrain = true;
@@ -47,9 +48,11 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
 
     public BiomeGenBase.TempCategory getTempCategory()
     {
-        return BiomeGenBase.TempCategory.OCEAN;
+        return TempCategory.COLD;
     }
-    public void genTerrainBlocks(World p_150573_1_, Random p_150573_2_, Block[] p_150573_3_, byte[] p_150573_4_, int p_150573_5_, int p_150573_6_, double p_150573_7_)
+
+    @Override
+    public void genTerrainBlocks(World p_150573_1_, Random rand, Block[] p_150573_3_, byte[] p_150573_4_, int p_150573_5_, int p_150573_6_, double p_150573_7_)
     {
         if (this.field_150621_aC == null || this.field_150622_aD != p_150573_1_.getSeed()) {
             this.func_150619_a(p_150573_1_.getSeed());
@@ -60,6 +63,7 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
             this.field_150623_aE = new NoiseGeneratorPerlin(random1, 6);
             this.field_150624_aF = new NoiseGeneratorPerlin(random1, 3);
         }
+
 
         this.field_150622_aD = p_150573_1_.getSeed();
         double d5 = 0.0D;
@@ -85,9 +89,9 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
         k = p_150573_5_ & 15;
         l = p_150573_6_ & 15;
 
-        Block block = ModBlocks.sellafield_slaked;
+        Block block = topBlock;
         Block block2 = this.fillerBlock;
-        int i1 = (int) (p_150573_7_ / 3.0D + 3.0D + p_150573_2_.nextDouble() * 0.2D);
+        int i1 = (int) (p_150573_7_ / 3.0D + 3.0D + rand.nextDouble() * 0.2D);
         boolean flag1 = Math.cos(p_150573_7_ / 3.0D * Math.PI) > 0.0D;
         int j1 = -1;
         boolean flag2 = false;
@@ -100,7 +104,7 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
                 p_150573_3_[i2] = Blocks.stone;
             }
 
-            if (l1 <= p_150573_2_.nextInt(5)) {
+            if (l1 == 0) {
                 p_150573_3_[i2] = Blocks.bedrock;
             } else {
                 Block block1 = p_150573_3_[i2];
@@ -116,7 +120,7 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
                                 block = null;
                                 block2 = Blocks.stone;
                             } else if (l1 >= 59 && l1 <= 64) {
-                                block = ModBlocks.sellafield_slaked;
+                                block = topBlock;
                                 block2 = this.fillerBlock;
                             }
 
@@ -138,7 +142,7 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
                                         b0 = 1;
                                     }
 
-                                    p_150573_3_[i2] = ModBlocks.sellafield_slaked;
+                                    p_150573_3_[i2] = topBlock;
                                     if (b0 < 4) {
                                         p_150573_4_[i2] = (byte) b0;
                                     }
@@ -158,12 +162,12 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
                             --j1;
 
                             if (flag2) {
-                                p_150573_3_[i2] = ModBlocks.sellafield_slaked;
+                                p_150573_3_[i2] = topBlock;
                                 p_150573_4_[i2] = 3;
                             } else {
                                 b0 = this.func_150618_d(p_150573_5_, l1, p_150573_6_);
 
-                                p_150573_3_[i2] = ModBlocks.sellafield_slaked;
+                                p_150573_3_[i2] = topBlock;
                                 if (b0 < 4) {
                                     p_150573_4_[i2] = b0;
                                 }
@@ -174,86 +178,7 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
                     j1 = -1;
                 }
             }
-        }
-        this.genBiomeWastelandTerrain(p_150573_1_, p_150573_2_, p_150573_3_, p_150573_4_, p_150573_5_, p_150573_6_, p_150573_7_);
-    }
-    @Override
-    public void genBiomeWastelandTerrain(World world, Random random, Block[] blocks, byte[] meta, int x, int y, double p_150560_7_)
-    {
-        Block block = this.topBlock;
-        byte b0 = (byte)(this.field_150604_aj & 255);
-        Block block1 = this.fillerBlock;
-        int k = -1;
-        int l = (int)(p_150560_7_ / 3.0D + 3.0D + random.nextDouble() * 0.25D);
-        int i1 = x & 15;
-        int j1 = y & 15;
-        int k1 = blocks.length / 256;
 
-        for (int l1 = 255; l1 >= 0; --l1)
-        {
-            int i2 = (j1 * 16 + i1) * k1 + l1;
-
-            if (l1 <= random.nextInt(5))
-            {
-                blocks[i2] = Blocks.bedrock;
-            }
-            else
-            {
-                Block block2 = blocks[i2];
-
-                if (block2 != null && block2.getMaterial() != Material.air)
-                {
-                    if (block2 == Blocks.stone)
-                    {
-                        if (k == -1)
-                        {
-                            if (l <= 0)
-                            {
-                                block = null;
-                                b0 = 0;
-                                block1 = Blocks.stone;
-                            }
-                            else if (l1 >= 59 && l1 <= 70) {
-                                block = this.topBlock;
-                            }
-
-                            if (l1 < 63)
-                            {
-                                block = ModConfig.getlakeLiquid();
-                                b0 = 0;
-                            }
-
-                            k = l;
-
-                            if (l1 >= 56)
-                            {
-                                blocks[i2] = block;
-                                meta[i2] = b0;
-                            }
-                            else if (l1 < 56 - l)
-                            {
-                                block = null;
-                                block1 = Blocks.stone;
-                                blocks[i2] = Blocks.gravel;
-                            }
-                            else
-                            {
-                                blocks[i2] = block1;
-                            }
-                        }
-                        else if (k > 0)
-                        {
-                            --k;
-                            blocks[i2] = block1;
-
-                        }
-                    }
-                }
-                else
-                {
-                    k = -1;
-                }
-            }
         }
     }
 
@@ -333,7 +258,7 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
     public void decorate(World p_76728_1_, Random p_76728_2_, int p_76728_3_, int p_76728_4_)
     {
         super.decorate(p_76728_1_, p_76728_2_, p_76728_3_, p_76728_4_);
-        int k = 6 + p_76728_2_.nextInt(12);
+        int k = 16 + p_76728_2_.nextInt(16);
         int l;
         int i1;
         int j1;
@@ -346,12 +271,14 @@ public class BiomeGenRadioactive extends BiomeGenWastelandBase {
 
             if (p_76728_1_.getBlock(i1, j1, k1).isReplaceableOreGen(p_76728_1_, i1, j1, k1, ModBlocks.sellafield_slaked))
             {
-                if(k < 8)
+                if(k < 24)
                     p_76728_1_.setBlock(i1, j1, k1, ModBlocks.ore_sellafield_diamond, 0, 2);
                 else
                     p_76728_1_.setBlock(i1, j1, k1, ModBlocks.ore_sellafield_emerald, 0, 2);
             }
+
         }
+
     }
     public byte func_150618_d(int p_150618_1_, int p_150618_2_, int p_150618_3_) {
         int l = (int) Math.round(this.field_150625_aG.func_151601_a((double) p_150618_1_ / 512.0D, (double) p_150618_3_ / 512.0D) * 4.0D);

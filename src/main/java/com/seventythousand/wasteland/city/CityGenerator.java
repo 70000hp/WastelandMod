@@ -41,15 +41,15 @@ public class CityGenerator implements IWorldGenerator {
     return this;
   }
 
+  @Override
   public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-    if (world.provider.dimensionId == 0 && this.loadedWorld && ModConfig.spawnCities)
-      generateCity(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
+    if (world.provider.dimensionId == 0 && this.loadedWorld && ModConfig.spawnCities && random.nextInt(ModConfig.cityChance) == 0)
+      generateCity(random, chunkX, chunkZ, world, false);
   }
 
-  public void generateCity(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+  public void generateCity(Random random, int chunkX, int chunkZ, World world, boolean wand) {
     MultiVector currentLoc = new MultiVector(chunkX * 16, Layout.getWorldHeight(world, chunkX * 16, chunkZ * 16), chunkZ * 16);
-    if (random.nextInt(ModConfig.cityChance) == 0
-            && checkDist(currentLoc, (ModConfig.minCityDistance * 16))
+    if ( (checkDist(currentLoc,ModConfig.minCityDistance * 16) || wand)
             && world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16).biomeID != ModConfig.radioactiveBiomeID
             && !BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16), BiomeDictionary.Type.WATER)
     ) {
@@ -62,7 +62,7 @@ public class CityGenerator implements IWorldGenerator {
         chunks.add(currentLoc);
         addConnectedBiomeChunks(chunks, currentLoc, world, ModConfig.maxCitySize * 16);
         MultiVector center = getCenterChunk(chunks, world);
-        if (chunks.size() > 0 && center != null) {
+        if (!chunks.isEmpty() && center != null) {
           System.out.println("Generating City at X:" + center.X + " Z:" + center.Z + " Size: " + chunks.size());
           List<SchematicBuilding> buildingSchematics = SchematicBuilding.loadAllBuildings();
           RuinedCity city = new RuinedCity(world, center, chunks, random);

@@ -61,8 +61,8 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
         BiomeGenBase tundraHills = (new BiomeGenWastelandTundra(ModConfig.tundraHillsBiomeID, "Tundra Mountains", height_WastelandMountains)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(10526880);
         BiomeGenBase tundraForest = (new BiomeGenWastelandTaiga(ModConfig.taigaBiomeID, "Wasteland Taiga", BiomeGenBase.height_MidPlains)).setEnableSnow().setTemperatureRainfall(0.0F, 0.95F).setColor(747097);
         BiomeGenBase desert = (new BiomeGenWastelandDesert(ModConfig.desertBiomeID, "Wasteland Desert", BiomeGenBase.height_LowPlains)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
-        BiomeGenBase mesa = (new BiomeGenWastelandMesa(ModConfig.mesaBiomeID, "Wasteland Mesa", BiomeGenBase.height_Default, false)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
-        BiomeGenBase bryce = (new BiomeGenWastelandMesa(ModConfig.bryceBiomeID, "Wasteland Bryce", BiomeGenBase.height_Default, true)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
+        BiomeGenBase mesa = (new BiomeGenWastelandMesa(ModConfig.mesaBiomeID, "Wasteland Mesa", BiomeGenBase.height_MidPlains, false)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
+        BiomeGenBase bryce = (new BiomeGenWastelandMesa(ModConfig.bryceBiomeID, "Wasteland Bryce", BiomeGenBase.height_MidPlains, true)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
 
         BiomeDictionary.registerBiomeType(apocalypse, BiomeDictionary.Type.WASTELAND);
         BiomeDictionary.registerBiomeType(apocMountains, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.MOUNTAIN);
@@ -118,7 +118,7 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
         for (int l1 = 255; l1 >= 0; --l1) {
             int i2 = (j1 * 16 + i1) * k1 + l1;
 
-            if (l1 <= random.nextInt(5)) {
+            if (l1 == 0) {
                 blocks[i2] = Blocks.bedrock;
             } else {
                 Block block2 = blocks[i2];

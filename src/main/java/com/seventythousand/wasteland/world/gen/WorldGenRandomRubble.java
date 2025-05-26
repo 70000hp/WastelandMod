@@ -18,18 +18,17 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenRandomRubble extends WorldGenerator {
+
+  public int scale = 1;
+
   public WorldGenRandomRubble() {
     super(true);
   }
 
   public boolean generate(World world, Random random, int x, int y, int z) {
-    byte byte0 = 3;
-    int l = random.nextInt(10);
-    int i1 = random.nextInt(2) + 2;
-    boolean flag = false;
-    boolean flag1 = false;
-    boolean flag2 = false;
-    int byte1 = random.nextInt(125) +75;
+    int l = random.nextInt(3);
+    boolean i1 = random.nextBoolean();
+    int byte1 = (random.nextInt(125) +75 ) * scale;
     Material material = world.getBlock(x, y + 1, z).getMaterial();
     Material material1 = world.getBlock(x, y, z).getMaterial();
     Material material2 = world.getBlock(x + 1, y, z).getMaterial();
@@ -44,15 +43,35 @@ public class WorldGenRandomRubble extends WorldGenerator {
         Material material6 = world.getBlock(k1, l1 - 1, i2).getMaterial();
         if (world.getBlock(k1, l1, i2) == Blocks.air && material6.isSolid()) {
           Block j2;
-          int k2 = random.nextInt(31);
-          if (k2 < 10) {
-            j2 = ModBlocks.brick_concrete_broken;
-          } else if (k2 < 20) {
-            j2 = ModBlocks.brick_concrete;
-          } else if (k2 < 30) {
-            j2 = ModBlocks.brick_concrete_mossy;
-          } else {
-            j2 = ModBlocks.deco_steel;
+          int k2 = random.nextInt(51);
+          if(i1)
+              if (k2 < 10) {
+                j2 = ModBlocks.brick_concrete_broken;
+              } else if (k2 < 20) {
+                j2 = ModBlocks.brick_concrete;
+              } else if (k2 < 30) {
+                j2 = ModBlocks.brick_concrete_mossy;
+              } else if (k2 < 40) {
+                  j2 = ModBlocks.deco_asbestos;
+              } else if (k2 < 45) {
+                  j2 = ModBlocks.steel_beam;
+              } else {
+                j2 = ModBlocks.deco_rusty_steel;
+              }
+          else {
+              if (k2 < 10) {
+                  j2 = ModBlocks.tile_lab_cracked;
+              } else if (k2 < 20) {
+                  j2 = ModBlocks.tile_lab;
+              } else if (k2 < 30) {
+                  j2 = ModBlocks.tile_lab_broken;
+              } else if (k2 < 40) {
+                  j2 = ModBlocks.vinyl_tile;
+              } else if (k2 < 45) {
+                  j2 = ModBlocks.steel_scaffold;
+              } else {
+                  j2 = ModBlocks.deco_steel;
+              }
           }
 
           world.setBlock(k1, l1, i2, j2);
@@ -60,7 +79,7 @@ public class WorldGenRandomRubble extends WorldGenerator {
       }
       if (l == 0){
           int k1 = x + random.nextInt(8);
-          int l1 = y - 1 + random.nextInt(4);
+          int l1 = world.getHeightValue(x,z);
           int i2 = z + random.nextInt(8);
           Building.handleLoot(world, random, k1, l1, i2);
       }

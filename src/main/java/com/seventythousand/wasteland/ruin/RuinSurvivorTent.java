@@ -4,7 +4,10 @@ package com.seventythousand.wasteland.ruin;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
+import com.hbm.tileentity.machine.storage.TileEntitySafe;
+import com.seventythousand.wasteland.config.CityLootConfig;
 import com.seventythousand.wasteland.config.ModConfig;
+import com.seventythousand.wasteland.config.RuinConfig;
 import com.seventythousand.wasteland.items.LootStack;
 import com.seventythousand.wasteland.utils.Rectangle;
 import com.seventythousand.wasteland.utils.Vector;
@@ -17,7 +20,6 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
 
 public class RuinSurvivorTent extends Ruin implements IWorldGenerator {
-  private RuinGenHelper genHelper = new RuinGenHelper();
 
   public RuinSurvivorTent(String par1Name) {
     super(par1Name);
@@ -40,7 +42,26 @@ public class RuinSurvivorTent extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(x - 1, yCoord, z - 3, biomeBlock);
       RuinGenHelper.setBlock(x - 1, yCoord, z - 2, biomeBlock);
       RuinGenHelper.setBlock(x - 1, yCoord, z - 1, biomeBlock);
-      Building.handleLoot(world, random, x - 1, y, z);
+      if(!deluxe) {
+          RuinGenHelper.setBlock(x - 1, yCoord, z, ModBlocks.crate_iron, 0);
+          TileEntityCrateBase chest = (TileEntityCrateBase) world.getTileEntity(x - 1, yCoord, z);
+          LootStack loot = setItems(random);
+          LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+      } else {
+          RuinGenHelper.setBlock(x - 1, yCoord, z, ModBlocks.filing_cabinet, 0);
+          TileEntityCrateBase safe = (TileEntityCrateBase) world.getTileEntity(x - 1, yCoord, z);
+          if(safe != null) {
+              safe.setMod(1);
+              safe.setPins(random.nextInt(999) + 1);
+              safe.lock();
+          } else {
+              System.out.println("Tent Cabinet in" + (x - 1) + " " + yCoord + " " + z + " is null, this should not happen!!!!!!!!!!, block at position is:  " + world.getBlock(x,y,z).getUnlocalizedName());
+          }
+          LootStack.placeLoot(random, safe,
+              RuinConfig.getLoot(RuinConfig.hardLoot),
+              CityLootConfig.hardLootMin,
+              CityLootConfig.hardLootMax, CityLootConfig.hardLootRepeat);
+      }
       RuinGenHelper.setBlock(x - 1, yCoord, z + 1, biomeBlock);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 2, biomeBlock);
       RuinGenHelper.setBlock(x, yCoord, z - 3, biomeBlock);

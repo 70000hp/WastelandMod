@@ -105,7 +105,7 @@ public class ModConfig {
     spawnCities = ConfigHelper.createConfigBool(config,"CityGen", "Enable cities", true);
     minCityDistance = ConfigHelper.createConfigInt(config,"CityGen", "Min chunks between abandoned cities", 128);
     cityChance = ConfigHelper.createConfigInt(config,"CityGen", "Chance of a city to spawn where possible, affected by value above, 1 in x format", 3);
-    citySpawnerList = config.getStringList("City spawner rarity", "CityGen", new String[] { "Zombie,25", "Skeleton,25", "Spider,20", "Creeper,15", "CaveSpider,8", "PigZombie,4", "Blaze,2", "Witch,1" }, "Add or remove spawner types\nMob_name,spawn_chance\nCheck CreatureSpawn.cfg to see names of spawnable creatures. Higher spawn_chance means higher probablily of spawner choosing to be that mob/creature");
+    citySpawnerList = config.getStringList("City spawner rarity", "CityGen", new String[] { "Zombie,25", "Skeleton,25", "Spider,20", "entity_mob_volatile_creeper,5", "entity_mob_phosgene_creeper,15", "Blaze,2", "Witch,1" }, "Add or remove spawner types\nMob_name,spawn_chance\nCheck CreatureSpawn.cfg to see names of spawnable creatures. Higher spawn_chance means higher probablily of spawner choosing to be that mob/creature");
     maxCitySize = config.getInt("Max city size", "CityGen", 8, 2, 24, "Max allowed city size (radius in chunks); Set to lower values for slow processors");
     //TODO: work out wave spawner system via bob's fnacy dungeone blocks
 

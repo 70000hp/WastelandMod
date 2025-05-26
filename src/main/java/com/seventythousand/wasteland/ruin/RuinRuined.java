@@ -87,6 +87,7 @@ public class RuinRuined extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(x - 1, yCoord, z + 1, ModBlocks.lightstone, 2);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 2, surfaceBlock);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 3, surfaceBlock);
+      RuinGenHelper.setBlock(x - 1, yCoord +  1, z + 3, ModBlocks.mine_he);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 4, ModBlocks.lightstone, 2);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 5, surfaceBlock);
       RuinGenHelper.setBlock(x - 2, yCoord, z - 7, ModBlocks.lightstone, 2);
@@ -159,6 +160,7 @@ public class RuinRuined extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(x - 1, yCoord, z + 5, ModBlocks.lightstone, 2);
       RuinGenHelper.setBlock(x - 2, yCoord, z - 4, ModBlocks.lightstone, 2);
       Building.handleLoot(world, rand, x - 2, yCoord, z + 4);
+
       RuinGenHelper.setBlock(x - 2, yCoord, z + 5, ModBlocks.lightstone);
       RuinGenHelper.setBlock(x - 3, yCoord, z - 4, ModBlocks.lightstone);
       RuinGenHelper.setBlock(x - 3, yCoord, z - 2,ModBlocks.lightstone_tile_stairs);
@@ -347,7 +349,7 @@ public class RuinRuined extends Ruin implements IWorldGenerator {
       LootStack loot =  new LootStack(RuinConfig.getLoot(rand.nextBoolean() ? CityLootConfig.ultraLoot : RuinConfig.hardLoot), 27, 26, false);
       LootStack.placeLoot(rand, safe, LootStack.getLootItems(rand, loot.items, loot.minNum, loot.maxNum, loot.repeat));
 
-      RuinGenHelper.setBlock(x - 4, yCoord + 1, z - 2, ModBlocks.turret_sentry_damaged);
+      RuinGenHelper.setBlock(x - 2, yCoord, z - 2, ModBlocks.turret_sentry_damaged);
       RuinGenHelper.setBlock(x - 4, yCoord, z + 4, ModBlocks.lightstone, 2);
       RuinGenHelper.setBlock(x - 5, yCoord, z - 2, ModBlocks.lightstone);
       RuinGenHelper.setBlock(x - 5, yCoord, z - 1, ModBlocks.lightstone, 2);

@@ -5,6 +5,13 @@ package com.seventythousand.wasteland.world.gen;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockDeadPlant;
 import com.hbm.blocks.generic.BlockMush;
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.WorldConfig;
+import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ModItems;
+import com.hbm.world.feature.BedrockOre;
+import com.hbm.world.feature.GlyphidHive;
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.ruin.RuinRuined;
 import com.seventythousand.wasteland.ruin.RuinRuinedCiv1;
@@ -19,19 +26,15 @@ import com.seventythousand.wasteland.world.biome.BiomeGenWastelandTundra;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenFlowers;
-import net.minecraft.world.gen.feature.WorldGenMegaPineTree;
-import net.minecraft.world.gen.feature.WorldGenTaiga2;
-import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.BiomeDictionary;
 
 public class BiomeDecoratorWasteland extends BiomeDecorator {
-    public static WorldGenerator randomRubbleGen = new WorldGenRandomRubble();
-    private static final WorldGenMegaPineTree bigSpruce = new WorldGenMegaPineTree(true, true);
-
+    public static WorldGenRandomRubble randomRubbleGen = new WorldGenRandomRubble();
     public static WorldGenWastelandBigTree bigTree = new WorldGenWastelandBigTree(true);
     public static WorldGenWastelandTrees tree = new WorldGenWastelandTrees(true);
     public static WorldGenWastelandLake lakeGen = new WorldGenWastelandLake(ModConfig.getlakeLiquid());
@@ -70,19 +73,18 @@ public class BiomeDecoratorWasteland extends BiomeDecorator {
         int x = this.chunk_X;
         int z = this.chunk_Z;
 
-
         boolean coniferous = BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.CONIFEROUS);
         boolean rad = biome instanceof BiomeGenRadioactive;
         boolean tundra = biome instanceof BiomeGenWastelandTundra;
         for (int i = 0; rand.nextInt(wBiome.smallLakeSpawnRate) == 0 && i < 3; i++) {
 
-            x += this.randomGenerator.nextInt(16) + 8;
-            z += this.randomGenerator.nextInt(16) + 8;
-            int y = this.currentWorld.getHeightValue(x, z);
+            int lakeX = x + this.randomGenerator.nextInt(16) + 8;
+            int lakeZ = z + this.randomGenerator.nextInt(16) + 8;
+            int y = this.currentWorld.getHeightValue(lakeX, lakeZ);
 
-            lakeGen.generate(this.currentWorld, this.randomGenerator, x, y, z);
-            if (rand.nextInt(6) < 5)
-                clayGen.generate(this.currentWorld, this.randomGenerator, x, y, z);
+            lakeGen.generate(this.currentWorld, this.randomGenerator, lakeX, y, lakeZ);
+            if (rand.nextInt(9) < 5)
+                clayGen.generate(this.currentWorld, this.randomGenerator, lakeX, y, lakeZ);
         }
 
         for (int i = 0; rand.nextInt(wBiome.smallLakeSpawnRate)/2 == 0 && i < 10; i++) {
@@ -96,30 +98,53 @@ public class BiomeDecoratorWasteland extends BiomeDecorator {
                 (Block)wBiome.wFlowers.keySet().toArray()[nextBlock],
                 (int)wBiome.wFlowers.values().toArray()[nextMeta]);
         }
-
         if (rand.nextInt(wBiome.ruinSpawnRate) == 0) {
 
-            x += this.randomGenerator.nextInt(16) + 8;
-            z += this.randomGenerator.nextInt(16) + 8;
+            int lakeX = x + this.randomGenerator.nextInt(16) + 8;
+            int lakeZ = z + this.randomGenerator.nextInt(16) + 8;
 
-            switch (rand.nextInt(5)) {
+            switch (rand.nextInt(4)) {
                 case 1:
-                    tent.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getHeightValue(x, z) - 1, z);
+                    tent.generate(this.currentWorld, this.randomGenerator, lakeX, this.currentWorld.getHeightValue(lakeX, lakeX) - 1,lakeZ);
                     break;
                 case 2:
-                    house.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getHeightValue(x, z) - 1, z);
+                    if (wBiome.temples && rand.nextInt(3) == 0)
+                        temple.generate(this.currentWorld, this.randomGenerator, lakeX, this.currentWorld.getHeightValue(lakeX, lakeX) - 1, lakeZ);
+                    else
+                        house.generate(this.currentWorld, this.randomGenerator, lakeX, this.currentWorld.getHeightValue(lakeX, lakeX) - 1, lakeZ);
                     break;
                 case 3:
-                    if (wBiome.temples) {
-                        temple.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getHeightValue(x, z) - 1, z);
-                        break;
-                    }
-                case 4:
-                    treeHouse.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getHeightValue(x, z) - 1, z);
+                    treeHouse.generate(this.currentWorld, this.randomGenerator, lakeX, this.currentWorld.getHeightValue(lakeX, lakeX) - 1, lakeZ);
                     break;
                 default:
-                    randomRubbleGen.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getHeightValue(x, z), z);
+                    randomRubbleGen.generate(this.currentWorld, this.randomGenerator, lakeX, this.currentWorld.getHeightValue(lakeX, lakeX), lakeZ);
                     break;
+            }
+        }
+        if (rad && WorldConfig.newBedrockOres && rand.nextInt(300) == 0) {
+
+            int randPosX = x + 8 * ( 1 - rand.nextInt(5));
+            int randPosZ = z + 8 * ( 1 - rand.nextInt(5));
+
+            int nestAmount = 0;
+
+            if (rand.nextInt(6) == 0) {
+                nestAmount += 4;
+                randomRubbleGen.generate(this.currentWorld, this.randomGenerator, randPosX, this.currentWorld.getHeightValue(randPosX, randPosZ), randPosZ);
+                BedrockOre.generate(currentWorld, randPosX  + rand.nextInt(3), randPosZ + rand.nextInt(3), new ItemStack(ModItems.crystal_schraranium, 2), new FluidStack(Fluids.SAS3, 250), 0xD78A16, 3);
+            } else {
+                nestAmount += 3;
+                randomRubbleGen.scale = 3;
+                randomRubbleGen.generate(this.currentWorld, this.randomGenerator, randPosX, this.currentWorld.getHeightValue(randPosX, randPosZ), randPosZ);
+                BedrockOre.generate(currentWorld, randPosX  + rand.nextInt(3), randPosZ  + rand.nextInt(3), new ItemStack(ModItems.bedrock_ore_base, 3), new FluidStack(Fluids.SULFURIC_ACID, 500, 5), 0xD78A16, 2);
+                randomRubbleGen.scale = 1;
+            }
+
+            randomRubbleGen.generate(this.currentWorld, this.randomGenerator, randPosX, this.currentWorld.getHeightValue(randPosX, randPosZ), randPosZ);
+            BedrockOre.generate(currentWorld, randPosX + rand.nextInt(3), randPosZ + rand.nextInt(3), new ItemStack(ModItems.gem_rad, 3), new FluidStack(Fluids.HOTSTEAM, 200), 0xD78A16, 2);
+
+            for (int i = 0; i < nestAmount; i++) {
+                WastelandGlyphidNest.generateSmall(currentWorld, randPosX, currentWorld.getHeightValue(randPosX,randPosZ),randPosZ,rand,2, true);
             }
         }
         if (rand.nextInt(wBiome.treeSpawnRate) == 0) {

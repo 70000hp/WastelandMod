@@ -32,7 +32,7 @@ public class Ruin {
 
   public static LootStack rareLoot = new LootStack(RuinConfig.getLoot(RuinConfig.ruinRareLoot), RuinConfig.ruinRareLootMax, RuinConfig.ruinRareLootMin, RuinConfig.ruinRareLootRepeat);
 
-  public static LootStack hardLoot = new LootStack(RuinConfig.getLoot(RuinConfig.hardLoot), RuinConfig.hardLootMax, RuinConfig.hardLootMin, RuinConfig.hardLootRepeat);
+  public static LootStack hardLoot = new LootStack(RuinConfig.getLoot(RuinConfig.ruinHardLoot), RuinConfig.hardLootMax, RuinConfig.hardLootMin, RuinConfig.hardLootRepeat);
 
   public static LootStack seedLoot = new LootStack(RuinConfig.getLoot(RuinConfig.seedLoot), RuinConfig.seedLootMax, RuinConfig.seedLootMin, RuinConfig.seedLootRepeat);
 
@@ -49,10 +49,9 @@ public class Ruin {
   }
 
   protected LootStack setItems(Random random) {
-    if (random.nextInt(RuinConfig.hardLootChance) == 0) {
+    if (random.nextInt(RuinConfig.hardRuinLootChance) == 0) {
       return hardLoot;
-    }
-    if (random.nextInt(RuinConfig.rareRuinLootChance) == 0) {
+    } else if (random.nextInt(RuinConfig.rareRuinLootChance) == 0) {
       return rareLoot;
     }
     return normalLoot;

@@ -20,6 +20,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import net.minecraftforge.common.BiomeDictionary;
 
 public class RuinedCity {
   public CityBlockLayout layout;
@@ -36,6 +37,9 @@ public class RuinedCity {
 
     for(int i = 0; i < size; ++i) {
       CityBlock generatingBlock = (CityBlock)this.layout.block.get(i);
+      if(BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(generatingBlock.area.position.X,generatingBlock.area.position.Z), BiomeDictionary.Type.WATER)){
+            continue;
+      }
       if (generatingBlock.doGenerate) {
         generatingBlock.generate(world, random, buildingSchematics, cityColour);
       } else {
@@ -90,6 +94,9 @@ public class RuinedCity {
       int x = block.area.position.X;
       int z = block.area.position.Z;
       int i;
+      if(BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(x,z), BiomeDictionary.Type.WATER)){
+            continue;
+      }
       for (i = 0; i < w; i++) {
         if (block.connectedFaces[i])
           for (int j = 0; j < roadWidth; j++) {
@@ -103,6 +110,11 @@ public class RuinedCity {
             int y2 = block.cornerHeight[2 * w + l - i - 1];
             generateRoad(world, x + i * 16 - roadWidth, z + j, y1 + hOffset, y2 + hOffset, 16 + roadWidth * 2, true, r);
           }
+      }
+      if(r.nextInt(5) == 0){
+        world.setBlock(x, world.getHeightValue(x,z),z, ModBlocks.lantern, 12, 3);
+        BlockDummyable lantern = (BlockDummyable) world.getBlock(x, world.getHeightValue(x,z),z);
+        lantern.transformBlock(lantern);
       }
       for (i = 0; i < l; i++) {
         if (block.connectedFaces[w + l - i - 1])
@@ -122,13 +134,11 @@ public class RuinedCity {
             generateRoad(world, x + j, z + i * 16 - roadWidth, y1 + hOffset, y2 + hOffset, 16 + roadWidth * 2, false, r);
           }
       }
-      /*if(r.nextInt(5) == 0){
-          RuinGenHelper.setBlock(x, world.getHeightValue(x,z),z, ModBlocks.lantern, 12);
+      if(r.nextInt(5) == 0){
+          world.setBlock(x, world.getHeightValue(x,z),z, ModBlocks.lantern, 12, 3);
           BlockDummyable lantern = (BlockDummyable) world.getBlock(x, world.getHeightValue(x,z),z);
-          lantern.transformBlock()
-
-
-      }*/
+          lantern.transformBlock(lantern);
+      }
     }
   }
 

@@ -19,6 +19,8 @@ public class ItemRegistry {
 
   public static ItemBucket radiationWasteBucket;
 
+  public static Item cityWand;
+
   public ItemRegistry() {
     radiationWaste = (new Fluid("toxicWasteFluid")).setLuminosity(10).setDensity(1000).setViscosity(1500);
     registerFluids();
@@ -28,6 +30,7 @@ public class ItemRegistry {
     radiationWasteBucket.setContainerItem(Items.bucket);
     radiationWasteBucket.setTextureName("WLM:bucket_toxic");
     radiationWasteBucket.setCreativeTab(CreativeTabs.tabMisc);
+    cityWand = new ItemCityWand().setUnlocalizedName("city_wand").setMaxStackSize(1).setTextureName("WLM:city_wand");
     registerItems();
   }
 
@@ -41,5 +44,6 @@ public class ItemRegistry {
 
   public void registerItems() {
     GameRegistry.registerItem((Item)radiationWasteBucket, radiationWasteBucket.getUnlocalizedName());
+      GameRegistry.registerItem(cityWand, cityWand.getUnlocalizedName());
   }
 }

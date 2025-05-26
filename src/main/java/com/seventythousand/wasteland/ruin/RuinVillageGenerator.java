@@ -48,14 +48,15 @@ public class RuinVillageGenerator implements IWorldGenerator {
 
   public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
     if (world.provider.dimensionId == 0 && this.loadedWorld)
-      generateVillage(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
+      generateVillage(random, chunkX, chunkZ, world, false);
   }
 
-  public void generateVillage(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+  public void generateVillage(Random random, int chunkX, int chunkZ, World world, boolean wand) {
     MultiVector currentLoc = new MultiVector(chunkX * 16, Layout.getWorldHeight(world, chunkX * 16, chunkZ * 16), chunkZ * 16);
-    if (!world.isRemote && !this.generating && checkDist(currentLoc, (ModConfig.minVillageDistance * 16))
-            && !this.generating && !world.isRemote
-            && !BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16), BiomeDictionary.Type.WATER)) {
+    if (!world.isRemote
+            && !this.generating
+            && (wand || checkDist(currentLoc, (ModConfig.minVillageDistance * 16))
+            && !BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16), BiomeDictionary.Type.WATER))) {
       this.generating = true;
       int villageSize = random.nextInt(3);
       int villageDim = (villageSize + 10) * 16;
