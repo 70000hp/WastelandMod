@@ -3,6 +3,7 @@
 package com.seventythousand.wasteland.world;
 
 import com.seventythousand.wasteland.config.ModConfig;
+import com.seventythousand.wasteland.world.gen.layer.GenLayerWastelandRiver;
 import com.seventythousand.wasteland.world.gen.layer.GenLayerWastelandRiverMix;
 
 import java.util.ArrayList;
@@ -31,17 +32,16 @@ public class WastelandGenLayerBiome extends GenLayer {
     this.biomes[BiomeManager.BiomeType.WARM.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID), 10));
     this.biomes[BiomeManager.BiomeType.WARM.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.apocalypseBiomeID), 10));
     this.biomes[BiomeManager.BiomeType.WARM.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mountainBiomeID), 8));
-    this.biomes[BiomeManager.BiomeType.WARM.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.desertBiomeID), 8));
 
     this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.bryceBiomeID), 9));
     this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mesaBiomeID), 9));
     this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mesaPlateauBiomeID), 8));
     this.biomes[BiomeManager.BiomeType.DESERT.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.desertBiomeID), 11));
 
-    this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.tundraBiomeID), 7));
+    this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.apocalypseBiomeID), 7));
     this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.forestBiomeID), 7));
     this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.mountainBiomeID), 8));
-    this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.coldForestBiomeID), 9));
+    this.biomes[BiomeManager.BiomeType.COOL.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.coldForestBiomeID), 8));
 
     this.biomes[BiomeManager.BiomeType.ICY.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.coldForestBiomeID), 7));
     this.biomes[BiomeManager.BiomeType.ICY.ordinal()].add(new BiomeManager.BiomeEntry(BiomeGenBase.getBiome(ModConfig.tundraHillsBiomeID), 8));
@@ -84,7 +84,7 @@ public class WastelandGenLayerBiome extends GenLayer {
     GenLayerHills genlayerhills = new GenLayerHills(1000L, object, genlayer1);
     genlayer = GenLayerZoom.magnify(1000L, genlayerriverinit, 2);
     genlayer = GenLayerZoom.magnify(1000L, genlayer, b0);
-    GenLayerRiver genlayerriver = new GenLayerRiver(1L, genlayer);
+    GenLayerWastelandRiver genlayerriver = new GenLayerWastelandRiver(1L, genlayer);
     GenLayerSmooth genlayersmooth = new GenLayerSmooth(3000L, genlayerriver);
     object = new GenLayerRareBiome(1001L, genlayerhills);
 
@@ -110,32 +110,32 @@ public class WastelandGenLayerBiome extends GenLayer {
     genlayervoronoizoom.initWorldGenSeed(p_75901_0_);
     return new GenLayer[] {genlayerrivermix, genlayervoronoizoom, genlayerrivermix};
   }
-  public int[] getInts(int p_75904_1_, int p_75904_2_, int p_75904_3_, int p_75904_4_) {
-    int[] aint = this.parent.getInts(p_75904_1_, p_75904_2_, p_75904_3_, p_75904_4_);
-    int[] aint1 = IntCache.getIntCache(p_75904_3_ * p_75904_4_);
-    for (int i1 = 0; i1 < p_75904_4_; ++i1)
+  public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight) {
+    int[] aint = this.parent.getInts(areaX, areaY, areaWidth, areaHeight);
+    int[] aint1 = IntCache.getIntCache(areaWidth * areaHeight);
+    for (int i1 = 0; i1 < areaHeight; ++i1)
     {
-      for (int j1 = 0; j1 < p_75904_3_; ++j1)
+      for (int j1 = 0; j1 < areaWidth; ++j1)
       {
-        this.initChunkSeed((long)(j1 + p_75904_1_), (long)(i1 + p_75904_2_));
-        int k1 = aint[j1 + i1 * p_75904_3_];
+        this.initChunkSeed((long)(j1 + areaX), (long)(i1 + areaY));
+        int k1 = aint[j1 + i1 * areaWidth];
         k1 &= -3841;
 
        if (k1 == 1)
         {
-          aint1[j1 + i1 * p_75904_3_] = getWeightedBiomeEntry(BiomeManager.BiomeType.DESERT).biome.biomeID;
+          aint1[j1 + i1 * areaWidth] = getWeightedBiomeEntry(BiomeManager.BiomeType.DESERT).biome.biomeID;
         }
         else if (k1 == 2)
         {
-          aint1[j1 + i1 * p_75904_3_] = getWeightedBiomeEntry(BiomeManager.BiomeType.WARM).biome.biomeID;
+          aint1[j1 + i1 * areaWidth] = getWeightedBiomeEntry(BiomeManager.BiomeType.WARM).biome.biomeID;
         }
         else if (k1 == 3)
         {
-          aint1[j1 + i1 * p_75904_3_] = getWeightedBiomeEntry(BiomeManager.BiomeType.COOL).biome.biomeID;
+          aint1[j1 + i1 * areaWidth] = getWeightedBiomeEntry(BiomeManager.BiomeType.COOL).biome.biomeID;
         }
         else
         {
-          aint1[j1 + i1 * p_75904_3_] = getWeightedBiomeEntry(BiomeManager.BiomeType.ICY).biome.biomeID;
+          aint1[j1 + i1 * areaWidth] = getWeightedBiomeEntry(BiomeManager.BiomeType.ICY).biome.biomeID;
         }
       }
     }
@@ -145,7 +145,7 @@ public class WastelandGenLayerBiome extends GenLayer {
   {
     List<BiomeManager.BiomeEntry> biomeList = biomes[type.ordinal()];
     int totalWeight = WeightedRandom.getTotalWeight(biomeList);
-    int weight = BiomeManager.isTypeListModded(type)?nextInt(totalWeight):nextInt(totalWeight / 10) * 10;
+    int weight = nextInt(totalWeight);
     return (BiomeManager.BiomeEntry)WeightedRandom.getItem(biomeList, weight);
   }
 }

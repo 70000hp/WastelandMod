@@ -37,6 +37,7 @@ public class ModConfig {
   public static int bryceBiomeID;
   public static int coldForestBiomeID;
   public static int mesaPlateauBiomeID;
+  public static int wastelandRiverBiomeID;
 
   public static boolean spawnBunker;
 
@@ -86,6 +87,7 @@ public class ModConfig {
     bryceBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Mesa Bryce Biome ID", 52);
     coldForestBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Mountainous Forest Biome ID", 53);
     mesaPlateauBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Mesa Plateau Biome ID", 54);
+    wastelandRiverBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland River Biome ID", 55);
 
     config.setCategoryComment("Worldgen", "General world generation config");
     wastelandTreeSpawnRate = ConfigHelper.createConfigInt(config,"Worldgen", "Dead Tree Rarity", 10);

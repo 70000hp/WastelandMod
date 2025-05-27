@@ -31,7 +31,7 @@ public class WorldTypeWasteland extends WorldType {
   }
 
   public boolean isCustomizable() {
-    return true;
+    return false;
   }
 
 

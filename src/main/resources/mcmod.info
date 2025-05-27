@@ -1,16 +1,16 @@
 [
 {
   "modid": "wastelands",
-  "name": "§aWasteland§f | MineoutTW",
-  "description": "Apocalypse wasteland biomes to minecraft making its return! This mod is purposed for Mineout: The Wasteland",
-  "version": "1.5.0",
+  "name": "Wasteland",
+  "description": "Wasteland biome mod, effectively a HBM's NTM addon",
+  "version": "1.8.6",
   "mcversion": "1.7.10",
   "url": "https://github.com/chiqors",
   "updateUrl": "",
-  "authorList": ["ChiqoRS","Mineout Universe Team"],
-  "credits": "Created by ChiqoRS",
+  "authorList": ["The_Holy_Frog, MrSpring, GiMoe, 70000hp (current)"],
+  "credits": "Created by The_Holy_Fro, and developed by The_Holy_Frog, MrSpring, GiMoe, 70000hp (current)",
   "logoFile": "/logo.png",
-  "requiredMods": [],
+  "requiredMods": ["hbm"],
   "dependencies": [
     "mod_MinecraftForge"
   ]

@@ -63,6 +63,7 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
         BiomeGenBase desert = (new BiomeGenWastelandDesert(ModConfig.desertBiomeID, "Wasteland Desert", BiomeGenBase.height_LowPlains)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
         BiomeGenBase mesa = (new BiomeGenWastelandMesa(ModConfig.mesaBiomeID, "Wasteland Mesa", BiomeGenBase.height_MidPlains, false)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
         BiomeGenBase bryce = (new BiomeGenWastelandMesa(ModConfig.bryceBiomeID, "Wasteland Bryce", BiomeGenBase.height_MidPlains, true)).setColor(747097).setTemperatureRainfall(2.0F, 0.0F);
+        BiomeGenBase river = (new BiomeGenWastelandRiver(ModConfig.wastelandRiverBiomeID, "Wasteland River", BiomeGenBase.height_Oceans)).setColor(255);
 
         BiomeDictionary.registerBiomeType(apocalypse, BiomeDictionary.Type.WASTELAND);
         BiomeDictionary.registerBiomeType(apocMountains, BiomeDictionary.Type.WASTELAND, BiomeDictionary.Type.MOUNTAIN);
@@ -76,6 +77,8 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
         BiomeDictionary.registerBiomeType(mesa, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
         BiomeDictionary.registerBiomeType(mesa.createMutation(), BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
         BiomeDictionary.registerBiomeType(bryce, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
+        BiomeDictionary.registerBiomeType(river, BiomeDictionary.Type.RIVER);
+
 
         BiomeManager.addSpawnBiome(apocalypse);
         BiomeManager.addSpawnBiome(desert);
@@ -174,7 +177,10 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
                             } else if (l1 < 56 - l) {
                                 block = null;
                                 block1 = Blocks.stone;
-                                blocks[i2] = Blocks.gravel;
+                                blocks[i2] = random.nextBoolean() ? Blocks.gravel : Blocks.dirt;
+                                if(blocks[i2] == Blocks.dirt){
+                                    meta[i2] =  1;
+                                }
                             } else {
                                 blocks[i2] = block1;
                             }
