@@ -52,7 +52,6 @@ public class WastelandGenLayerBiome extends GenLayer {
   }
   public static GenLayer[] initializeAllBiomeGenerators(long p_75901_0_, WorldType p_75901_2_)
   {
-    boolean flag = false;
     GenLayerIsland genlayerisland = new GenLayerIsland(1L);
     GenLayerFuzzyZoom genlayerfuzzyzoom = new GenLayerFuzzyZoom(2000L, genlayerisland);
     GenLayerAddIsland genlayeraddisland = new GenLayerAddIsland(1L, genlayerfuzzyzoom);

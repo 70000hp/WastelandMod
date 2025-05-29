@@ -142,7 +142,10 @@ public class Building {
           if(doGen) {
               if (blockArray[count] == 7) {
                   RuinGenHelper.setBlock(pos.X + p.X, pos.Y + j, pos.Z + p.Z, top);
-              } else if (blockArray[count] == 54 || (blockArray[count] == Block.getIdFromBlock(Blocks.noteblock) && random.nextInt(3) == 0)|| (blockArray[count] == Block.getIdFromBlock(Blocks.crafting_table) && random.nextBoolean())) {
+              } else if (blockArray[count] == 54
+                  || (blockArray[count] == Block.getIdFromBlock(Blocks.noteblock) && random.nextBoolean())
+                  || (blockArray[count] == Block.getIdFromBlock(Blocks.crafting_table) && random.nextBoolean())
+                  || (blockArray[count] == Block.getIdFromBlock(Blocks.jukebox) && random.nextBoolean())) {
                   handleLoot(world, random, pos.X + p.X, pos.Y + j, pos.Z + p.Z);
               } else if (blockArray[count] != 2) {
                   if (world.getBiomeGenForCoords(pos.X + p.X, pos.Z + p.Z).biomeID != ModConfig.radioactiveBiomeID) {
