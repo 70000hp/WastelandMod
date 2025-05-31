@@ -121,7 +121,7 @@ public class BiomeDecoratorWasteland extends BiomeDecorator {
                     break;
             }
         }
-        if (rad && WorldConfig.newBedrockOres && rand.nextInt(300) == 0) {
+        if (rad && WorldConfig.newBedrockOres && rand.nextInt(ModConfig.radBiomeDepositChance) == 0) {
 
             int randPosX = x + 8 * ( 1 - rand.nextInt(5));
             int randPosZ = z + 8 * ( 1 - rand.nextInt(5));
@@ -141,11 +141,12 @@ public class BiomeDecoratorWasteland extends BiomeDecorator {
             }
 
             randomRubbleGen.generate(this.currentWorld, this.randomGenerator, randPosX, this.currentWorld.getHeightValue(randPosX, randPosZ), randPosZ);
-            BedrockOre.generate(currentWorld, randPosX + rand.nextInt(3), randPosZ + rand.nextInt(3), new ItemStack(ModItems.gem_rad, 3), new FluidStack(Fluids.HOTSTEAM, 200), 0xD78A16, 2);
+            BedrockOre.generate(currentWorld, randPosX + rand.nextInt(3), randPosZ + rand.nextInt(3), new ItemStack(ModItems.gem_rad, 3), new FluidStack(Fluids.HOTSTEAM, 100), 0xD78A16, 2);
 
-            for (int i = 0; i < nestAmount; i++) {
-                WastelandGlyphidNest.generateSmall(currentWorld, randPosX, currentWorld.getHeightValue(randPosX,randPosZ),randPosZ,rand,2, true);
-            }
+            if(ModConfig.radGlyphidToggle)
+                for (int i = 0; i < nestAmount; i++) {
+                    WastelandGlyphidNest.generateSmall(currentWorld, randPosX, currentWorld.getHeightValue(randPosX,randPosZ),randPosZ,rand,2, true);
+                }
         }
         if (rand.nextInt(wBiome.treeSpawnRate) == 0) {
             for (int i = 0; i < wBiome.treesPerChunk; i++) {

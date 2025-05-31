@@ -23,6 +23,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.world.World;
 import net.minecraftforge.common.BiomeDictionary;
 import org.jnbt.Tag;
@@ -35,22 +36,16 @@ public class Building {
   public int length;
 
   public String name;
-    private Vector[] damageLoc;
 
-    private int[] damageSize;
+  private Vector[] damageLoc;
+
+  private int[] damageSize;
+
   public boolean duplicate;
 
   private byte[] blocks;
 
   private byte[] data;
-
-  private RuinGenHelper genHelper = new RuinGenHelper();
-
-  public static LootStack easyLoot;
-
-  public static LootStack midLoot;
-
-  public static LootStack hardLoot;
 
   public Building(String name, int w, int h, int l, byte[] b, byte[] d, boolean multiple) {
     this.width = w;
@@ -60,9 +55,6 @@ public class Building {
     this.data = d;
     this.name = name;
     this.duplicate = multiple;
-    easyLoot = new LootStack(RuinConfig.getLoot(RuinConfig.easyLoot), RuinConfig.easyLootMax, RuinConfig.easyLootMin, RuinConfig.easyLootRepeat);
-    midLoot = new LootStack(RuinConfig.getLoot(RuinConfig.midLoot), RuinConfig.midLootMax, RuinConfig.midLootMin, RuinConfig.midLootRepeat);
-    hardLoot = new LootStack(RuinConfig.getLoot(RuinConfig.hardLoot), RuinConfig.hardLootMax, RuinConfig.hardLootMin, RuinConfig.hardLootRepeat);
   }
 
   public static Building create(int building) {
@@ -114,7 +106,7 @@ public class Building {
       damageNodes = (damageNodes > 0) ? (random.nextInt(damageNodes) + 1) : 1;
       int damageMaxRad = (width + length) / 32;
       int damageMinRad = (width + length) / ((width + length)*4);
-    if (this.name.equals((create(14)).name)) {
+    if (this.name.equals("well")) {
       int waterHeight = random.nextInt(7) + 10;
       for (int i = 0; i < waterHeight; i++) {
         world.setBlock(pos.X + 1, pos.Y - 1 - i, pos.Z + 1, Blocks.water);
@@ -142,6 +134,12 @@ public class Building {
           if(doGen) {
               if (blockArray[count] == 7) {
                   RuinGenHelper.setBlock(pos.X + p.X, pos.Y + j, pos.Z + p.Z, top);
+              } else if (blockArray[count] == 52 && random.nextBoolean()) {
+                  String mobName = ModConfig.getSpawnerCreature(random);
+                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + j, pos.Z + p.Z, Blocks.mob_spawner);
+                  TileEntityMobSpawner mobSpawner = (TileEntityMobSpawner) world.getTileEntity(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z);
+                  if (mobName != null)
+                      mobSpawner.func_145881_a().setEntityName(mobName);
               } else if (blockArray[count] == 54
                   || (blockArray[count] == Block.getIdFromBlock(Blocks.noteblock) && random.nextBoolean())
                   || (blockArray[count] == Block.getIdFromBlock(Blocks.crafting_table) && random.nextBoolean())
@@ -188,38 +186,28 @@ public class Building {
             LootStack.placeLoot(random, safe,
                 RuinConfig.getLoot(RuinConfig.hardLoot),
                 RuinConfig.hardLootMin,
-                RuinConfig.hardLootMax, RuinConfig.hardLootRepeat);
+                RuinConfig.hardLootMax);
 
         } else if (random.nextInt(CityLootConfig.midLootChance) == 0) {
-            RuinGenHelper.setBlock(x, y, z, ModBlocks.crate_steel, 0);
-            TileEntityCrateSteel chest = (TileEntityCrateSteel) world.getTileEntity(x, y, z);
+            if(random.nextBoolean()) RuinGenHelper.setBlock(x, y, z, ModBlocks.crate_steel, 0);
+            else RuinGenHelper.setBlock(x, y, z, ModBlocks.crate_iron, 0);
+            TileEntityCrateBase chest = (TileEntityCrateBase) world.getTileEntity(x, y, z);
             if(chest != null) {
             LootStack.placeLoot(random, chest,
                 RuinConfig.getLoot(RuinConfig.midLoot),
                 RuinConfig.midLootMin,
-                RuinConfig.midLootMax, RuinConfig.midLootRepeat);
+                RuinConfig.midLootMax);
             } else {
                 System.out.println("Safe in" + x + " " + y + " " + z + " is null, this should not happen!!!!!!!!!!, block at position is:  " + world.getBlock(x,y,z).getUnlocalizedName());
-            }
-        } else if (random.nextInt(CityLootConfig.midLootChance) == 1) {
-            RuinGenHelper.setBlock(x, y, z, ModBlocks.crate_iron, 0);
-            TileEntityCrateBase chest = (TileEntityCrateBase) world.getTileEntity(x, y, z);
-            if(chest != null) {
-                LootStack.placeLoot(random, chest,
-                    RuinConfig.getLoot(RuinConfig.midLoot),
-                    RuinConfig.midLootMin,
-                    RuinConfig.midLootMax, RuinConfig.midLootRepeat);
-            } else {
-                System.out.println("Chest in" + x + " " + y + " " + z + " is null, this should not happen!!!!!!!!!!, block at position is:  " + world.getBlock(x,y,z).getUnlocalizedName());
             }
         } else {
             RuinGenHelper.setBlock(x, y, z, Blocks.chest, 0);
             TileEntityChest chest = (TileEntityChest)world.getTileEntity(x, y, z);
             if(chest != null) {
                 LootStack.placeLoot(random, chest,
-                    random.nextBoolean() ? RuinConfig.getLoot(CityLootConfig.easyLoot) : easyLoot.items,
+                    random.nextBoolean() ? RuinConfig.getLoot(CityLootConfig.easyLoot) : RuinConfig.getLoot(RuinConfig.easyLoot),
                     RuinConfig.easyLootMin,
-                    RuinConfig.easyLootMax, RuinConfig.easyLootRepeat);
+                    RuinConfig.easyLootMax);
             } else {
                 System.out.println("Chest in" + x + " " + y + " " + z + " is null, this should not happen!!!!!!!!!!, block at position is:  " + world.getBlock(x,y,z).getUnlocalizedName());
             }

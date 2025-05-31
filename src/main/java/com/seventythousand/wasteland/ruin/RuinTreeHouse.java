@@ -54,10 +54,8 @@ public class RuinTreeHouse extends Ruin implements IWorldGenerator {
       yCoord++;
       RuinGenHelper.setBlock(x, yCoord, z, Blocks.log, woodMeta);
       RuinGenHelper.setBlock(x + 2, yCoord, z - 2, Blocks.log, woodMeta);
-      RuinGenHelper.setBlock(x - 1, yCoord, z + 1, (Block)Blocks.chest);
-      TileEntityChest chest = (TileEntityChest)world.getTileEntity(x - 1, yCoord, z + 1);
-      LootStack loot = setItems(random);
-      LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+      handleLoot(world, random, x - 1, yCoord, z + 1);
+
       RuinGenHelper.setBlock(x - 1, yCoord, z + 2, Blocks.log, woodMeta);
       RuinGenHelper.setBlock(x - 2, yCoord, z - 2, Blocks.log, woodMeta);
       RuinGenHelper.setBlock(x - 2, yCoord, z + 1, Blocks.log, woodMeta);

@@ -43,10 +43,7 @@ public class RuinSurvivorTent extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(x - 1, yCoord, z - 2, biomeBlock);
       RuinGenHelper.setBlock(x - 1, yCoord, z - 1, biomeBlock);
       if(!deluxe) {
-          RuinGenHelper.setBlock(x - 1, yCoord, z, ModBlocks.crate_iron, 0);
-          TileEntityCrateBase chest = (TileEntityCrateBase) world.getTileEntity(x - 1, yCoord, z);
-          LootStack loot = setItems(random);
-          LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+          handleLoot(world, random,x - 1, yCoord, z);
       } else {
           RuinGenHelper.setBlock(x - 1, yCoord, z, ModBlocks.filing_cabinet, 0);
           TileEntityCrateBase safe = (TileEntityCrateBase) world.getTileEntity(x - 1, yCoord, z);
@@ -60,7 +57,7 @@ public class RuinSurvivorTent extends Ruin implements IWorldGenerator {
           LootStack.placeLoot(random, safe,
               RuinConfig.getLoot(RuinConfig.hardLoot),
               CityLootConfig.hardLootMin,
-              CityLootConfig.hardLootMax, CityLootConfig.hardLootRepeat);
+              CityLootConfig.hardLootMax);
       }
       RuinGenHelper.setBlock(x - 1, yCoord, z + 1, biomeBlock);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 2, biomeBlock);

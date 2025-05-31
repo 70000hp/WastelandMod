@@ -77,21 +77,22 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
         BiomeDictionary.registerBiomeType(mesa, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
         BiomeDictionary.registerBiomeType(mesa.createMutation(), BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
         BiomeDictionary.registerBiomeType(bryce, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.MESA, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
-        BiomeDictionary.registerBiomeType(river, BiomeDictionary.Type.RIVER);
+        BiomeDictionary.registerBiomeType(river, BiomeDictionary.Type.RIVER, BiomeDictionary.Type.WATER);
 
 
         BiomeManager.addSpawnBiome(apocalypse);
         BiomeManager.addSpawnBiome(desert);
         BiomeManager.addSpawnBiome(mesa);
+        BiomeManager.addSpawnBiome(river);
         BiomeManager.addSpawnBiome(tundra);
-        BiomeManager.addSpawnBiome(tundraHills);
         BiomeManager.addSpawnBiome(apocMountains);
-        BiomeManager.addSpawnBiome(apocForest);
+
 
         biomesForSpawn.add(apocalypse);
         biomesForSpawn.add(desert);
         biomesForSpawn.add(tundra);
         biomesForSpawn.add(mesa);
+        biomesForSpawn.add(river);
         biomesForSpawn.add(apocMountains);
 
     }
@@ -175,12 +176,17 @@ public class BiomeGenWastelandBase extends BiomeGenBase {
                                 blocks[i2] = block;
                                 meta[i2] = b0;
                             } else if (l1 < 56 - l) {
-                                block = null;
-                                block1 = Blocks.stone;
-                                blocks[i2] = random.nextBoolean() ? Blocks.gravel : Blocks.dirt;
-                                if(blocks[i2] == Blocks.dirt){
-                                    meta[i2] =  1;
+                                if(topBlock.getMaterial() == Material.sand){
+                                    block1 = Blocks.sandstone;
+                                    blocks[i2] = random.nextBoolean() ? Blocks.gravel : Blocks.sand;
+                                } else {
+                                    block1 = Blocks.stone;
+                                    blocks[i2] = random.nextBoolean() ? Blocks.gravel : Blocks.dirt;
+                                    if (blocks[i2] == Blocks.dirt) {
+                                        meta[i2] = 1;
+                                    }
                                 }
+
                             } else {
                                 blocks[i2] = block1;
                             }

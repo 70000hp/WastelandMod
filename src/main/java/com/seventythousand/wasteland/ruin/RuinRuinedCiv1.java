@@ -51,7 +51,7 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
           wallMeta = random.nextInt(4);
         } else {
           wallBlock = ModBlocks.lightstone;
-          wallMeta = 2;
+          wallMeta = 1;
 
         }
         int j2 = random.nextInt(4);
@@ -112,13 +112,10 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
                     }
                 }
             } else {
-                int l7 = random.nextInt(24);
+                int l7 = random.nextInt(20);
                 int k8 = l7 / 5;
                 int j9 = l7 % 5;
-                RuinGenHelper.setBlock(x + k8, yCoord - 3, z + j9, ModBlocks.crate_iron);
-                TileEntityCrateBase chest = (TileEntityCrateBase) world.getTileEntity(x + k8, yCoord - 3, z + j9);
-                LootStack lootStack = setItems(random);
-                LootStack.placeLoot(random, chest, LootStack.getLootItems(random, lootStack.items, lootStack.minNum, lootStack.maxNum, lootStack.repeat));
+                handleLoot(world, random, x + k8, yCoord - 3, z + j9);
             }
           }
           k3 = 0;
@@ -225,10 +222,7 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
             k9 = x + 1;
             l9 = z + i9;
           }
-          RuinGenHelper.setBlock(k9, yCoord + 1, l9,  ModBlocks.crate_iron);
-          TileEntityCrateBase chest1 = (TileEntityCrateBase)world.getTileEntity(k9, yCoord + 1, l9);
-          LootStack loot = setItems(random);
-          LootStack.placeLoot(random, chest1, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum, loot.repeat));
+          handleLoot(world, random, k9, yCoord + 1, l9);
           int i10 = random.nextInt(2);
           if (i10 == 0) {
             int j10 = 0;
@@ -268,16 +262,4 @@ public class RuinRuinedCiv1 extends Ruin implements IWorldGenerator {
     return false;
   }
 
-  private String pickMobSpawner(Random random) {
-    int i = random.nextInt(4);
-    if (i == 0)
-      return "Skeleton";
-    if (i == 1)
-      return "Zombie";
-    if (i == 2)
-      return "Zombie";
-    if (i == 3)
-      return "Spider";
-    return "";
-  }
 }

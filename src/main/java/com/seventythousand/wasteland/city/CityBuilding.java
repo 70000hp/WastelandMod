@@ -104,7 +104,7 @@ public class CityBuilding {
                         } else if (this.blocks[count] == airID) {
                             if (p.Y > 0 && p.Y < 3)
                                 RuinGenHelper.setBlock(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, Blocks.air);
-                        } else if (this.blocks[count] == chestID) {
+                        } else if (this.blocks[count] == chestID || (this.blocks[count] == spawnerID && random.nextInt(3) == 0)) {
                             handleLoot(world, random, pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z, layer);
                         } else if (this.blocks[count] == spawnerID) {
                             if (random.nextInt(12) != 0) {
@@ -373,10 +373,7 @@ public class CityBuilding {
                     safe.setPins(random.nextInt(999) + 1);
                     safe.lock();
                     if(random.nextBoolean()) safe.fillWithSpiders();
-                    LootStack.placeLoot(random, safe,
-                        RuinConfig.getLoot(CityLootConfig.ultraLoot),
-                        CityLootConfig.ultraLootMin,
-                        CityLootConfig.ultraLootMax, CityLootConfig.ultraLootRepeat);
+                    LootStack.placeLoot(random, safe, RuinConfig.getLoot(CityLootConfig.ultraLoot), CityLootConfig.hardLootMin, CityLootConfig.hardLootMax);
                 } else {
                     System.out.println("City Safe in" + x + " " + y + " " + z + " is null, this should not happen!!!!!!!!!!, block at position is:  " + world.getBlock(x,y,z).getUnlocalizedName());
                 }
@@ -388,9 +385,7 @@ public class CityBuilding {
                     safe.setPins(random.nextInt(999) + 1);
                     safe.lock();
                     LootStack.placeLoot(random, safe,
-                        RuinConfig.getLoot(CityLootConfig.hardLoot),
-                        26,
-                        27, CityLootConfig.easyLootRepeat);
+                        RuinConfig.getLoot(CityLootConfig.hardLoot), CityLootConfig.hardLootMin, CityLootConfig.hardLootMax);
                 } else {
                     System.out.println("City Fancy Cabinet in" + x + " " + y + " " + z + " is null, this should not happen!!!!!!!!!!, block at position is:  " + world.getBlock(x,y,z).getUnlocalizedName());
                 }
@@ -401,7 +396,7 @@ public class CityBuilding {
                     LootStack.placeLoot(random, chest,
                         random.nextInt(3) == 0? ItemPool.getPool("POOL_VAULT_LOCKERS") : RuinConfig.getLoot(CityLootConfig.midLoot),
                         CityLootConfig.midLootMin,
-                        CityLootConfig.midLootMax, CityLootConfig.midLootRepeat);
+                        CityLootConfig.midLootMax);
                 } else {
                     System.out.println("City Crate in" + x + " " + y + " " + z + " is null, this should not happen!!!!!!!!!!, block at position is:  " + world.getBlock(x,y,z).getUnlocalizedName());
                 }
@@ -414,7 +409,7 @@ public class CityBuilding {
                     LootStack.placeLoot(random, chest,
                         random.nextInt(2) == 0 ? ItemPool.getPool("POOL_OFFICE_TRASH") : RuinConfig.getLoot(CityLootConfig.easyLoot),
                         CityLootConfig.easyLootMin,
-                        CityLootConfig.easyLootMax, CityLootConfig.easyLootRepeat);
+                        CityLootConfig.easyLootMax);
                 } else {
                     System.out.println("City Cabinet in" + x + " " + y + " " + z + " is null, this should not happen!!!!!!!!!!, block at position is:  " + world.getBlock(x,y,z).getUnlocalizedName());
                 }
@@ -424,7 +419,7 @@ public class CityBuilding {
                         LootStack.placeLoot(random, chest2,
                             random.nextInt(2) == 0 ? ItemPool.getPool("POOL_FILING_CABINET") : RuinConfig.getLoot(CityLootConfig.easyLoot),
                             CityLootConfig.easyLootMin,
-                            CityLootConfig.easyLootMax, CityLootConfig.easyLootRepeat);
+                            CityLootConfig.easyLootMax);
                 } else {
                     System.out.println("City Cabinet 2 in" + x + " " + y + " " + z + " is null, this should not happen!!!!!!!!!!, block at position is:  " + world.getBlock(x,y,z).getUnlocalizedName());
                 }

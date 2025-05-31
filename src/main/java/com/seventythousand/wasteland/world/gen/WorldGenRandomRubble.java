@@ -54,7 +54,7 @@ public class WorldGenRandomRubble extends WorldGenerator {
               } else if (k2 < 40) {
                   j2 = ModBlocks.deco_asbestos;
               } else if (k2 < 45) {
-                  j2 = ModBlocks.steel_beam;
+                  j2 = ModBlocks.steel_scaffold;
               } else {
                 j2 = ModBlocks.deco_rusty_steel;
               }

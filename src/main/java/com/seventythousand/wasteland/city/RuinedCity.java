@@ -4,6 +4,7 @@ package com.seventythousand.wasteland.city;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.world.feature.Sellafield;
 import com.seventythousand.wasteland.config.ModConfig;
 import com.seventythousand.wasteland.items.LootStack;
@@ -21,6 +22,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class RuinedCity {
   public CityBlockLayout layout;
@@ -111,11 +113,6 @@ public class RuinedCity {
             generateRoad(world, x + i * 16 - roadWidth, z + j, y1 + hOffset, y2 + hOffset, 16 + roadWidth * 2, true, r);
           }
       }
-      if(r.nextInt(5) == 0){
-        world.setBlock(x, world.getHeightValue(x,z),z, ModBlocks.lantern, 12, 3);
-        BlockDummyable lantern = (BlockDummyable) world.getBlock(x, world.getHeightValue(x,z),z);
-        lantern.transformBlock(lantern);
-      }
       for (i = 0; i < l; i++) {
         if (block.connectedFaces[w + l - i - 1])
           for (int j = 0; j < roadWidth; j++) {
@@ -136,8 +133,7 @@ public class RuinedCity {
       }
       if(r.nextInt(5) == 0){
           world.setBlock(x, world.getHeightValue(x,z),z, ModBlocks.lantern, 12, 3);
-          BlockDummyable lantern = (BlockDummyable) world.getBlock(x, world.getHeightValue(x,z),z);
-          lantern.transformBlock(lantern);
+          MultiblockHandlerXR.fillSpace(world, x, world.getHeightValue(x,z), z, new int[] {4, 0, 0, 0, 0, 0}, ModBlocks.lantern, ForgeDirection.NORTH);
       }
     }
   }

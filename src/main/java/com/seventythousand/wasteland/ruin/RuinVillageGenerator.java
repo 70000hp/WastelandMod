@@ -85,8 +85,7 @@ public class RuinVillageGenerator implements IWorldGenerator {
           if (blocks[count] == 54) {
             world.setBlock(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j, ModBlocks.crate_steel, data[count], 0);
             TileEntityCrateBase chest = (TileEntityCrateBase)world.getTileEntity(pos.X - cX + m, pos.Y + k, pos.Z - cZ + j);
-            LootStack loot = new LootStack(RuinConfig.getLoot(RuinConfig.startLoot), RuinConfig.startLootMax, RuinConfig.startLootMin, RuinConfig.startLootRepeat);
-            LootStack.placeLoot(random, chest, LootStack.getLootItems(random, loot.items, loot.minNum, loot.maxNum,  RuinConfig.startLootRepeat));
+            LootStack.placeLoot(random, chest, RuinConfig.getLoot(RuinConfig.startLoot), RuinConfig.startLootMin, RuinConfig.startLootMax);
           } else if (blocks[count] == CityBuilding.stoneBrickID) {
               int randomNumber = random.nextInt(10);
               if (randomNumber == 0) {
@@ -107,8 +106,12 @@ public class RuinVillageGenerator implements IWorldGenerator {
     }
     world.setBlock(pos.X - 1, pos.Y + 1, pos.Z - 4, Blocks.air, 0, 2);
     world.setBlock(pos.X - 1, pos.Y + 2, pos.Z - 4, Blocks.air, 0, 2);
-    for (int i = pos.Y + 1; i < worldHeight; i++)
-      world.setBlock(pos.X - 1, i, pos.Z - 5, Blocks.ladder, 3, 2);
+    for (int i = pos.Y + 1; i < worldHeight; i++) {
+        world.setBlock(pos.X - 1, i, pos.Z - 5, Blocks.ladder, 3, 2);
+        world.setBlock(pos.X, i, pos.Z - 5, ModBlocks.concrete, 0, 2);
+        world.setBlock(pos.X - 1, i, pos.Z - 3, ModBlocks.concrete, 0, 2);
+        world.setBlock(pos.X- 1, i, pos.Z - 6, ModBlocks.concrete, 0, 2);
+    }
     world.setBlock(pos.X - 1, worldHeight, pos.Z - 5, Blocks.air, 3, 2);
     world.setBlock(pos.X - 1, worldHeight + 1, pos.Z - 5, Blocks.air, 3, 2);
     world.setBlock(pos.X - 1, worldHeight + 2, pos.Z - 5, Blocks.air, 3, 2);
@@ -167,8 +170,6 @@ public class RuinVillageGenerator implements IWorldGenerator {
       world.getChunkProvider().loadChunk(x >> 4, z >> 4);
       worldHeight = world.getHeightValue(x, z);
     }
-    if (worldHeight == 0)
-      System.out.println("World height still 0");
     return worldHeight;
   }
 
