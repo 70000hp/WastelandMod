@@ -346,7 +346,7 @@ public class RuinRuined extends Ruin implements IWorldGenerator {
       safe.setMod(0.25);
       safe.setPins(rand.nextInt(999) + 1);
       safe.lock();
-      LootStack.placeLoot(rand, safe, RuinConfig.getLoot(rand.nextBoolean() ? CityLootConfig.ultraLoot : RuinConfig.hardLoot), 27, 26);
+      LootStack.placeLoot(rand, safe, RuinConfig.getLoot(rand.nextBoolean() ? CityLootConfig.ultraLoot : RuinConfig.hardLoot), 14, 16);
 
       RuinGenHelper.setBlock(x - 2, yCoord, z - 2, ModBlocks.turret_sentry_damaged);
       RuinGenHelper.setBlock(x - 4, yCoord, z + 4, ModBlocks.lightstone, 2);

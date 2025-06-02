@@ -194,7 +194,7 @@ public class Building {
             TileEntityCrateBase chest = (TileEntityCrateBase) world.getTileEntity(x, y, z);
             if(chest != null) {
             LootStack.placeLoot(random, chest,
-                RuinConfig.getLoot(RuinConfig.midLoot),
+                RuinConfig.getLoot(random.nextBoolean() ? RuinConfig.midLoot : CityLootConfig.midLoot),
                 RuinConfig.midLootMin,
                 RuinConfig.midLootMax);
             } else {

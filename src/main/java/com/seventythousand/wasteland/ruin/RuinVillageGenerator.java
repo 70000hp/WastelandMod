@@ -108,9 +108,6 @@ public class RuinVillageGenerator implements IWorldGenerator {
     world.setBlock(pos.X - 1, pos.Y + 2, pos.Z - 4, Blocks.air, 0, 2);
     for (int i = pos.Y + 1; i < worldHeight; i++) {
         world.setBlock(pos.X - 1, i, pos.Z - 5, Blocks.ladder, 3, 2);
-        world.setBlock(pos.X, i, pos.Z - 5, ModBlocks.concrete, 0, 2);
-        world.setBlock(pos.X - 1, i, pos.Z - 3, ModBlocks.concrete, 0, 2);
-        world.setBlock(pos.X- 1, i, pos.Z - 6, ModBlocks.concrete, 0, 2);
     }
     world.setBlock(pos.X - 1, worldHeight, pos.Z - 5, Blocks.air, 3, 2);
     world.setBlock(pos.X - 1, worldHeight + 1, pos.Z - 5, Blocks.air, 3, 2);
