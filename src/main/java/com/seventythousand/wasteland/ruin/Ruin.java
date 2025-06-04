@@ -31,7 +31,7 @@ public class Ruin {
   }
 
   public static void handleLoot(World world, Random random, int x, int y, int z) {
-    if(world.getBlock(x,y,z) == Blocks.air)
+
         if (random.nextInt(RuinConfig.hardRuinLootChance) == 0) {
             RuinGenHelper.setBlock(x, y, z, ModBlocks.safe, 1);
             TileEntityCrateBase safe = (TileEntityCrateBase) world.getTileEntity(x, y, z);

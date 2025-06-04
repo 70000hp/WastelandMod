@@ -134,13 +134,15 @@ public class Building {
           if(doGen) {
               if (blockArray[count] == 7) {
                   RuinGenHelper.setBlock(pos.X + p.X, pos.Y + j, pos.Z + p.Z, top);
-              } else if (blockArray[count] == 52 && random.nextBoolean()) {
+              } else if (blockArray[count] == 52) {
                   String mobName = ModConfig.getSpawnerCreature(random);
                   RuinGenHelper.setBlock(pos.X + p.X, pos.Y + j, pos.Z + p.Z, Blocks.mob_spawner);
-                  TileEntityMobSpawner mobSpawner = (TileEntityMobSpawner) world.getTileEntity(pos.X + p.X, pos.Y + p.Y, pos.Z + p.Z);
+                  TileEntityMobSpawner mobSpawner = (TileEntityMobSpawner) world.getTileEntity(pos.X + p.X, pos.Y + j, pos.Z + p.Z);
                   if (mobName != null)
                       mobSpawner.func_145881_a().setEntityName(mobName);
-              } else if (blockArray[count] == 54
+              } else if(blockArray[count] == 98 && random.nextInt(3) == 0) {
+                  RuinGenHelper.setBlock(pos.X + p.X, pos.Y + j, pos.Z + p.Z, Block.getBlockById(blockArray[count]), random.nextInt(2) + 1);
+              }else if (blockArray[count] == 54
                   || (blockArray[count] == Block.getIdFromBlock(Blocks.noteblock) && random.nextBoolean())
                   || (blockArray[count] == Block.getIdFromBlock(Blocks.crafting_table) && random.nextBoolean())
                   || (blockArray[count] == Block.getIdFromBlock(Blocks.jukebox) && random.nextBoolean())) {
@@ -172,7 +174,7 @@ public class Building {
   }
 
     public static void handleLoot(World world, Random random, int x, int y, int z) {
-      if(world.getBlock(x,y,z) == Blocks.air)
+
         if (random.nextInt(CityLootConfig.hardLootChance) == 0) {
             RuinGenHelper.setBlock(x, y, z, ModBlocks.safe, 0);
             TileEntitySafe safe = (TileEntitySafe) world.getTileEntity(x, y, z);

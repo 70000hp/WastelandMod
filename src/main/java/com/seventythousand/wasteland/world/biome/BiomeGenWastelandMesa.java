@@ -33,14 +33,14 @@ public class BiomeGenWastelandMesa extends BiomeGenWastelandBase {
         this.topBlock = Blocks.sand;
         this.field_150604_aj = 1;
         this.fillerBlock = Blocks.stained_hardened_clay;
-        this.treeSpawnRate = 4;
-        this.treesPerChunk /= 2;
+        this.treeSpawnRate /= 4;
+        this.treesPerChunk *= 3;
         this.theBiomeDecorator.deadBushPerChunk = 20;
         this.theBiomeDecorator.reedsPerChunk = 3;
         this.theBiomeDecorator.cactiPerChunk = 5;
         bryce = alive;
         if (bryce)
-            treesPerChunk *= 3;
+            this.theBiomeDecorator.treesPerChunk = 5;
     }
 
     public void decorate(World p_76728_1_, Random p_76728_2_, int p_76728_3_, int p_76728_4_) {
