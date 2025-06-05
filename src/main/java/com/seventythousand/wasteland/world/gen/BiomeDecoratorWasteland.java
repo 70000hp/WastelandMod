@@ -39,7 +39,7 @@ public class BiomeDecoratorWasteland extends BiomeDecorator {
     public static WorldGenWastelandTrees tree = new WorldGenWastelandTrees(true);
     public static WorldGenWastelandLake lakeGen = new WorldGenWastelandLake(ModConfig.getlakeLiquid());
 
-    public static WorldGenWastelandClay clayGen = new WorldGenWastelandClay(4);
+    public static WorldGenWastelandClay clayGen = new WorldGenWastelandClay(6);
 
     public static RuinTreeHouse treeHouse = new RuinTreeHouse("treeHouse");
 
@@ -83,8 +83,11 @@ public class BiomeDecoratorWasteland extends BiomeDecorator {
             int y = this.currentWorld.getHeightValue(lakeX, lakeZ);
 
             lakeGen.generate(this.currentWorld, this.randomGenerator, lakeX, y, lakeZ);
-            if (rand.nextInt(9) < 5)
-                clayGen.generate(this.currentWorld, this.randomGenerator, lakeX, y, lakeZ);
+            boolean clayGenerated = false;
+            for (int j = 0; j < 3 && !clayGenerated; j++)
+                for (int f = 0; f < 3 && !clayGenerated; f++)
+                    clayGenerated =  clayGen.generate(this.currentWorld, this.randomGenerator, lakeX + j, y, lakeZ + f);
+
         }
 
         for (int i = 0; rand.nextInt(wBiome.smallLakeSpawnRate)/2 == 0 && i < 10; i++) {

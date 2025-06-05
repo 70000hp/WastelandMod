@@ -34,10 +34,10 @@ public class WorldGenWastelandLake extends WorldGenerator {
       for (i1 = 0; i1 < l; ++i1)
       {
         double d0 = p_76484_2_.nextDouble() * 6.0D + 3.0D;
-        double d1 = p_76484_2_.nextDouble() * 4.0D + 2.0D;
+        double d1 = p_76484_2_.nextDouble() * 4.0D + 4.0D;
         double d2 = p_76484_2_.nextDouble() * 6.0D + 3.0D;
         double d3 = p_76484_2_.nextDouble() * (16.0D - d0 - 2.0D) + 1.0D + d0 / 2.0D;
-        double d4 = p_76484_2_.nextDouble() * (8.0D - d1 - 4.0D) + 2.0D + d1 / 2.0D;
+        double d4 = p_76484_2_.nextDouble() * (8.0D - d1 - 2.0D) + 1.0D + d1 / 2.0D;
         double d5 = p_76484_2_.nextDouble() * (16.0D - d2 - 2.0D) + 1.0D + d2 / 2.0D;
 
         for (int k1 = 1; k1 < 15; ++k1)

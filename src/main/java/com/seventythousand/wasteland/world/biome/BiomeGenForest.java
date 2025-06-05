@@ -20,6 +20,7 @@ public class BiomeGenForest extends BiomeGenWastelandBase {
     this.ruinSpawnRate /= 2;
     this.theBiomeDecorator.mushroomsPerChunk = 2;
     this.theBiomeDecorator.deadBushPerChunk = 2;
+    this.smallLakeSpawnRate /= 3;
     this.treesPerChunk = 6;
     cold =  mountainous;
     wasteTerrain = !cold;

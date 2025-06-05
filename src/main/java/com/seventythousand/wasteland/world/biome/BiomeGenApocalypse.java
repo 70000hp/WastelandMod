@@ -9,7 +9,6 @@ public class BiomeGenApocalypse extends BiomeGenWastelandBase {
 
   public BiomeGenApocalypse(int par1ID, String par2Name, BiomeGenBase.Height par3BiomeHeight) {
     super(par1ID, par2Name, par3BiomeHeight);
-    smallLakeSpawnRate *= 2;
     this.theBiomeDecorator.mushroomsPerChunk = 4;
     this.theBiomeDecorator.deadBushPerChunk = 2;
     this.treesPerChunk = 8;

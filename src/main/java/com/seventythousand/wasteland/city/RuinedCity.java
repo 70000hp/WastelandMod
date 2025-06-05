@@ -44,42 +44,6 @@ public class RuinedCity {
       }
       if (generatingBlock.doGenerate) {
         generatingBlock.generate(world, random, buildingSchematics, cityColour);
-      } else {
-        boolean large = generatingBlock.area.length == 32 && generatingBlock.area.width == 32;
-        boolean genLake = large ? random.nextInt(4) > 0 : random.nextInt(4) == 0;
-        int trees = large ? random.nextInt(2) + 1 : 1;
-        int w = 10;
-
-        int totalTrees;
-        int t;
-        int x;
-        int z;
-        for(totalTrees = 0; totalTrees < 50 && genLake; ++totalTrees) {
-          t = random.nextInt(2) == 0 ? generatingBlock.area.width - 8 : 8;
-          x = random.nextInt(2) == 0 ? generatingBlock.area.length - 8 : 8;
-          t = random.nextInt(w + 1) - w / 2 + t + generatingBlock.area.position.X;
-          x = random.nextInt(w + 1) - w / 2 + x + generatingBlock.area.position.Z;
-          z = CityGenerator.getWorldHeight(world, t, x);
-          WorldGenWastelandLake lake = new WorldGenWastelandLake(random.nextInt(5) == 0 ? Blocks.water : ModConfig.getlakeLiquid());
-          WorldGenWastelandClay clay = new WorldGenWastelandClay(3);
-          genLake = !lake.generate(world, random, t, z, x);
-          if (!genLake && random.nextInt(6) < 5) {
-            clay.generate(world, random, t, z, x);
-          }
-        }
-
-        totalTrees = 0;
-
-        for(t = 0; t < 50 && totalTrees < trees; ++t) {
-          x = random.nextInt(2) == 0 ? generatingBlock.area.width - 8 : 8;
-          z = random.nextInt(2) == 0 ? generatingBlock.area.length - 8 : 8;
-          x = random.nextInt(w + 1) - w / 2 + x + generatingBlock.area.position.X;
-          z = random.nextInt(w + 1) - w / 2 + z + generatingBlock.area.position.Z;
-          int y = CityGenerator.getWorldHeight(world, x, z);
-          WorldGenWastelandBigTree tree = new WorldGenWastelandBigTree(true);
-
-          totalTrees = tree.generate(world, random, x, y, z) ? totalTrees + 1 : totalTrees;
-        }
       }
 
     }

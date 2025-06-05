@@ -45,7 +45,7 @@ public class RuinSurvivorTent extends Ruin implements IWorldGenerator {
       if(!deluxe) {
           handleLoot(world, random,x - 1, yCoord, z);
       } else {
-          RuinGenHelper.setBlock(x - 1, yCoord, z, ModBlocks.filing_cabinet, 0);
+          RuinGenHelper.setBlock(x - 1, yCoord, z, ModBlocks.safe);
           TileEntityCrateBase safe = (TileEntityCrateBase) world.getTileEntity(x - 1, yCoord, z);
           if(safe != null) {
               safe.setMod(1);
@@ -56,13 +56,13 @@ public class RuinSurvivorTent extends Ruin implements IWorldGenerator {
           }
           LootStack.placeLoot(random, safe,
               RuinConfig.getLoot(RuinConfig.hardLoot),
-              CityLootConfig.hardLootMin,
-              CityLootConfig.hardLootMax);
+              CityLootConfig.hardLootMin * 2,
+              CityLootConfig.hardLootMax * 2);
       }
       RuinGenHelper.setBlock(x - 1, yCoord, z + 1, biomeBlock);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 2, biomeBlock);
       RuinGenHelper.setBlock(x, yCoord, z - 3, biomeBlock);
-      RuinGenHelper.setBlock(x, yCoord, z - 2, biomeBlock);
+      RuinGenHelper.setBlock(x, yCoord, z - 2,  deluxe ? ModBlocks.red_barrel : biomeBlock);
       RuinGenHelper.setBlock(x, yCoord, z - 1, deluxe ? ModBlocks.machine_diesel : Blocks.planks);
       RuinGenHelper.setBlock(x, yCoord, z + 0, Blocks.planks);
       RuinGenHelper.setBlock(x, yCoord, z + 1, deluxe ? ModBlocks.red_barrel : Blocks.planks);
@@ -92,12 +92,12 @@ public class RuinSurvivorTent extends Ruin implements IWorldGenerator {
       RuinGenHelper.setBlock(x - 1, yCoord, z + 0, Blocks.air);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 1, Blocks.air);
       RuinGenHelper.setBlock(x - 1, yCoord, z + 2, Blocks.air);
-      RuinGenHelper.setBlock(x, yCoord, z - 3, Blocks.air);
+      RuinGenHelper.setBlock(x, yCoord, z - 3, deluxe ? ModBlocks.mine_he : Blocks.air);
       RuinGenHelper.setBlock(x, yCoord, z - 2, Blocks.air);
       RuinGenHelper.setBlock(x, yCoord, z - 1, Blocks.air);
-      RuinGenHelper.setBlock(x, yCoord, z + 0, deluxe ? ModBlocks.mine_he : ModBlocks.mine_ap);
+      RuinGenHelper.setBlock(x, yCoord, z + 0, deluxe ? Blocks.air : ModBlocks.mine_ap);
       RuinGenHelper.setBlock(x, yCoord, z + 1, Blocks.air);
-      RuinGenHelper.setBlock(x, yCoord, z + 2, Blocks.air);
+      RuinGenHelper.setBlock(x, yCoord, z + 2, deluxe ? ModBlocks.mine_he : Blocks.air);
       RuinGenHelper.setBlock(x + 1, yCoord, z - 3, Blocks.air);
       RuinGenHelper.setBlock(x + 1, yCoord, z - 2, Blocks.air);
       RuinGenHelper.setBlock(x + 1, yCoord, z - 1, Blocks.air);
