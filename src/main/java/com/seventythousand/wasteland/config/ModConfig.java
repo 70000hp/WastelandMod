@@ -119,8 +119,8 @@ public class ModConfig {
     hardcoreRadsToggle = ConfigHelper.createConfigBool(config, "Worldgen", "Hardcore biome enviromental radiation toggle",  false);
     hardcoreRads = ConfigHelper.createConfigDouble(config, "Worldgen", "Hardcore radiation amount",  "The amount of enviromental rads on any biome when hardcore radiation is enabled", 0.01);
 
-    radGlyphidToggle = ConfigHelper.createConfigBool(config, "Worldgen", "Special radioactive biome non-expanding glyphid nests over deposits toggle",  true);
-    radBiomeDepositChance = ConfigHelper.createConfigInt(config,"Worldgen", "Chance for a special bedrock ore deposit to spawn in a radioactive biome \n typically indicated by special glyphid nests, chance in 1 in x chunks format", 150);
+    radGlyphidToggle = ConfigHelper.createConfigBool(config, "Worldgen", "Special radioactive biome non expanding glyphid nests over deposits toggle",  true);
+    radBiomeDepositChance = ConfigHelper.createConfigInt(config,"Worldgen", "Chance for a special bedrock ore deposit to spawn in a radioactive biome typically indicated by special glyphid nests, chance in 1 in x chunks format", 150);
 
 
 

@@ -71,7 +71,7 @@ public class WastelandEventHandler {
       } else {
         this.worldSaveData.setFile(MinecraftServer.getServer().getFolderName() + "/data/WastelandMod.dat");
       }
-      Vector spawn = new Vector(event.world.getWorldInfo().getSpawnX(), event.world.getWorldInfo().getSpawnY() + 10, event.world.getWorldInfo().getSpawnZ());
+
       if (!this.worldSaveData.checkIfExists()) {
         this.worldSaveData.createFile();
         this.villageGeneratorHook.resetData();
@@ -85,6 +85,7 @@ public class WastelandEventHandler {
         this.spawnLoc = this.worldSaveData.loadSpawnLoc();
       }
       if (this.newSpawn && ModConfig.spawnBunker) {
+        Vector spawn = new Vector(event.world.getWorldInfo().getSpawnX(), event.world.getWorldInfo().getSpawnY() + 10, event.world.getWorldInfo().getSpawnZ());
         this.spawnHeight = Math.max(getMinWorldHeight(spawn, 3, event.world), 10) - 7;
         spawn.Y = this.spawnHeight;
         RuinVillageGenerator.spawnBunker(spawn, event.world);
