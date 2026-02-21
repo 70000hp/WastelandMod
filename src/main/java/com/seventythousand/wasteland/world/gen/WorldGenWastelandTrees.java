@@ -100,7 +100,7 @@ public class WorldGenWastelandTrees extends WorldGenAbstractTree
                                         Block block1 = world.getBlock(i2, k1, k2);
 
                                         if (block1.isAir(world, i2, k1, k2) || block1.isLeaves(world, i2, k1, k2)) {
-                                            this.setBlockAndNotifyAdequately(world, i2, k1, k2, ModBlocks.waste_leaves, 0);
+                                            this.setBlockAndNotifyAdequately(world, i2, k1, k2, ModConfig.getLeavesBlock(), 0);
                                         }
                                     }
                                 }

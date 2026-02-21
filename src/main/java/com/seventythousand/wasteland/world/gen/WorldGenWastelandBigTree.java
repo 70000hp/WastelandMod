@@ -47,7 +47,7 @@ public class WorldGenWastelandBigTree extends WorldGenBigTree {
     super(par1);
     this.block = Blocks.log;
     this.meta = 0;
-    this.leaf = ModBlocks.waste_leaves;
+    this.leaf = ModConfig.getLeavesBlock();
   }
 
     public WorldGenWastelandBigTree(boolean par1, boolean wide) {
@@ -195,7 +195,7 @@ public class WorldGenWastelandBigTree extends WorldGenBigTree {
       }
       else {
           leafMeta = 0;
-          leaf = ModBlocks.waste_leaves;
+          leaf = ModConfig.getLeavesBlock();
       }
 
       genTreeLayer(par1, l, par3, var6, (byte)1, leaf, leafMeta);
@@ -404,7 +404,7 @@ public class WorldGenWastelandBigTree extends WorldGenBigTree {
   public void setTreeType(Block block, int meta) {
     this.block = block;
     this.meta = meta;
-    this.leaf = ModBlocks.waste_leaves;
+    this.leaf = ModConfig.getLeavesBlock();
   }
 
   public void setTreeType(int[] blockData) {

@@ -21,6 +21,8 @@ public class ModConfig {
 
   public static String surfaceBlockString;
 
+  public static String leavesOnTreesString;
+
   public static String lakeLiquidString;
 
   public static String[] woodBlockStringList;
@@ -105,6 +107,7 @@ public class ModConfig {
     spawnBunker = ConfigHelper.createConfigBool(config,"Worldgen", "Spawn in underground bunker", true);
     surfaceBlockString = ConfigHelper.createConfigString(config,"Worldgen", "The top block layer of the wasteland biome", "minecraft:dirt");
     lakeLiquidString = ConfigHelper.createConfigString(config,"Worldgen", "Generated lake pockets liquid", "WLM:tile.toxicWasteBlock");
+    leavesOnTreesString = ConfigHelper.createConfigString(config, "Worldgen", "Type of leaves on trees. Set to minecraft:air to remove wastes leaves from trees for a bit deadlier look. Set back to hbm:tile.waste_leaves to restore them.", "hbm:tile.waste_leaves");
     config.setCategoryComment("Misc", "Other config options");
     disableSleep = ConfigHelper.createConfigBool(config,"Misc", "Disable sleeping in bed", true);
     config.setCategoryComment("CityGen", "World generation of cities and their spawners");
@@ -136,6 +139,10 @@ public class ModConfig {
 
   public static Block getSurfaceBlock() {
     return getBlockFromString(surfaceBlockString);
+  }
+
+  public static Block getLeavesBlock() {
+    return getBlockFromString(leavesOnTreesString);
   }
 
   public static Block getlakeLiquid() {
