@@ -18,7 +18,6 @@ public class BiomeGenWastelandTaiga extends BiomeGenWastelandBase
         treesPerChunk = 2;
         treeSpawnRate /= 2;
         temples = true;
-        this.theBiomeDecorator.grassPerChunk = 2;
         this.theBiomeDecorator.deadBushPerChunk = 6;
         this.theBiomeDecorator.mushroomsPerChunk = 6;
         setCreatureSpawns(EntitySpawnConfig.wastelandCreatures.get(0), this.spawnableMonsterList, EntitySpawnConfig.enableHostileSpawn);
