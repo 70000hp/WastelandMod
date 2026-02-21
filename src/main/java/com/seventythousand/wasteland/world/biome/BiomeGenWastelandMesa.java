@@ -35,7 +35,7 @@ public class BiomeGenWastelandMesa extends BiomeGenWastelandBase {
         this.fillerBlock = Blocks.stained_hardened_clay;
         this.treeSpawnRate /= 4;
         this.treesPerChunk *= 3;
-        this.theBiomeDecorator.deadBushPerChunk = 20;
+        this.theBiomeDecorator.deadBushPerChunk = 5;
         this.theBiomeDecorator.reedsPerChunk = 3;
         this.theBiomeDecorator.cactiPerChunk = 5;
         bryce = alive;
