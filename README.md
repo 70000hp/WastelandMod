@@ -1,5 +1,5 @@
 # Wasteland Mod
-The classic Minecraft Wasteland mod for 1.7.10
+The classic Minecraft Wasteland mod for 1.7.10, forked to integrate with HBM.
 
 ---
 
@@ -23,3 +23,10 @@ This mod is meant to make minecraft survival much harder. You wake up in an unde
 1. Disable sleeping through the night (don't worry, its all configurable)
 
 Starting out, you may find that this settings may be too difficult (good chest loot is rare, and ruins/villages are rare). Please change the rarity and other options in the config files, I tried to include as many options as possible. If you want configs for something in particular, let me know.
+
+# Building
+
+* Linux: `./gradlew build`.
+* Windows: `./gradlew.bat build`. Untested.
+
+Java 21 must be installed. This mod uses some GregTech online resources which are regularly pruned for old versions - if the building doesn't work, try to update the plugin version in `settings.gradle` to the oldest available in repositories, then run `./gradlew updateBuildScript`, then build again.
