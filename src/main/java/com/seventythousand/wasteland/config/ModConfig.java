@@ -106,7 +106,7 @@ public class ModConfig {
     woodBlockStringList = config.getStringList("Forest tree type rarity", "Worldgen", new String[] { "minecraft:log:0,70", "minecraft:log:1,20", "minecraft:log2:1,9", "minecraft:log2:0,1" }, "Wood blocks that are allowed to be generated in the Wasteland Forest biome\nmod_name:block_name:meta_id,weighted_spawn_chance");
     spawnBunker = ConfigHelper.createConfigBool(config,"Worldgen", "Spawn in underground bunker", true);
     surfaceBlockString = ConfigHelper.createConfigString(config,"Worldgen", "The top block layer of the wasteland biome", "minecraft:dirt");
-    lakeLiquidString = ConfigHelper.createConfigString(config,"Worldgen", "Generated lake pockets liquid", "WLM:tile.toxicWasteBlock");
+    lakeLiquidString = ConfigHelper.createConfigString(config,"Worldgen", "Generated lake pockets liquid", "hbm:tile.toxic_block");
     leavesOnTreesString = ConfigHelper.createConfigString(config, "Worldgen", "Type of leaves on trees. Set to minecraft:air to remove wastes leaves from trees for a bit deadlier look. Set back to hbm:tile.waste_leaves to restore them.", "hbm:tile.waste_leaves");
     config.setCategoryComment("Misc", "Other config options");
     disableSleep = ConfigHelper.createConfigBool(config,"Misc", "Disable sleeping in bed", true);
