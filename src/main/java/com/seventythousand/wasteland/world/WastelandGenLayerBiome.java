@@ -71,7 +71,7 @@ public class WastelandGenLayerBiome extends GenLayer {
     GenLayerAddMushroomIsland genlayeraddmushroomisland = new GenLayerAddMushroomIsland(5L, genlayeraddisland);
     GenLayerDeepOcean genlayerdeepocean = new GenLayerDeepOcean(4L, genlayeraddmushroomisland);
     GenLayer genlayer2 = GenLayerZoom.magnify(1000L, genlayerdeepocean, 0);
-    byte b0 = 4;
+    byte b0 = (byte)(ModConfig.wastelandBiomeSize);
 
     b0 = getModdedBiomeSize(p_75901_2_, b0);
 

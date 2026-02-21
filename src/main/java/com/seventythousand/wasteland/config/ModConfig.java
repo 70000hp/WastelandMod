@@ -9,6 +9,8 @@ import net.minecraft.init.Blocks;
 import net.minecraftforge.common.config.Configuration;
 
 public class ModConfig {
+  public static int wastelandBiomeSize;
+
   public static int wastelandTreeSpawnRate;
 
   public static int lakeSpawnRate;
@@ -96,6 +98,7 @@ public class ModConfig {
     wastelandRiverBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland River Biome ID", 55);
 
     config.setCategoryComment("Worldgen", "General world generation config");
+    wastelandBiomeSize = ConfigHelper.createConfigInt(config, "Worldgen", "Biome size", "Sets the size of biomes. Vanilla (spanning 200~ of blocks) is 4, Large Biomes (spanning 1000~ of blocks) is 6.", 4);
     wastelandTreeSpawnRate = ConfigHelper.createConfigInt(config,"Worldgen", "Dead Tree Rarity", 10);
     minVillageDistance = ConfigHelper.createConfigInt(config,"Worldgen", "Min chunks between abandoned towns", 32);
     wastelandRuinRarirty = ConfigHelper.createConfigInt(config,"Worldgen", "Wasteland ruins rarity", 20);
