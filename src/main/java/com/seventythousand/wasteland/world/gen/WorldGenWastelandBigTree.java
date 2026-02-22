@@ -190,7 +190,7 @@ public class WorldGenWastelandBigTree extends WorldGenBigTree {
     for (int var5 = par2 + this.leafDistanceLimit; l < var5; l++) {
       var6 = leafSize(l - par2);
       if(rand.nextInt(50) == 0) {
-          leaf = Blocks.leaves;
+          leaf = ModConfig.getLeavesBlock();
           leafMeta = (byte) meta;
       }
       else {
