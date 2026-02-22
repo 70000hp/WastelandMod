@@ -9,6 +9,8 @@ import net.minecraft.init.Blocks;
 import net.minecraftforge.common.config.Configuration;
 
 public class ModConfig {
+  public static int wastelandBiomeSize;
+
   public static int wastelandTreeSpawnRate;
 
   public static int lakeSpawnRate;
@@ -20,6 +22,8 @@ public class ModConfig {
   public static int wastelandRuinRarirty;
 
   public static String surfaceBlockString;
+
+  public static String leavesOnTreesString;
 
   public static String lakeLiquidString;
 
@@ -94,6 +98,7 @@ public class ModConfig {
     wastelandRiverBiomeID = ConfigHelper.createConfigInt(config,"IDs", "Wasteland River Biome ID", 55);
 
     config.setCategoryComment("Worldgen", "General world generation config");
+    wastelandBiomeSize = ConfigHelper.createConfigInt(config, "Worldgen", "Biome size", "Sets the size of biomes. Vanilla (spanning 200~ of blocks) is 4, Large Biomes (spanning 1000~ of blocks) is 6.", 4);
     wastelandTreeSpawnRate = ConfigHelper.createConfigInt(config,"Worldgen", "Dead Tree Rarity", 10);
     minVillageDistance = ConfigHelper.createConfigInt(config,"Worldgen", "Min chunks between abandoned towns", 32);
     wastelandRuinRarirty = ConfigHelper.createConfigInt(config,"Worldgen", "Wasteland ruins rarity", 20);
@@ -104,7 +109,8 @@ public class ModConfig {
     woodBlockStringList = config.getStringList("Forest tree type rarity", "Worldgen", new String[] { "minecraft:log:0,70", "minecraft:log:1,20", "minecraft:log2:1,9", "minecraft:log2:0,1" }, "Wood blocks that are allowed to be generated in the Wasteland Forest biome\nmod_name:block_name:meta_id,weighted_spawn_chance");
     spawnBunker = ConfigHelper.createConfigBool(config,"Worldgen", "Spawn in underground bunker", true);
     surfaceBlockString = ConfigHelper.createConfigString(config,"Worldgen", "The top block layer of the wasteland biome", "minecraft:dirt");
-    lakeLiquidString = ConfigHelper.createConfigString(config,"Worldgen", "Generated lake pockets liquid", "WLM:tile.toxicWasteBlock");
+    lakeLiquidString = ConfigHelper.createConfigString(config,"Worldgen", "Generated lake pockets liquid", "hbm:tile.toxic_block");
+    leavesOnTreesString = ConfigHelper.createConfigString(config, "Worldgen", "Type of leaves on trees. Set to minecraft:air to remove wastes leaves from trees for a bit deadlier look. Set back to hbm:tile.waste_leaves to restore them.", "hbm:tile.waste_leaves");
     config.setCategoryComment("Misc", "Other config options");
     disableSleep = ConfigHelper.createConfigBool(config,"Misc", "Disable sleeping in bed", true);
     config.setCategoryComment("CityGen", "World generation of cities and their spawners");
@@ -136,6 +142,10 @@ public class ModConfig {
 
   public static Block getSurfaceBlock() {
     return getBlockFromString(surfaceBlockString);
+  }
+
+  public static Block getLeavesBlock() {
+    return getBlockFromString(leavesOnTreesString);
   }
 
   public static Block getlakeLiquid() {
